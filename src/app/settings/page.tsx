@@ -34,8 +34,8 @@ const Settings = () => {
                 <br />
                 <div className={styles.productList}>
                     {
-                        products?.map((product: any) => (
-                            <div className={styles.product}>
+                        products?.map((product: any, index: number) => (
+                            <div className={styles.product} key={index}>
                                 <div className={styles.info}>{product.name} - ${product.price}</div>
                                 <div className={styles.operations}>
                                     <Button
@@ -56,7 +56,7 @@ const Settings = () => {
                                                 product={product} />
                                         )}
                                     >
-                                        Delete
+                                        Remove
                                     </Button>
                                 </div>
                             </div>
@@ -66,7 +66,7 @@ const Settings = () => {
 
                 <br />
 
-                <Button onClick={() => setModal(<CreateOrEditProduct onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button>
+                <Button block onClick={() => setModal(<CreateOrEditProduct onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button>
             </div>
             <Modal title="Product" />
         </>

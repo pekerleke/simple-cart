@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 
 import styles from "./cart.module.scss";
 import { Button } from 'rsuite';
+import { toast } from 'react-toastify';
 
 export const Cart = () => {
 
@@ -24,7 +25,7 @@ export const Cart = () => {
             date: new Date(),
             products: selectedProducts
         }]))
-
+        toast.success("Saved sale");
         setSelectedProducts([]);
     }
 
@@ -40,8 +41,8 @@ export const Cart = () => {
         <div>
             <div className={styles.productList}>
                 {
-                    products?.map((product: any) => (
-                        <div className={styles.product} onClick={() => setSelectedProducts((prev: any) => [...prev, product])}>
+                    products?.sort((a: any, b: any) => a.priority > b.priority ? 1 : -1).map((product: any) => (
+                        <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev: any) => [...prev, product])}>
                             <div className={styles.info}>
                                 <div className={styles.name}>{product.name}</div>
                                 <div className={styles.price}>${product.price}</div>
@@ -60,7 +61,7 @@ export const Cart = () => {
                         <div className={styles.productsContainer}>
                             {
                                 selectedProducts.map((product: any, index: number) => (
-                                    <div className={styles.product}>
+                                    <div className={styles.product} key={index}>
                                         <div>{product.name}</div>
                                         <div className={styles.operations}>
                                             <div>${product.price}</div>
@@ -73,7 +74,7 @@ export const Cart = () => {
 
                         <br />
 
-                        <div>Total: ${selectedProducts.reduce((accumulator: number, producto: any) => accumulator + parseInt(producto.price), 0)} | {selectedProducts.length} items</div>
+                        <div>Total: ${selectedProducts.reduce((accumulator: number, producto: any) => accumulator + parseInt(producto.price), 0).toLocaleString('es-AR')} | {selectedProducts.length} items</div>
 
                         <br />
                         <div>

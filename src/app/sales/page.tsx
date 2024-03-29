@@ -26,11 +26,11 @@ export default function Home() {
             <div className={styles.salesContainer}>
                 {
                     sales?.sort((a: any, b: any) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1).map((sale: any) => (
-                        <div className={styles.sale}>
+                        <div key={new Date(sale.date).getTime()} className={styles.sale}>
                             <div className={styles.date}>{dayjs(sale.date).format('ddd DD MMM YYYY - HH:mm')}</div>
                             <div className={styles.products}>
-                                {sale.products.map((product: any) => (
-                                    <div>
+                                {sale.products.map((product: any, index: number) => (
+                                    <div key={index}>
                                         {product.name}
                                     </div>
                                 ))}

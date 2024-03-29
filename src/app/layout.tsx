@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import 'rsuite/dist/rsuite.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import { Navbar } from "@/components/navbar/Navbar";
+import { ToastContainer } from "react-toastify";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +25,7 @@ export default function RootLayout({
                 <div style={{padding: 10}}>
                     {children}
                 </div>
+                <ToastContainer position="bottom-center"/>
             </body>
         </html>
     );

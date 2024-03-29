@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
+import { Button, Input } from 'rsuite';
+import { toast } from 'react-toastify';
 
 import styles from "./createOrEditProduct.module.scss";
-import { Button, Input } from 'rsuite';
 
 interface Props {
     product?: any
@@ -9,7 +10,6 @@ interface Props {
 }
 
 export const CreateOrEditProduct = (props: Props) => {
-    console.log("create or edit")
 
     const { product, onSubmit } = props;
 
@@ -25,19 +25,15 @@ export const CreateOrEditProduct = (props: Props) => {
 
         const productPosition = productList.findIndex((product: any) => product.id === values.id);
 
-        console.log(values);
-
         if (productPosition > -1) {
-            console.log()
             productList[productPosition] = values;
             localStorage.setItem("products", JSON.stringify(productList))
+            toast.success("Product edited")
         } else {
-            // create
-            localStorage.setItem("products", JSON.stringify([...productList, values]))
+            localStorage.setItem("products", JSON.stringify([...productList, values]));
+            toast.success("Product created")
         }
-
         onSubmit();
-
     }
 
     return (
