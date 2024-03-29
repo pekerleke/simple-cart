@@ -1,0 +1,30 @@
+.salesContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .sale{
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 5px;
+
+        .date{
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+
+        .products{
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+        }
+
+        .total{
+            
+        }
+    }
+}
