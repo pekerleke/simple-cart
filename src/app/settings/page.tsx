@@ -34,7 +34,7 @@ const Settings = () => {
                 <div className={styles.productList}>
                     {
                         products?.map((product: any, index: number) => (
-                            <div className={styles.product} key={index}>
+                            <div className={styles.product} key={product.id}>
                                 <div className={styles.info}>{product.name} - ${product.price}</div>
                                 <div className={styles.operations}>
                                     <Button

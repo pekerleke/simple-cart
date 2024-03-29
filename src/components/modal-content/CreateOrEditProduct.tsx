@@ -16,8 +16,8 @@ export const CreateOrEditProduct = (props: Props) => {
     const [values, setValues] = useState({
         id: product?.id || crypto.randomUUID(),
         name: product?.name || "",
-        price: product?.price || "",
-        priority: product?.priority || "",
+        price: product?.price || 0,
+        priority: product?.priority || 0,
     })
 
     const handleSubmit = () => {

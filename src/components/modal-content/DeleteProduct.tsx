@@ -15,7 +15,7 @@ export const DeleteProduct = (props: Props) => {
 
     const handleDelete = () => {
         const products = JSON.parse(localStorage.getItem("products") || "[]");
-        const productPosition = products.findIndex((product: any) => product.id === product.id);
+        const productPosition = products.findIndex((auxProduct: any) => auxProduct.id === product.id);
 
         if (productPosition > -1) {
             products.splice(productPosition, 1);
