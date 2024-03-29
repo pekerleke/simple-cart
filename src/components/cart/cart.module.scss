@@ -1,9 +1,9 @@
-.productList{
+.productList {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
 
-    .product{
+    .product {
         height: 60px;
         background-color: var(--secondary-color);
         color: #fff;
@@ -14,32 +14,43 @@
         border-radius: 5px;
         text-align: center;
 
-        .name{
+        .name {
             font-weight: 500;
             font-size: 20px;
         }
 
-        .price{
+        .price {
             font-size: 12px;
             color: #888;
         }
     }
 }
 
-.resume{
-    .productsContainer{
+.resume {
+    .productsContainer {
         display: flex;
         flex-direction: column;
         gap: 10px;
 
-        .product{
+        .product {
             display: flex;
             justify-content: space-between;
 
-            .operations{
+            .operations {
                 display: flex;
                 gap: 20px;
             }
         }
+    }
+}
+
+.skeleton {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+
+    div {
+        background-color: #eee;
+        height: 60px;
     }
 }

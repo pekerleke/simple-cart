@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 export const Cart = () => {
 
     const [products, setProducts] = useState<any>()
+    const [loading, setLoading] = useState(true);
 
     const [selectedProducts, setSelectedProducts] = useState<any>([]);
 
@@ -19,7 +20,6 @@ export const Cart = () => {
     }
 
     const handleSubmit = () => {
-
         const sales = JSON.parse(localStorage.getItem("sales") || "[]");
         localStorage.setItem("sales", JSON.stringify([...sales, {
             date: new Date(),
@@ -31,15 +31,35 @@ export const Cart = () => {
 
     const getProducts = () => {
         setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+        setLoading(false);
     }
 
     useEffect(() => {
+        console.log(localStorage.getItem("products"));
+        if (!localStorage.getItem("products")) {
+            console.log("setDemo");
+            localStorage.setItem("products", JSON.stringify([{ name: "Demo product", price: "99" }]))
+        }
+
         getProducts();
     }, [])
 
     return (
         <div>
+            {
+                loading && <div className={styles.skeleton}>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            }
             <div className={styles.productList}>
+                {
+                    !loading && !products.length && <div>There are no products.</div>
+                }
+
                 {
                     products?.sort((a: any, b: any) => a.priority > b.priority ? 1 : -1).map((product: any) => (
                         <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev: any) => [...prev, product])}>

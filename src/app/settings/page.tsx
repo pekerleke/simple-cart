@@ -23,8 +23,6 @@ const Settings = () => {
         getProducts();
     }, [])
 
-    console.log(products);
-
     return (
         <>
             <div>
@@ -32,6 +30,7 @@ const Settings = () => {
                 <br />
                 <h6>Products ({products?.length || 0})</h6>
                 <br />
+
                 <div className={styles.productList}>
                     {
                         products?.map((product: any, index: number) => (

@@ -20,6 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
+            <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
             <body className={inter.className}>
                 <Navbar />
                 <div style={{padding: 10}}>

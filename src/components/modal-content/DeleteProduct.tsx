@@ -14,8 +14,18 @@ export const DeleteProduct = (props: Props) => {
     const { product, onDelete, onCancel } = props;
 
     const handleDelete = () => {
-        toast.success("Product removed")
-        onDelete();
+        const products = JSON.parse(localStorage.getItem("products") || "[]");
+        const productPosition = products.findIndex((product: any) => product.id === product.id);
+
+        if (productPosition > -1) {
+            products.splice(productPosition, 1);
+            localStorage.setItem("products", JSON.stringify(products))
+            toast.success("Product removed")
+            onDelete();
+        } else {
+            toast.error("Something went wrong")
+            onDelete();
+        }
     }
 
     return (
