@@ -1,17 +1,18 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
-
-import styles from "./cart.module.scss";
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
+import { Product } from '@/models/Product';
+
+import styles from "./cart.module.scss";
 
 export const Cart = () => {
 
     const [products, setProducts] = useState<any>()
     const [loading, setLoading] = useState(true);
 
-    const [selectedProducts, setSelectedProducts] = useState<any>([]);
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
     const handleRemoveProduct = (index: number) => {
         const tempProducts = [...selectedProducts];
@@ -35,9 +36,7 @@ export const Cart = () => {
     }
 
     useEffect(() => {
-        console.log(localStorage.getItem("products"));
         if (!localStorage.getItem("products")) {
-            console.log("setDemo");
             localStorage.setItem("products", JSON.stringify([{ name: "Demo product", price: "99" }]))
         }
 
@@ -61,8 +60,8 @@ export const Cart = () => {
                 }
 
                 {
-                    products?.sort((a: any, b: any) => a.priority > b.priority ? 1 : -1).map((product: any) => (
-                        <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev: any) => [...prev, product])}>
+                    products?.sort((a: Product, b: Product) => a.priority > b.priority ? 1 : -1).map((product: Product) => (
+                        <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                             <div className={styles.info}>
                                 <div className={styles.name}>{product.name}</div>
                                 <div className={styles.price}>${product.price}</div>
@@ -80,7 +79,7 @@ export const Cart = () => {
                         <hr />
                         <div className={styles.productsContainer}>
                             {
-                                selectedProducts.map((product: any, index: number) => (
+                                selectedProducts.map((product: Product, index: number) => (
                                     <div className={styles.product} key={index}>
                                         <div>{product.name}</div>
                                         <div className={styles.operations}>
@@ -94,11 +93,12 @@ export const Cart = () => {
 
                         <br />
 
-                        <div>Total: ${selectedProducts.reduce((accumulator: number, producto: any) => accumulator + parseInt(producto.price), 0).toLocaleString('es-AR')} | {selectedProducts.length} items</div>
+                        <b>Total: ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + product.price, 0).toLocaleString('es-AR')} | {selectedProducts.length} items</b>
 
                         <br />
+                        <br />
                         <div>
-                            <Button color="green" appearance="primary" block onClick={handleSubmit}>Submit</Button>
+                            <Button color="green" size='lg' appearance="primary" block onClick={handleSubmit}>Submit</Button>
                         </div>
                     </div>
                 )

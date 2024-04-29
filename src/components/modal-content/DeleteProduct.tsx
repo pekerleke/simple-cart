@@ -1,13 +1,14 @@
 import React from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
+import { Product } from '@/models/Product';
 
 import styles from "./deleteProduct.module.scss";
 
 interface Props {
     onDelete: () => void
     onCancel: () => void
-    product: any
+    product: Product
 }
 
 export const DeleteProduct = (props: Props) => {
@@ -15,7 +16,7 @@ export const DeleteProduct = (props: Props) => {
 
     const handleDelete = () => {
         const products = JSON.parse(localStorage.getItem("products") || "[]");
-        const productPosition = products.findIndex((auxProduct: any) => auxProduct.id === product.id);
+        const productPosition = products.findIndex((auxProduct: Product) => auxProduct.id === product.id);
 
         if (productPosition > -1) {
             products.splice(productPosition, 1);

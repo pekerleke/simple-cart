@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Button, Input } from 'rsuite';
 import { toast } from 'react-toastify';
+import { Product } from '@/models/Product';
 
 import styles from "./createOrEditProduct.module.scss";
 
 interface Props {
-    product?: any
+    product?: Product
     onSubmit :() => void
 }
 
@@ -13,7 +14,7 @@ export const CreateOrEditProduct = (props: Props) => {
 
     const { product, onSubmit } = props;
 
-    const [values, setValues] = useState({
+    const [values, setValues] = useState<Product>({
         id: product?.id || crypto.randomUUID(),
         name: product?.name || "",
         price: product?.price || 0,
@@ -23,7 +24,7 @@ export const CreateOrEditProduct = (props: Props) => {
     const handleSubmit = () => {
         const productList = JSON.parse(localStorage.getItem("products") || "[]");
 
-        const productPosition = productList.findIndex((product: any) => product.id === values.id);
+        const productPosition = productList.findIndex((product: Product) => product.id === values.id);
 
         if (productPosition > -1) {
             productList[productPosition] = values;
@@ -42,10 +43,10 @@ export const CreateOrEditProduct = (props: Props) => {
             <Input value={values.name} onChange={(value) => setValues(prev => ({...prev, name: value}))}/>
 
             Price
-            <Input type='number' value={values.price} onChange={(value) => setValues(prev => ({...prev, price: value}))}/>
+            <Input type='number' value={values.price} onChange={(value) => setValues(prev => ({...prev, price: parseInt(value)}))}/>
 
             Priority
-            <Input type='number' value={values.priority} onChange={(value) => setValues(prev => ({...prev, priority: value}))}/>
+            <Input type='number' value={values.priority} onChange={(value) => setValues(prev => ({...prev, priority: parseInt(value)}))}/>
 
             <Button onClick={() => handleSubmit()}>Save</Button>
         </div>

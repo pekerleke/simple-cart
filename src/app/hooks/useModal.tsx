@@ -5,9 +5,11 @@ const useModal = () => {
 
     const [children, setChildren] = useState<JSX.Element | JSX.Element[]>();
     const [isModalOpen, setIsModalOpen] = useState<boolean>();
+    const [title, setTitle] = useState<string>();
 
-    const setModal = (children: JSX.Element | JSX.Element[]) => {
+    const setModal = (children: JSX.Element | JSX.Element[], title?: string) => {
         setChildren(children);
+        setTitle(title);
         showModal();
     }
 
@@ -19,17 +21,17 @@ const useModal = () => {
         setIsModalOpen(false);
     }
 
-    const Modal = (props: any) => {
+    const Modal = () => {
         if (!isModalOpen) return null;
 
         return (
-            <GenericModal onClose={hideModal} {...props}>
+            <GenericModal onClose={hideModal} title={title}>
                 {children}
             </GenericModal>
         )
     }
 
-    return {Modal, setModal, showModal, hideModal }
+    return { Modal, setModal, showModal, hideModal }
 }
 
 export default useModal;

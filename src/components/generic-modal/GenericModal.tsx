@@ -11,8 +11,6 @@ interface Props {
 export const GenericModal = (props: Props) => {
     const { title, children, onClose } = props;
 
-    console.log("genericMODAL")
-
     return (
         <div className={styles.container}>
             <div className={styles.modal}>

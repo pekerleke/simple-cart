@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import useModal from "../hooks/useModal";
 import { CreateOrEditProduct } from "@/components/modal-content/CreateOrEditProduct";
-
-import styles from "./settings.module.scss";
 import { Button } from "rsuite";
 import { DeleteProduct } from "@/components/modal-content/DeleteProduct";
+import { Product } from "@/models/Product";
+
+import styles from "./settings.module.scss";
 
 const Settings = () => {
 
@@ -33,7 +34,7 @@ const Settings = () => {
 
                 <div className={styles.productList}>
                     {
-                        products?.map((product: any, index: number) => (
+                        products?.map((product: Product) => (
                             <div className={styles.product} key={product.id}>
                                 <div className={styles.info}>{product.name} - ${product.price}</div>
                                 <div className={styles.operations}>
@@ -41,7 +42,7 @@ const Settings = () => {
                                         onClick={() => setModal(
                                             <CreateOrEditProduct
                                                 onSubmit={() => { getProducts(); hideModal() }}
-                                                product={product} />
+                                                product={product} />, "Product"
                                         )}
                                     >
                                         Edit
@@ -67,7 +68,7 @@ const Settings = () => {
 
                 <Button block onClick={() => setModal(<CreateOrEditProduct onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button>
             </div>
-            <Modal title="Product" />
+            <Modal />
         </>
     )
 }
