@@ -18,7 +18,7 @@ import { getSession } from "next-auth/react";
 //     return new Response(JSON.stringify({ products: data }), { status: 200 });
 //   }
 
-export async function GET(request) {
+export async function GET(request: any) {
   const session = await getSession();
   console.log(session);
   const token = await getToken({ req: request });

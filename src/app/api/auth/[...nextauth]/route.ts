@@ -39,8 +39,8 @@ const handler = NextAuth({
             }
             return token;
         },
-        async session({ session, token }) {
-            if (token) {
+        async session({ session, token }: any) {
+            if (token && session?.user) {
                 session.user.id = token.id;  // Pasa el `user.id` a la sesión
             }
             return session;
