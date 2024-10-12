@@ -43,6 +43,18 @@ export const Cart = () => {
         getProducts();
     }, [])
 
+    useEffect(() => {
+        const fetchProducts = async () => {
+            const response = await fetch('/api/products/getProducts');
+            const data = await response.json();
+
+            console.log(data);
+            // setProducts(data.products);
+        };
+
+        fetchProducts();
+    }, []);
+
     return (
         <div>
             {
@@ -60,8 +72,8 @@ export const Cart = () => {
                 }
 
                 {
-                    products?.sort((a: Product, b: Product) => a.priority > b.priority ? 1 : -1).map((product: Product) => (
-                        <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
+                    products?.sort((a: Product, b: Product) => a.priority > b.priority ? 1 : -1).map((product: Product, index: number) => (
+                        <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                             <div className={styles.info}>
                                 <div className={styles.name}>{product.name}</div>
                                 <div className={styles.price}>${product.price}</div>

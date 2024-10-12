@@ -1,10 +1,15 @@
+"use client"
+
 import { Cart } from "@/components/cart/Cart";
-import styles from "./page.module.css";
+import { SessionProvider, signIn, useSession } from "next-auth/react";
 
 export default function Home() {
+
   return (
     <main>
+      <SessionProvider>
         <Cart />
+      </SessionProvider>
     </main>
   );
 }
