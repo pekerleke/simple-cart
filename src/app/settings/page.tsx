@@ -16,8 +16,13 @@ const Settings = () => {
     const { Modal, setModal, hideModal } = useModal();
 
 
-    const getProducts = () => {
-        setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+    const getProducts = async () => {
+        // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+        const response = await fetch(`/api/products`);
+        const { data, error } = await response.json();
+        console.log(data);
+
+        setProducts(data);
     }
 
     useEffect(() => {

@@ -14,19 +14,31 @@ interface Props {
 export const DeleteProduct = (props: Props) => {
     const { product, onDelete, onCancel } = props;
 
-    const handleDelete = () => {
-        const products = JSON.parse(localStorage.getItem("products") || "[]");
-        const productPosition = products.findIndex((auxProduct: Product) => auxProduct.id === product.id);
+    const handleDelete = async () => {
+        // const products = JSON.parse(localStorage.getItem("products") || "[]");
+        // const productPosition = products.findIndex((auxProduct: Product) => auxProduct.id === product.id);
 
-        if (productPosition > -1) {
-            products.splice(productPosition, 1);
-            localStorage.setItem("products", JSON.stringify(products))
-            toast.success("Product removed")
-            onDelete();
-        } else {
-            toast.error("Something went wrong")
-            onDelete();
-        }
+        // if (productPosition > -1) {
+        //     products.splice(productPosition, 1);
+        //     localStorage.setItem("products", JSON.stringify(products))
+        //     toast.success("Product removed")
+        //     onDelete();
+        // } else {
+        //     toast.error("Something went wrong")
+        //     onDelete();
+        // }
+
+        const response = await fetch('/api/products', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ id: product.id }),
+        });
+
+        const { data, error } = await response.json();
+
+        onDelete();
     }
 
     return (

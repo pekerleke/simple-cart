@@ -22,11 +22,11 @@ export default function RootLayout({
         <html lang="es">
             <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
             <body className={inter.className}>
-                <Navbar />
-                <div style={{padding: 10}}>
-                    {children}
-                </div>
-                <ToastContainer position="bottom-center"/>
+                    <Navbar />
+                    <div style={{ padding: 10 }}>
+                        {children}
+                    </div>
+                    <ToastContainer position="bottom-center" />
             </body>
         </html>
     );
