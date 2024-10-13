@@ -1,49 +1,29 @@
 "use client"
 
-import { createContext, ReactNode } from 'react';
+import { ReactNode, useContext } from 'react';
 import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { useQuery } from 'react-query';
 import classNames from 'classnames';
+import { OrganizationContext, OrganizationProvider } from '@/providers/OrganizationProvider';
 
 import styles from "./styles.module.scss";
-import { OrganizationProvider } from '@/providers/OrganizationProvider';
 
-// export const OrganizationContext = createContext({
-//     organization: null,
-//     status: "",
-//     refetch: () => { }
-// });
-
-export default function OrganizationLayout({ children }: { children: ReactNode }) {
+const InnerLayout = ({ children }: { children: ReactNode }) => {
     const { organization: organizationId } = useParams();
 
     const pathname = usePathname();
 
-    const { data, status, refetch } = useQuery({
-        queryKey: [organizationId],
-        queryFn: () => fetch(`/api/organizations/${organizationId}`)
-            .then(res => res.json())
-            .then(data => data.organization)
-            .catch(err => console.error(err)),
-    })
-
-    // const context = {
-    //     organization: data,
-    //     status,
-    //     refetch
-    // }
+    const { organization, status } = useContext(OrganizationContext);
 
     return (
-        // <OrganizationContext.Provider value={context}>
-        <OrganizationProvider>
+        <div>
             <header className={styles.header}>
                 <Link className={styles.name} href={`/${organizationId}`}>
                     {
                         status === "loading" ? (
                             <div className={styles.nameSkeleton}></div>
                         ) : (
-                            <h3>{data?.name}</h3>
+                            <h3>{(organization as any)?.name}</h3>
                         )
                     }
                 </Link>
@@ -54,7 +34,16 @@ export default function OrganizationLayout({ children }: { children: ReactNode }
                 </div>
             </header>
             <main style={{ padding: 10 }}>{children}</main>
-        </OrganizationProvider>
-        // </OrganizationContext.Provider >
+        </div>
     );
+}
+
+export default function OrganizationLayout({ children }: { children: ReactNode }) {
+    return (
+        <OrganizationProvider>
+            <InnerLayout>
+                {children}
+            </InnerLayout>
+        </OrganizationProvider>
+    )
 }
