@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
@@ -8,15 +8,14 @@ import { Product } from '@/models/Product';
 import styles from "./cart.module.scss";
 
 interface Props {
-    organizationId?: string
+    organizationId?: string,
+    products: any[],
+    status: string
 }
 
 export const Cart = (props: Props) => {
 
-    const { organizationId } = props;
-
-    const [products, setProducts] = useState<any>()
-    const [loading, setLoading] = useState(true);
+    const { organizationId, products, status } = props;
 
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
@@ -27,12 +26,6 @@ export const Cart = (props: Props) => {
     }
 
     const handleSubmit = async () => {
-        const sales = JSON.parse(localStorage.getItem("sales") || "[]");
-        localStorage.setItem("sales", JSON.stringify([...sales, {
-            date: new Date(),
-            products: selectedProducts
-        }]))
-
         const { data, error } = await fetch('/api/sales', {
             method: 'POST',
             headers: {
@@ -45,28 +38,10 @@ export const Cart = (props: Props) => {
         setSelectedProducts([]);
     }
 
-    const getProducts = async () => {
-        // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-        const response = await fetch(`/api/products${organizationId ? `?organization=${organizationId}` : ""}`);
-        const { data, error } = await response.json();
-        setProducts(data || []);
-        setLoading(false);
-    }
-
-    console.log(selectedProducts);
-
-    useEffect(() => {
-        if (!localStorage.getItem("products")) {
-            localStorage.setItem("products", JSON.stringify([{ name: "Demo product", price: "99" }]))
-        }
-
-        getProducts();
-    }, [])
-
     return (
         <div>
             {
-                loading && <div className={styles.skeleton}>
+                status === "loading" && <div className={styles.skeleton}>
                     <div></div>
                     <div></div>
                     <div></div>
@@ -76,11 +51,11 @@ export const Cart = (props: Props) => {
             }
             <div className={styles.productList}>
                 {
-                    !loading && !products?.length && <div>There are no products.</div>
+                    (status !== "loading") && !products?.length && <div>There are no products. Add some in <b>settings</b></div>
                 }
 
                 {
-                    products?.sort((a: Product, b: Product) => a.priority > b.priority ? 1 : -1).map((product: Product, index: number) => (
+                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1)).map((product: Product, index: number) => (
                         <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                             <div className={styles.info}>
                                 <div className={styles.name}>{product.name}</div>

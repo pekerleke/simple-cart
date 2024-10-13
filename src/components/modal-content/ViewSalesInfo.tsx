@@ -5,7 +5,7 @@ import { Product } from '@/models/Product';
 
 interface Props {
     salesInfo: {
-        date: string,
+        created_at: string,
         products: Product[]
     }[]
 }

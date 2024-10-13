@@ -5,55 +5,61 @@ import { CreateOrEditProduct } from '@/components/modal-content/CreateOrEditProd
 import { DeleteProduct } from '@/components/modal-content/DeleteProduct';
 import { Product } from '@/models/Product';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button } from 'rsuite';
 
 import styles from "./styles.module.scss";
+import { OrganizationContext } from '@/providers/OrganizationProvider';
 
 export default function Settings() {
-    const params = useParams();
-    const organization = params.organization;
+    // const params = useParams();
+    // const organization = params.organization;
 
-    const [products, setProducts] = useState<any>()
+    const { organization, refetch } = useContext(OrganizationContext);
+
+    // const [products, setProducts] = useState<any>()
 
     const { Modal, setModal, hideModal } = useModal();
 
 
-    const getProducts = async () => {
-        // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-        const response = await fetch(`/api/products?organization=${organization}`);
-        const { data, error } = await response.json();
-        console.log(data);
+    // const getProducts = async () => {
+    //     // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+    //     const response = await fetch(`/api/products?organization=${organization}`);
+    //     const { data, error } = await response.json();
+    //     console.log(data);
 
-        setProducts(data);
-    }
+    //     setProducts(data);
+    // }
 
-    useEffect(() => {
-        getProducts();
-    }, [])
+    // useEffect(() => {
+    //     getProducts();
+    // }, [])
 
-    console.log(organization);
+    if (!organization) return null;
 
     return (
         <>
             <div>
-                <h3>Settings for {organization}</h3>
+                {/* <h3>Settings for {organization}</h3>
                 <br />
                 <h6>Products ({products?.length || 0})</h6>
-                <br />
+                <br /> */}
+
+                <b>Products</b>
 
                 <div className={styles.productList}>
                     {
-                        products?.map((product: Product) => (
+                        (organization as any)?.products?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
+                            .map((product: Product) => (
                             <div className={styles.product} key={product.id}>
-                                <div className={styles.info}>{product.name} - ${product.price}</div>
+                                <div className={styles.info}><b>{product.name}</b> - ${product.price}</div>
                                 <div className={styles.operations}>
                                     <Button
                                         onClick={() => setModal(
                                             <CreateOrEditProduct
-                                                onSubmit={() => { getProducts(); hideModal() }}
+                                                onSubmit={() => { refetch(); hideModal(); }}
                                                 product={product}
-                                                organizationId={organization as string}
+                                                organizationId={(organization as any)?.id as string}
                                             />, "Product"
                                         )}
                                     >
@@ -63,7 +69,7 @@ export default function Settings() {
                                     <Button
                                         onClick={() => setModal(
                                             <DeleteProduct
-                                                onDelete={() => { getProducts(); hideModal() }}
+                                                onDelete={() => { refetch(); hideModal(); }}
                                                 onCancel={hideModal}
                                                 product={product} />
                                         )}
@@ -78,7 +84,7 @@ export default function Settings() {
 
                 <br />
 
-                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={organization as string} onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button>
+                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />)}>Add Product</Button>
             </div>
             <Modal />
         </>

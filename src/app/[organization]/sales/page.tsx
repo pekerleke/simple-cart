@@ -10,43 +10,27 @@ import { useEffect, useState } from 'react';
 import { Button } from 'rsuite';
 
 import styles from "./styles.module.scss";
+import { useQuery } from 'react-query';
 
 export default function Sales() {
     const params = useParams();
-    const organization = params.organization;
+    const organizationId = params.organization;
 
-    const [groupedSales, setGroupedSales] = useState<{[date: string]: Sale[]}>({});
+    const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
     const { Modal, setModal } = useModal()
 
-    const calculateSales = async () => {
-        const response = await fetch(`/api/sales?organizationId=${organization}`);
-        const { data, error } = await response.json();
-        console.log(data);
+    // const calculateSales = async () => {
+    //     const response = await fetch(`/api/sales?organizationId=${organizationId}`);
+    //     const { data, error } = await response.json();
+    //     console.log(data);
 
-        console.log(JSON.parse(localStorage.getItem("sales") || "[]"));
+    //     // console.log(JSON.parse(localStorage.getItem("sales") || "[]"));
 
-        const groupedSales = data
-            .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
-            .reduce((acc: {[date: string]: Sale[]}, item: any) => {
-                const date = item.created_at.split('T')[0];
-
-                if (!acc[date]) {
-                    acc[date] = [];
-                }
-
-                acc[date].push(item);
-
-                return acc;
-            }, {})
-        setGroupedSales(groupedSales);
-    }
-
-    // useEffect(() => {
-    //     const groupedSales = JSON.parse(localStorage.getItem("sales") || "[]")
-    //         .sort((a: Sale, b: Sale) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1)
-    //         .reduce((acc: {[date: string]: Sale[]}, item: Sale) => {
-    //             const date = item.date.split('T')[0];
+    //     const groupedSales = data
+    //         .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
+    //         .reduce((acc: {[date: string]: Sale[]}, item: any) => {
+    //             const date = item.created_at.split('T')[0];
 
     //             if (!acc[date]) {
     //                 acc[date] = [];
@@ -57,18 +41,57 @@ export default function Sales() {
     //             return acc;
     //         }, {})
     //     setGroupedSales(groupedSales);
+    // }
+
+    // useEffect(() => {
+    //     calculateSales();
     // }, [])
 
+    const { data, status } = useQuery({
+        queryKey: [`${organizationId}-sales`],
+        queryFn: () => fetch(`/api/sales?organizationId=${organizationId}`)
+            .then(res => res.json())
+            .then(data => data.data)
+            .catch(err => console.error(err)),
+    })
+
     useEffect(() => {
-        calculateSales();
-    }, [])
-    
+        if (data) {
+            const groupedSales = data
+                .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
+                .reduce((acc: { [date: string]: Sale[] }, item: any) => {
+                    const date = item.created_at.split('T')[0];
+
+                    if (!acc[date]) {
+                        acc[date] = [];
+                    }
+
+                    acc[date].push(item);
+
+                    return acc;
+                }, {})
+            setGroupedSales(groupedSales);
+        }
+    }, [data])
+
+    if (status === "loading") {
+        return (
+            <div>
+                Loading...
+            </div>
+        )
+    }
+
+    if ((status === "success") && !Boolean(data.length)) {
+        return (
+            <div>
+                No sales yet
+            </div>
+        )
+    }
 
     return (
         <div>
-            <h3>Sales by {organization}</h3>
-            <br />
-
             {
                 Object.keys(groupedSales)?.map(groupKey => (
                     <div key={groupKey}>
@@ -77,11 +100,11 @@ export default function Sales() {
                             <Button appearance="subtle" size="sm" onClick={() => setModal(<ViewSalesInfo salesInfo={groupedSales[groupKey]} />, dayjs(groupKey).format("ddd DD MMM YYYY"))}>Details</Button>
                         </div>
                         <div className={styles.salesContainer}>
-                            {(groupedSales[groupKey]).map((sale: Sale) => (
-                                <div key={new Date(sale.date).getTime()} className={styles.sale}>
+                            {(groupedSales[groupKey]).map((sale: Sale, index: number) => (
+                                <div key={index} className={styles.sale}>
                                     <div className={styles.saleTitle}>
                                         <div className={styles.productQuantity}>{sale.products.length} products</div>
-                                        <div>{dayjs(sale.date).format('DD/MM/YYYY - HH:mm')}</div>
+                                        <div>{dayjs(sale.created_at).format('DD/MM/YYYY - HH:mm')}</div>
                                     </div>
                                     <div className={styles.products}>
                                         {sale.products.map((product: Product, index: number) => (

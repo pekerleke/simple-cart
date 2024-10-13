@@ -1,6 +1,6 @@
 "use client"
 
-import { Cart } from "@/components/cart/Cart";
+// import { Cart } from "@/components/cart/Cart";
 import { Button } from "rsuite";
 import useModal from "./hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
@@ -16,7 +16,6 @@ export default function Home() {
     const getOrganizations = async () => {
         const response = await fetch(`/api/organizations`);
         const { data, error } = await response.json();
-        console.log(data);
 
         setOrganizations(data);
     }
@@ -29,8 +28,8 @@ export default function Home() {
     return (
         <main>
             {
-                organizations?.map(organization => (
-                    <Link href={`/${organization.id}`}>
+                organizations?.map((organization: any) => (
+                    <Link key={organization.id} href={`/${organization.id}`}>
                         <div style={{ backgroundColor: "#f2f2f2", padding: 20 }}>{organization.name}</div>
                     </Link>
                 ))
@@ -43,9 +42,6 @@ export default function Home() {
                     onSubmit={() => { /*getProducts();*/ hideModal() }}
                     organization={null} />, "New Organization"
             )}>Create organization</Button>
-
-            <hr />
-            <Cart />
 
             <Modal />
         </main>

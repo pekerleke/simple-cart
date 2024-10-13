@@ -2,7 +2,7 @@ import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: any) {
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organization');
 
@@ -17,17 +17,15 @@ export async function GET(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
-    }
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
+    } 
 }
 
-export async function POST(req) {
+export async function POST(req: any) {
     const { name, price, priority, user_id } = await req.json();
 
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organizationId');
-
-    console.log("organizationId", organizationId);
 
     const user = await getUserData();
 
@@ -39,11 +37,11 @@ export async function POST(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
 
-export async function PATCH(req) {
+export async function PATCH(req: any) {
     const { id, name, price, priority } = await req.json();
 
     try {
@@ -55,11 +53,11 @@ export async function PATCH(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
 
-export async function DELETE(req) {
+export async function DELETE(req: any) {
     const { id } = await req.json();
     try {
         const { data, error } = await supabaseBrowserClient
@@ -70,6 +68,6 @@ export async function DELETE(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }

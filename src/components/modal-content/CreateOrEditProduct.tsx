@@ -17,9 +17,6 @@ export const CreateOrEditProduct = (props: Props) => {
 
     const { product, organizationId, onSubmit } = props;
 
-    console.log(product);
-    console.log("organizationId:", organizationId);
-
     const [values, setValues] = useState<Product>({
         id: product?.id || "",
         name: product?.name || "",
@@ -41,7 +38,7 @@ export const CreateOrEditProduct = (props: Props) => {
         //     toast.success("Product created")
         // }
 
-        const { data, error } = await fetch(`/api/products?organizationId=${organizationId}`, {
+        await fetch(`/api/products?organizationId=${organizationId}`, {
             method: product ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,23 +48,6 @@ export const CreateOrEditProduct = (props: Props) => {
 
         onSubmit();
     }
-
-    // const handleAddProduct = async () => {
-    //     'use server';
-
-    //     // const skill = formData.get('skill');
-
-    //     // if (!skill) return;
-
-    //     const [formResponse, formError] = await createOrEditGroup(product);
-
-    //     if (formError) {
-    //         console.log(formError);
-    //         return;
-    //     }
-
-    //     // revalidatePath('/profile');
-    // };
 
     return (
         <div className={styles.container}>

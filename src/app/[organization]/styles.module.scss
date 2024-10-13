@@ -1,0 +1,38 @@
+.header {
+    padding: 10px;
+    background-color: #fff;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+
+    .name {
+        text-decoration: none;
+        color: #000;
+
+        h3 {
+            font-size: 16px;
+        }
+    }
+
+    .nameSkeleton{
+        background-color: #ddd;
+        height: 35px;
+        width: 120px;
+        border-radius: 5px;
+    }
+
+    .link {
+        text-decoration: none;
+        color: #000;
+        background-color: #ececec;
+        padding: 7px 12px;
+        border-radius: 20px;
+
+        &.selected {
+            background-color: #000;
+            color: #fff;
+        }
+    }
+}

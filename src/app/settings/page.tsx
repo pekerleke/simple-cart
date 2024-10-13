@@ -11,29 +11,29 @@ import styles from "./settings.module.scss";
 
 const Settings = () => {
 
-    const [products, setProducts] = useState<any>()
+    // const [products, setProducts] = useState<any>()
 
-    const { Modal, setModal, hideModal } = useModal();
+    // const { Modal, setModal, hideModal } = useModal();
 
 
-    const getProducts = async () => {
-        // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-        const response = await fetch(`/api/products`);
-        const { data, error } = await response.json();
-        console.log(data);
+    // const getProducts = async () => {
+    //     // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+    //     const response = await fetch(`/api/products`);
+    //     const { data, error } = await response.json();
+    //     setProducts(data);
+    // }
 
-        setProducts(data);
-    }
+    // useEffect(() => {
+    //     getProducts();
+    // }, [])
 
-    useEffect(() => {
-        getProducts();
-    }, [])
+    // TODO: delete
 
     return (
         <>
             <div>
                 <h3>Settings</h3>
-                <br />
+                {/* <br />
                 <h6>Products ({products?.length || 0})</h6>
                 <br />
 
@@ -71,9 +71,9 @@ const Settings = () => {
 
                 <br />
 
-                <Button block onClick={() => setModal(<CreateOrEditProduct onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button>
+                <Button block onClick={() => setModal(<CreateOrEditProduct onSubmit={() => { getProducts(); hideModal() }} />)}>Add Product</Button> */}
             </div>
-            <Modal />
+            {/* <Modal /> */}
         </>
     )
 }

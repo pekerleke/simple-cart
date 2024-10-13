@@ -2,7 +2,7 @@ import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: any) {
     const user = await getUserData();
 
     try {
@@ -14,11 +14,11 @@ export async function GET(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
 
-export async function POST(req) {
+export async function POST(req: any) {
     const { name } = await req.json();
 
     try {
@@ -30,8 +30,6 @@ export async function POST(req) {
 
         if (error) throw error;
 
-        console.log("data", data);
-
         // Agregar el creador como participante inicial
         await supabaseBrowserClient
             .from('organization_participants')
@@ -39,7 +37,7 @@ export async function POST(req) {
 
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
 

@@ -2,7 +2,7 @@ import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
-export async function GET(req) {
+export async function GET(req: any) {
     const user = await getUserData();
 
     const { searchParams } = new URL(req.url);
@@ -17,11 +17,11 @@ export async function GET(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
 
-export async function POST(req) {
+export async function POST(req: any) {
     const { products, organization } = await req.json();
 
     const user = await getUserData();
@@ -34,6 +34,6 @@ export async function POST(req) {
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }

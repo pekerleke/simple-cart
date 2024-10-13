@@ -1,25 +1,13 @@
 "use client"
 
 import { Cart } from "@/components/cart/Cart";
-import { Button } from "rsuite";
-import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
-import { useEffect, useState } from "react";
+import { OrganizationContext } from "@/providers/OrganizationProvider";
 import { useParams } from 'next/navigation';
-import Link from "next/link";
+import { useContext } from "react";
 
 export default function Organization() {
-    const { organization } = useParams();
+    const { organization: organizationId } = useParams();
+    const { organization, status } = useContext(OrganizationContext);
 
-    return (
-        <div>
-            <h3>Organization Page</h3>
-            <Link href={`/${organization}/sales`}>Sales</Link>
-            <Link href={`/${organization}/settings`}>Settings</Link>
-            {/* <p>Organization ID: {organization}</p> */}
-
-            <br /><br />
-
-            <Cart organizationId={organization as string} />
-        </div>
-    );
+    return <Cart status={status} products={(organization as any)?.products || []} organizationId={organizationId as string} />;
 }

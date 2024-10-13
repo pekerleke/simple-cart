@@ -9,7 +9,7 @@ const getUserData = async (): Promise<any | null> => {
     } = await supabase.auth.getUser();
 
     if (!user) {
-        console.log('NO USER', user);
+        console.error('NO USER', user);
         return null;
     }
 
@@ -19,7 +19,7 @@ const getUserData = async (): Promise<any | null> => {
         .eq('id', user.id);
 
     if (error) {
-        console.log(error);
+        console.error(error);
         return null;
     }
 

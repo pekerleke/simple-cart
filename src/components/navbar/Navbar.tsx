@@ -42,16 +42,14 @@ export const Navbar = () => {
 
         getCurrUser();
     }, []);
-
-    console.log(user);
-
+    
     return (
         <div className={styles.container}>
             <Link href="/" className={styles.logo}>Simple Cart</Link>
 
             <div className={styles.pages}>
-                <Link href="/sales">Sales</Link>
-                <Link href="/settings">Settings</Link>
+                {/* <Link href="/sales">Sales</Link>
+                <Link href="/settings">Settings</Link> */}
 
 
                 {

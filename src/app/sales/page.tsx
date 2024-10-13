@@ -11,38 +11,18 @@ import { Product } from "@/models/Product";
 import styles from "./sales.module.scss";
 
 export default function Home() {
-    const [groupedSales, setGroupedSales] = useState<{[date: string]: Sale[]}>({});
+    // const [groupedSales, setGroupedSales] = useState<{[date: string]: Sale[]}>({});
 
-    const { Modal, setModal } = useModal()
+    // const { Modal, setModal } = useModal()
 
-    const calculateSales = async () => {
-        const response = await fetch(`/api/sales`);
-        const { data, error } = await response.json();
-        console.log(data);
+    // const calculateSales = async () => {
+    //     const response = await fetch(`/api/sales`);
+    //     const { data, error } = await response.json();
 
-        console.log(JSON.parse(localStorage.getItem("sales") || "[]"));
-
-        const groupedSales = data
-            .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
-            .reduce((acc: {[date: string]: Sale[]}, item: any) => {
-                const date = item.created_at.split('T')[0];
-
-                if (!acc[date]) {
-                    acc[date] = [];
-                }
-
-                acc[date].push(item);
-
-                return acc;
-            }, {})
-        setGroupedSales(groupedSales);
-    }
-
-    // useEffect(() => {
-    //     const groupedSales = JSON.parse(localStorage.getItem("sales") || "[]")
-    //         .sort((a: Sale, b: Sale) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1)
-    //         .reduce((acc: {[date: string]: Sale[]}, item: Sale) => {
-    //             const date = item.date.split('T')[0];
+    //     const groupedSales = data
+    //         .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
+    //         .reduce((acc: {[date: string]: Sale[]}, item: any) => {
+    //             const date = item.created_at.split('T')[0];
 
     //             if (!acc[date]) {
     //                 acc[date] = [];
@@ -53,17 +33,35 @@ export default function Home() {
     //             return acc;
     //         }, {})
     //     setGroupedSales(groupedSales);
-    // }, [])
+    // }
 
-    useEffect(() => {
-        calculateSales();
-    }, [])
+    // // useEffect(() => {
+    // //     const groupedSales = JSON.parse(localStorage.getItem("sales") || "[]")
+    // //         .sort((a: Sale, b: Sale) => new Date(a.date).getTime() < new Date(b.date).getTime() ? 1 : -1)
+    // //         .reduce((acc: {[date: string]: Sale[]}, item: Sale) => {
+    // //             const date = item.date.split('T')[0];
+
+    // //             if (!acc[date]) {
+    // //                 acc[date] = [];
+    // //             }
+
+    // //             acc[date].push(item);
+
+    // //             return acc;
+    // //         }, {})
+    // //     setGroupedSales(groupedSales);
+    // // }, [])
+
+    // useEffect(() => {
+    //     calculateSales();
+    // }, [])
     
+    // TODO: delete
 
     return (
         <div>
             <h3>Sales</h3>
-            <br />
+            {/* <br />
 
             {
                 Object.keys(groupedSales)?.map(groupKey => (
@@ -95,7 +93,7 @@ export default function Home() {
                 ))
             }
 
-            <Modal />
+            <Modal /> */}
         </div>
     )
 }

@@ -1,6 +1,6 @@
 import { Product } from "./Product"
 
 export interface Sale {
-    date: string
+    created_at: string;
     products: Product[]
 }
