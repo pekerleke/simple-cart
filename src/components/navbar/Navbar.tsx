@@ -19,7 +19,7 @@ export const Navbar = () => {
         await supabaseBrowserClient.auth.signInWithOAuth({
             provider,
             options: {
-                redirectTo: `${location.origin}/auth/callback`,
+                redirectTo: `${/*location.origin*/ "https://simple-cart-ruddy.vercel.app"}/auth/callback`,
             },
         });
     }
