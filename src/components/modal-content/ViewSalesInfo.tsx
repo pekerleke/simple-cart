@@ -34,10 +34,10 @@ export const ViewSalesInfo = (props: Props) => {
     const products = salesInfo.reduce((acc: Product[], item) => { acc.push(...item.products); return acc; }, [])
 
     const resume: Resume = products.reduce((acc, item) => {
-        acc["totalAmount"] += item.price;
+        acc["totalAmount"] += (item as any).price || 0;
         acc["products"][item.name] = {
             quantity: (acc["products"][item.name]?.quantity || 0) + 1,
-            totalAmount: (acc["products"][item.name]?.totalAmount || 0) + item.price,
+            totalAmount: (acc["products"][item.name]?.totalAmount || 0) + (item.price || 0),
         };
         return acc;
     }, {

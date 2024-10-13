@@ -113,7 +113,7 @@ export default function Sales() {
                                             </div>
                                         ))}
                                     </div>
-                                    <div className={styles.total}>Total: ${sale.products.reduce((accumulator: number, producto: Product) => accumulator + producto.price, 0).toLocaleString('es-AR')}</div>
+                                    <div className={styles.total}>Total: ${sale.products.reduce((accumulator: number, saleProduct: Product) => accumulator + ((saleProduct as any).price || 0), 0).toLocaleString('es-AR')}</div>
                                 </div>
                             ))}
                         </div>
