@@ -7,7 +7,13 @@ import { Product } from '@/models/Product';
 
 import styles from "./cart.module.scss";
 
-export const Cart = () => {
+interface Props {
+    organizationId?: string
+}
+
+export const Cart = (props: Props) => {
+
+    const { organizationId } = props;
 
     const [products, setProducts] = useState<any>()
     const [loading, setLoading] = useState(true);
@@ -32,7 +38,7 @@ export const Cart = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ products: selectedProducts }),
+            body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
         }).then((res) => res.json());
 
         toast.success("Saved sale");
@@ -41,7 +47,7 @@ export const Cart = () => {
 
     const getProducts = async () => {
         // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-        const response = await fetch(`/api/products`);
+        const response = await fetch(`/api/products${organizationId ? `?organization=${organizationId}` : ""}`);
         const { data, error } = await response.json();
         setProducts(data || []);
         setLoading(false);

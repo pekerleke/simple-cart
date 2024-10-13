@@ -3,22 +3,16 @@ import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
-    // const { searchParams } = new URL(req.url);
-    // const userId = searchParams.get('user_id');
+    const { searchParams } = new URL(req.url);
+    const organizationId = searchParams.get('organization');
 
-    // if (!userId) {
-    //   return NextResponse.json({ success: false, error: 'User ID is required' }, { status: 400 });
-    // }
-
-    const user = await getUserData();
-
-    console.log(user);
+    // const user = await getUserData();
 
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
             .select('*')
-            .eq('user_id', user.id);
+            .eq('organization_id', organizationId);
 
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
@@ -30,12 +24,17 @@ export async function GET(req) {
 export async function POST(req) {
     const { name, price, priority, user_id } = await req.json();
 
+    const { searchParams } = new URL(req.url);
+    const organizationId = searchParams.get('organizationId');
+
+    console.log("organizationId", organizationId);
+
     const user = await getUserData();
 
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
-            .insert([{ name, price, priority, user_id: user.id }]);
+            .insert([{ name, price, priority, user_id: user.id, organization_id: organizationId }]);
 
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });

@@ -9,14 +9,16 @@ import getUserData from '@/actions/getUserData';
 
 interface Props {
     product?: Product
+    organizationId?: string
     onSubmit: () => void
 }
 
 export const CreateOrEditProduct = (props: Props) => {
 
-    const { product, onSubmit } = props;
+    const { product, organizationId, onSubmit } = props;
 
     console.log(product);
+    console.log("organizationId:", organizationId);
 
     const [values, setValues] = useState<Product>({
         id: product?.id || "",
@@ -39,7 +41,7 @@ export const CreateOrEditProduct = (props: Props) => {
         //     toast.success("Product created")
         // }
 
-        const { data, error } = await fetch('/api/products', {
+        const { data, error } = await fetch(`/api/products?organizationId=${organizationId}`, {
             method: product ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
