@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import { OrganizationContext, OrganizationProvider } from '@/providers/OrganizationProvider';
 
 import styles from "./styles.module.scss";
+import { stringToColor } from '@/utils/stringToColor';
 
 const InnerLayout = ({ children }: { children: ReactNode }) => {
     const { organization: organizationId } = useParams();
@@ -14,6 +15,10 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
     const pathname = usePathname();
 
     const { organization, status } = useContext(OrganizationContext);
+
+    const avatarColors = stringToColor((organization as any)?.name || "");
+
+    console.log(avatarColors);
 
     return (
         <div>
@@ -23,7 +28,12 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
                         status === "loading" ? (
                             <div className={styles.nameSkeleton}></div>
                         ) : (
-                            <h3>{(organization as any)?.name}</h3>
+                            <div className={styles.organization}>
+                                <div className={styles.organizationAvatar} style={{backgroundColor: avatarColors.pastel, color: avatarColors.contrast}}>
+                                    {(organization as any)?.name[0]}
+                                </div>
+                                <h3>{(organization as any)?.name}</h3>
+                            </div>
                         )
                     }
                 </Link>
@@ -33,7 +43,7 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
                     <Link className={classNames(styles.link, { [styles.selected]: pathname.split("/")[2] === "settings" })} href={`/${organizationId}/settings`}>Settings</Link>
                 </div>
             </header>
-            <main style={{ padding: 10 }}>{children}</main>
+            <main style={{ padding: 10, maxWidth: 1024, margin: "auto" }}>{children}</main>
         </div>
     );
 }

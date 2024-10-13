@@ -6,17 +6,39 @@
     justify-content: space-between;
     align-items: center;
     height: 40px;
+    max-width: 1024px;
+    margin: auto;
 
     .name {
         text-decoration: none;
         color: #000;
 
-        h3 {
-            font-size: 16px;
+        .organization {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .organizationAvatar {
+                width: 25px;
+                height: 25px;
+                background-color: antiquewhite;
+                border-radius: 8px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                color: red;
+            }
+
+            h3 {
+                font-size: 18px;
+                line-height: 25px;
+            }
         }
+
     }
 
-    .nameSkeleton{
+    .nameSkeleton {
         background-color: #ddd;
         height: 35px;
         width: 120px;
@@ -31,7 +53,7 @@
         border-radius: 20px;
 
         &.selected {
-            background-color: #000;
+            background-color: var(--secondary-color);
             color: #fff;
         }
     }

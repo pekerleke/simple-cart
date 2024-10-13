@@ -1,11 +1,12 @@
 "use client"
 
-// import { Cart } from "@/components/cart/Cart";
 import { Button } from "rsuite";
 import useModal from "./hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+
+import styles from "./styles.module.scss";
 
 export default function Home() {
 
@@ -26,20 +27,22 @@ export default function Home() {
 
 
     return (
-        <main>
-            {
-                organizations?.map((organization: any) => (
-                    <Link key={organization.id} href={`/${organization.id}`}>
-                        <div style={{ backgroundColor: "#f2f2f2", padding: 20 }}>{organization.name}</div>
-                    </Link>
-                ))
-            }
+        <main style={{ padding: 10, maxWidth: 1024, margin: "auto" }}>
+            <div className={styles.organizationsContainer}>
+                {
+                    organizations?.map((organization: any) => (
+                        <Link className={styles.link} key={organization.id} href={`/${organization.id}`}>
+                            {organization.name}
+                        </Link>
+                    ))
+                }
+            </div>
 
             <br />
 
-            <Button onClick={() => setModal(
+            <Button block onClick={() => setModal(
                 <CreateOrEditOrganization
-                    onSubmit={() => { /*getProducts();*/ hideModal() }}
+                    onSubmit={() => { hideModal() }}
                     organization={null} />, "New Organization"
             )}>Create organization</Button>
 
