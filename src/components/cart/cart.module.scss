@@ -9,8 +9,10 @@
         user-select: none;
         transition: transform 0.2s ease-in-out;
         min-height: 60px;
-        background-color: var(--secondary-color);
-        color: #fff;
+        // background-color: var(--secondary-color);
+        background-color: #f1f1f1;
+        // color: #fff;
+        color: var(--secondary-color);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -33,11 +35,11 @@
 
         &:active {
             transform: scale(0.95);
-            background-color: #2b4182;
+            background-color: #cbfacda6;
         }
 
         &:focus {
-            outline: 2px solid #2b4182;
+            outline: 2px solid #cbfacda6;
         }
     }
 }

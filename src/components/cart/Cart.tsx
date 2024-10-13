@@ -55,7 +55,7 @@ export const Cart = (props: Props) => {
                 }
 
                 {
-                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1)).map((product: Product, index: number) => (
+                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => (
                         <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                             <div className={styles.info}>
                                 <div className={styles.name}>{product.name}</div>
@@ -88,7 +88,7 @@ export const Cart = (props: Props) => {
 
                         <br />
 
-                        <b>Total: ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + product.price, 0).toLocaleString('es-AR')} | {selectedProducts.length} items</b>
+                        <b>Total: ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + (product as any).price, 0).toLocaleString('es-AR')} | {selectedProducts.length} items</b>
 
                         <br />
                         <br />

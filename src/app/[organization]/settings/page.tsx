@@ -40,51 +40,49 @@ export default function Settings() {
     return (
         <>
             <div>
-                {/* <h3>Settings for {organization}</h3>
-                <br />
-                <h6>Products ({products?.length || 0})</h6>
-                <br /> */}
-
                 <b>Products</b>
 
                 <div className={styles.productList}>
                     {
                         (organization as any)?.products?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
                             .map((product: Product) => (
-                            <div className={styles.product} key={product.id}>
-                                <div className={styles.info}><b>{product.name}</b> - ${product.price}</div>
-                                <div className={styles.operations}>
-                                    <Button
-                                        onClick={() => setModal(
-                                            <CreateOrEditProduct
-                                                onSubmit={() => { refetch(); hideModal(); }}
-                                                product={product}
-                                                organizationId={(organization as any)?.id as string}
-                                            />, "Product"
-                                        )}
-                                    >
-                                        Edit
-                                    </Button>
+                                <div className={styles.product} key={product.id}>
+                                    <div className={styles.info}><b>{product.name}</b> - ${product.price}</div>
+                                    <div className={styles.operations}>
+                                        <Button
+                                            onClick={() => setModal(
+                                                <CreateOrEditProduct
+                                                    onSubmit={() => { refetch(); hideModal(); }}
+                                                    product={product}
+                                                    organizationId={(organization as any)?.id as string}
+                                                />, product.name
+                                            )}
+                                        >
+                                            Edit
+                                        </Button>
 
-                                    <Button
-                                        onClick={() => setModal(
-                                            <DeleteProduct
-                                                onDelete={() => { refetch(); hideModal(); }}
-                                                onCancel={hideModal}
-                                                product={product} />
-                                        )}
-                                    >
-                                        Remove
-                                    </Button>
+                                        <Button
+                                            onClick={() => setModal(
+                                                <DeleteProduct
+                                                    onDelete={() => { refetch(); hideModal(); }}
+                                                    onCancel={hideModal}
+                                                    product={product} />,
+                                                "Delete product"
+                                            )}
+                                        >
+                                            Remove
+                                        </Button>
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            ))
                     }
                 </div>
 
                 <br />
 
-                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />)}>Add Product</Button>
+                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
+                    <b>Add Product</b>
+                </Button>
             </div>
             <Modal />
         </>

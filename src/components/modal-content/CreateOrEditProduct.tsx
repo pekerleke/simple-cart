@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
 import { Button, Input } from 'rsuite';
-import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 
 import styles from "./createOrEditProduct.module.scss";
-import createOrEditGroup from '@/actions/createOrEditProduct';
-import getUserData from '@/actions/getUserData';
 
 interface Props {
     product?: Product
@@ -20,30 +17,17 @@ export const CreateOrEditProduct = (props: Props) => {
     const [values, setValues] = useState<Product>({
         id: product?.id || "",
         name: product?.name || "",
-        price: product?.price || 0,
-        priority: product?.priority || 0,
+        price: product?.price,
+        priority: product?.priority,
     })
 
     const handleSubmit = async () => {
-        // const productList = JSON.parse(localStorage.getItem("products") || "[]");
-
-        // const productPosition = productList.findIndex((product: Product) => product.id === values.id);
-
-        // if (productPosition > -1) {
-        //     productList[productPosition] = values;
-        //     localStorage.setItem("products", JSON.stringify(productList))
-        //     toast.success("Product edited")
-        // } else {
-        //     localStorage.setItem("products", JSON.stringify([...productList, values]));
-        //     toast.success("Product created")
-        // }
-
         await fetch(`/api/products?organizationId=${organizationId}`, {
             method: product ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ id: values.id, name: values.name, price: values.price, priority: values.priority }),
+            body: JSON.stringify({ id: values.id, name: values.name, price: values.price || 0, priority: values.priority || 0 }),
         }).then((res) => res.json());
 
         onSubmit();
@@ -51,16 +35,22 @@ export const CreateOrEditProduct = (props: Props) => {
 
     return (
         <div className={styles.container}>
-            Name
-            <Input value={values.name} onChange={(value) => setValues(prev => ({ ...prev, name: value }))} />
+            <div>
+                <b>Name</b>
+                <Input placeholder='Product name' value={values.name} onChange={(value) => setValues(prev => ({ ...prev, name: value }))} />
+            </div>
 
-            Price
-            <Input type='number' value={values.price} onChange={(value) => setValues(prev => ({ ...prev, price: parseInt(value) }))} />
+            <div>
+                <b>Price</b>
+                <Input placeholder='Product price' type='number' value={values.price} onChange={(value) => setValues(prev => ({ ...prev, price: parseInt(value) }))} />
+            </div>
 
-            Priority
-            <Input type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
+            <div>
+                <b>Priority</b>
+                <Input placeholder='Product priority' type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
+            </div>
 
-            <Button onClick={() => handleSubmit()}>Save</Button>
+            <Button onClick={() => handleSubmit()}><b>Save</b></Button>
         </div>
     )
 }
