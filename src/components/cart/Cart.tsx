@@ -43,18 +43,6 @@ export const Cart = () => {
         getProducts();
     }, [])
 
-    useEffect(() => {
-        const fetchProducts = async () => {
-            const response = await fetch('/api/products/getProducts');
-            const data = await response.json();
-
-            console.log(data);
-            // setProducts(data.products);
-        };
-
-        fetchProducts();
-    }, []);
-
     return (
         <div>
             {

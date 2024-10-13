@@ -10,7 +10,6 @@ import { Product } from "@/models/Product";
 
 import styles from "./sales.module.scss";
 
-
 export default function Home() {
     const [groupedSales, setGroupedSales] = useState<{[date: string]: Sale[]}>({});
 
