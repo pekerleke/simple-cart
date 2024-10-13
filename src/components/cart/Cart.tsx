@@ -20,20 +20,34 @@ export const Cart = () => {
         setSelectedProducts(tempProducts);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         const sales = JSON.parse(localStorage.getItem("sales") || "[]");
         localStorage.setItem("sales", JSON.stringify([...sales, {
             date: new Date(),
             products: selectedProducts
         }]))
+
+        const { data, error } = await fetch('/api/sales', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ products: selectedProducts }),
+        }).then((res) => res.json());
+
         toast.success("Saved sale");
         setSelectedProducts([]);
     }
 
-    const getProducts = () => {
-        setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+    const getProducts = async () => {
+        // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
+        const response = await fetch(`/api/products`);
+        const { data, error } = await response.json();
+        setProducts(data || []);
         setLoading(false);
     }
+
+    console.log(selectedProducts);
 
     useEffect(() => {
         if (!localStorage.getItem("products")) {
@@ -56,7 +70,7 @@ export const Cart = () => {
             }
             <div className={styles.productList}>
                 {
-                    !loading && !products.length && <div>There are no products.</div>
+                    !loading && !products?.length && <div>There are no products.</div>
                 }
 
                 {
