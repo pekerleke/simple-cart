@@ -4,42 +4,45 @@ import useModal from '@/app/hooks/useModal';
 import { CreateOrEditProduct } from '@/components/modal-content/CreateOrEditProduct';
 import { DeleteProduct } from '@/components/modal-content/DeleteProduct';
 import { Product } from '@/models/Product';
-import { useParams } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Button } from 'rsuite';
-
-import styles from "./styles.module.scss";
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 
-export default function Settings() {
-    // const params = useParams();
-    // const organization = params.organization;
+import styles from "./styles.module.scss";
 
+export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
 
-    // const [products, setProducts] = useState<any>()
-
     const { Modal, setModal, hideModal } = useModal();
-
-
-    // const getProducts = async () => {
-    //     // setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-    //     const response = await fetch(`/api/products?organization=${organization}`);
-    //     const { data, error } = await response.json();
-    //     console.log(data);
-
-    //     setProducts(data);
-    // }
-
-    // useEffect(() => {
-    //     getProducts();
-    // }, [])
 
     if (!organization) return null;
 
     return (
         <>
             <div>
+                <b>Participants</b>
+
+                <br />
+
+                <div className={styles.participantsList}>
+                    {
+                        (organization as any)?.organization_participants.map((participant: any, index: number) => (
+                            <div key={index} className={styles.participant}>
+                                <div className={styles.participantInfo}>
+                                    <img src={participant.users.avatar_url} alt={participant.users.full_name} />
+                                    {participant.users.full_name}
+                                </div>
+                                {/* <Button
+                                    onClick={() => {}}
+                                >
+                                    Remove
+                                </Button> */}
+                            </div>
+                        ))
+                    }
+                </div>
+
+                <br />
                 <b>Products</b>
 
                 <div className={styles.productList}>

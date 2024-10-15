@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import styles from "./styles.module.scss";
+import { stringToColor } from "@/utils/stringToColor";
 
 export default function Home() {
 
     const { Modal, setModal, hideModal } = useModal();
+
+    const [isLoading, setIsLoading] = useState(true);
 
     const [organizations, setOrganizations] = useState([]);
 
@@ -19,22 +22,34 @@ export default function Home() {
         const { data, error } = await response.json();
 
         setOrganizations(data);
+        setIsLoading(false);
     }
 
     useEffect(() => {
         getOrganizations();
     }, [])
 
-
     return (
         <main style={{ padding: 10, maxWidth: 1024, margin: "auto" }}>
+
+            {
+                isLoading && <div>Cargando...</div>
+            }
+
             <div className={styles.organizationsContainer}>
                 {
-                    organizations?.map((organization: any) => (
-                        <Link className={styles.link} key={organization.id} href={`/${organization.id}`}>
-                            {organization.name}
-                        </Link>
-                    ))
+                    organizations?.map((organization: any) => {
+                        const avatarColors = stringToColor((organization as any)?.name || "");
+
+                        return (
+                            <Link className={styles.link} key={organization.id} href={`/${organization.id}`}>
+                                <div className={styles.organizationAvatar} style={{backgroundColor: avatarColors.pastel, color: avatarColors.contrast}}>
+                                    {(organization as any)?.name[0]}
+                                </div>
+                                <h3>{organization.name}</h3>
+                            </Link>
+                        )
+                    })
                 }
             </div>
 
@@ -44,7 +59,9 @@ export default function Home() {
                 <CreateOrEditOrganization
                     onSubmit={() => { hideModal() }}
                     organization={null} />, "New Organization"
-            )}>Create organization</Button>
+            )}>
+                <b>Create organization</b>
+            </Button>
 
             <Modal />
         </main>

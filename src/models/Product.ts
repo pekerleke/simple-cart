@@ -5,4 +5,6 @@ export interface Product {
     priority?: number
     quantity?: number
     totalAmount?: number
+    color?: string
+    textColor?: string
 }

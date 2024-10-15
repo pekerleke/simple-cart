@@ -18,8 +18,6 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
 
     const avatarColors = stringToColor((organization as any)?.name || "");
 
-    console.log(avatarColors);
-
     return (
         <div>
             <header className={styles.header}>

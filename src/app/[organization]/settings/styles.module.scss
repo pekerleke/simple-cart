@@ -1,18 +1,45 @@
-.productList{
+.productList {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    .product{
+    .product {
         border: 1px solid #eee;
         padding: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        border-radius: 5px;
 
-        .operations{
+        .operations {
             display: flex;
             gap: 10px;
+        }
+    }
+}
+
+.participantsList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .participant {
+        border: 1px solid #eee;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 5px;
+
+        img{
+            width: 20px;
+            border-radius: 4px;
+        }
+
+        .participantInfo{
+            display: flex;
+            gap: 5px;
+            align-items: center;
         }
     }
 }

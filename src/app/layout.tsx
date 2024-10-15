@@ -28,11 +28,8 @@ export default function RootLayout({
             <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
             <body className={inter.className}>
                 <QueryClientProvider client={queryClient}>
-
                     <Navbar />
-                    {/* <div style={{ padding: 10 }}> */}
                     {children}
-                    {/* </div> */}
                 </QueryClientProvider>
                 <ToastContainer position="bottom-center" />
             </body>

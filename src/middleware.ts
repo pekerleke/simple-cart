@@ -54,7 +54,25 @@ export async function middleware(request: NextRequest) {
         }
     )
 
-    await supabase.auth.getUser()
+    // await supabase.auth.getUser()
+
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+        // // Redirige a login si el usuario no está autenticado
+        // const loginUrl = new URL('/login', request.url);
+        // return NextResponse.redirect(loginUrl);
+
+        await supabase.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+                redirectTo: `${"http://localhost:3000"}/auth/callback`,
+            },
+        });
+
+        console.log("SIN LOGGIGN");
+    }
 
     return response
 }

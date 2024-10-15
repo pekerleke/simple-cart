@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 
 import styles from "./cart.module.scss";
+import { stringToColor } from '@/utils/stringToColor';
 
 interface Props {
     organizationId?: string,
@@ -55,14 +56,17 @@ export const Cart = (props: Props) => {
                 }
 
                 {
-                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => (
-                        <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
-                            <div className={styles.info}>
-                                <div className={styles.name}>{product.name}</div>
-                                <div className={styles.price}>${product.price}</div>
+                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                        const colors = stringToColor(product.name);
+                        return (
+                            <div key={index} className={styles.product} style={{backgroundColor: colors.pastel, color: colors.contrast}} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
+                                <div className={styles.info}>
+                                    <div className={styles.name}>{product.name}</div>
+                                    <div className={styles.price}>${product.price}</div>
+                                </div>
                             </div>
-                        </div>
-                    ))
+                        )
+                    })
                 }
             </div>
 

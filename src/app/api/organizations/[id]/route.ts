@@ -11,40 +11,27 @@ export async function GET(req: any, { params }: any) {
     }
 
     try {
-        const { data: participants, error: participantError } = await supabaseBrowserClient
-            .from('organization_participants')
-            .select('user_id')
-            .eq('organization_id', organizationId)
-            .eq('user_id', user.id);
-
-        if (participantError) throw participantError;
-
-        // Si no hay datos, el usuario no pertenece a la organización
-        if (!participants || participants.length === 0) {
-            return NextResponse.json(null, { status: 200 });
-        }
-
         const { data: organization, error } = await supabaseBrowserClient
             .from('organizations')
             .select(`
                 name, id,
-                products (id, name, price, priority)
+                products (id, name, price, priority),
+                organization_participants (user_id, users (full_name, avatar_url))
               `)
             .eq('id', organizationId)
             .single();
 
         if (error) throw error;
 
-        // return NextResponse.json(organization, { status: 200 });
+        if (!organization.organization_participants || organization.organization_participants.length === 0) {
+            return NextResponse.json(null, { status: 200 });
+        }
+
+        if (!organization.organization_participants.find(participant => participant.user_id === user.id)) {
+            return NextResponse.json(null, { status: 401 });
+        }
 
         return NextResponse.json({ success: true, organization }, { status: 200 });
-        // const { data, error } = await supabaseBrowserClient
-        //     .from('organizations')
-        //     .select('*, organization_participants!inner(user_id)')
-        //     .eq('organization_participants.user_id', user.id);
-
-        // if (error) throw error;
-        // return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }

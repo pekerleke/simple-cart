@@ -19,7 +19,11 @@ export const CreateOrEditProduct = (props: Props) => {
         name: product?.name || "",
         price: product?.price,
         priority: product?.priority,
+        color: product?.color,
+        textColor: product?.textColor
     })
+
+    console.log(values);
 
     const handleSubmit = async () => {
         await fetch(`/api/products?organizationId=${organizationId}`, {
@@ -48,6 +52,16 @@ export const CreateOrEditProduct = (props: Props) => {
             <div>
                 <b>Priority</b>
                 <Input placeholder='Product priority' type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
+            </div>
+
+            <div>
+                <b>Color</b>
+                <input style={{width: "100%"}} type='color' value={values.color} onChange={(value) => setValues(prev => ({ ...prev, color: value.target.value }))} />
+            </div>
+
+            <div>
+                <b>Text Color</b>
+                <input style={{width: "100%"}} type='color' value={values.textColor} onChange={(value) => setValues(prev => ({ ...prev, textColor: value.target.value }))} />
             </div>
 
             <Button onClick={() => handleSubmit()}><b>Save</b></Button>
