@@ -13,10 +13,11 @@ export const AuthProvider = ({ children }: any) => {
     const [loading, setLoading] = useState(true);
 
     async function socialAuth(provider: Provider) {
+        const currentPath = location.pathname;
         await supabaseBrowserClient.auth.signInWithOAuth({
             provider,
             options: {
-                redirectTo: `${location.origin}/auth/callback`,
+                redirectTo: `${location.origin}/auth/callback?next=${currentPath}`,
             },
         });
     }
