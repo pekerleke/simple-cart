@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from 'react';
 
 export const AuthContext = createContext({
     user: null,
+    singOut: () => {},
     loading: false
 });
 
@@ -22,6 +23,13 @@ export const AuthProvider = ({ children }: any) => {
         });
     }
 
+    const handleSignout = async () => {
+        const { error } = await supabaseBrowserClient.auth.signOut();
+        if (!error) setUser(undefined);
+        setUser(undefined);
+    };
+
+
     useEffect(() => {
         const getCurrUser = async () => {
             const {
@@ -30,9 +38,8 @@ export const AuthProvider = ({ children }: any) => {
 
             if (session) {
                 setUser(session.user);
-            } else {
-                console.log("no user");
             }
+            
             setLoading(false);
         };
 
@@ -41,7 +48,16 @@ export const AuthProvider = ({ children }: any) => {
 
     const context = {
         user,
+        singOut: handleSignout,
         loading
+    }
+
+    if (loading) {
+        return (
+            <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <b onClick={() => socialAuth("google")}>Loading</b>
+            </div>
+        )
     }
 
     return (
@@ -49,7 +65,9 @@ export const AuthProvider = ({ children }: any) => {
             <div>
                 {
                     (!user && !loading) ? (
-                        <b onClick={() => socialAuth("google")}>Login</b>
+                        <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                            <b onClick={() => socialAuth("google")}>Login</b>
+                        </div>
                     ) : children
                 }
             </div>

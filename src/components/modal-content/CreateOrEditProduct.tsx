@@ -14,25 +14,25 @@ export const CreateOrEditProduct = (props: Props) => {
 
     const { product, organizationId, onSubmit } = props;
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [values, setValues] = useState<Product>({
         id: product?.id || "",
         name: product?.name || "",
         price: product?.price,
-        priority: product?.priority,
-        color: product?.color,
-        textColor: product?.textColor
+        priority: product?.priority
     })
 
-    console.log(values);
-
     const handleSubmit = async () => {
+        setIsLoading(true);
         await fetch(`/api/products?organizationId=${organizationId}`, {
             method: product ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ id: values.id, name: values.name, price: values.price || 0, priority: values.priority || 0 }),
-        }).then((res) => res.json());
+        }).then((res) => res.json())
+        .finally(() => setIsLoading(false));
 
         onSubmit();
     }
@@ -54,17 +54,7 @@ export const CreateOrEditProduct = (props: Props) => {
                 <Input placeholder='Product priority' type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
             </div>
 
-            <div>
-                <b>Color</b>
-                <input style={{width: "100%"}} type='color' value={values.color} onChange={(value) => setValues(prev => ({ ...prev, color: value.target.value }))} />
-            </div>
-
-            <div>
-                <b>Text Color</b>
-                <input style={{width: "100%"}} type='color' value={values.textColor} onChange={(value) => setValues(prev => ({ ...prev, textColor: value.target.value }))} />
-            </div>
-
-            <Button onClick={() => handleSubmit()}><b>Save</b></Button>
+            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}><b>Save</b></Button>
         </div>
     )
 }

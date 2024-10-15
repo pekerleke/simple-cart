@@ -1,63 +1,23 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import Link from 'next/link';
-import { Provider, User } from '@supabase/supabase-js';
-import { supabaseBrowserClient } from '@/utils/supabeClient';
 import { useIsFetching } from 'react-query';
 
 import styles from "./navbar.module.scss";
+import { AuthContext } from '@/providers/AuthProvider';
 
 export const Navbar = () => {
-    const [user, setUser] = useState<User>();
+    const { user, singOut } = useContext(AuthContext);
 
     const isFetching = useIsFetching();
-
-    async function socialAuth(provider: Provider) {
-        await supabaseBrowserClient.auth.signInWithOAuth({
-            provider,
-            options: {
-                redirectTo: `${location.origin}/auth/callback`,
-            },
-        });
-    }
-
-    const handleSignout = async () => {
-        const { error } = await supabaseBrowserClient.auth.signOut();
-        if (!error) setUser(undefined);
-    };
-
-    useEffect(() => {
-        const getCurrUser = async () => {
-            const {
-                data: { session },
-            } = await supabaseBrowserClient.auth.getSession();
-
-            if (session) {
-                setUser(session.user);
-            } else {
-                console.log("no user");
-                // socialAuth("google");
-            }
-        };
-
-        getCurrUser();
-    }, []);
 
     return (
         <div className={styles.container}>
             <Link href="/" className={styles.logo}>Simple Cart</Link>
 
             <div className={styles.pages}>
-                {
-                    user ? (
-                        <>
-                            <b>{user.user_metadata.name}</b>
-                            <b onClick={handleSignout}>Logout</b>
-                        </>
-                    ) : (
-                        <b onClick={() => socialAuth("google")}>Login</b>
-                    )
-                }
+                <b>{(user as any).user_metadata.name}</b>
+                <b onClick={singOut}>Logout</b>
             </div>
 
             {Boolean(isFetching) && (

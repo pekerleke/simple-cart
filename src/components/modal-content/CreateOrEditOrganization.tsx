@@ -10,19 +10,23 @@ interface Props {
 export const CreateOrEditOrganization = (props: Props) => {
     const { organization, onSubmit } = props;
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [values, setValues] = useState<any>({
         id: organization?.id || "",
         name: organization?.name || ""
     })
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         const { data, error } = await fetch('/api/organizations', {
             method: organization ? 'PATCH' : 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ id: values.id, name: values.name, price: values.price, priority: values.priority }),
-        }).then((res) => res.json());
+        }).then((res) => res.json())
+        .finally(() => setIsLoading(false));
 
         onSubmit();
     }
@@ -30,9 +34,11 @@ export const CreateOrEditOrganization = (props: Props) => {
 
     return (
         <div className={styles.container}>
-            Name
-            <Input value={values.name} onChange={(value) => setValues((prev: any) => ({ ...prev, name: value }))} />
-            <Button onClick={() => handleSubmit()}>Save</Button>
+            <div>
+                Name
+                <Input placeholder="Organization name" value={values.name} onChange={(value) => setValues((prev: any) => ({ ...prev, name: value }))} />
+            </div>
+            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}>Save</Button>
         </div>
     )
 }

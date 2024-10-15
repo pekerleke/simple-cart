@@ -28,12 +28,12 @@ export default function RootLayout({
         <html lang="es">
             <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
             <body className={inter.className}>
-                <QueryClientProvider client={queryClient}>
-                    <AuthProvider>
+                <AuthProvider>
+                    <QueryClientProvider client={queryClient}>
                         <Navbar />
                         {children}
-                    </AuthProvider>
-                </QueryClientProvider>
+                    </QueryClientProvider>
+                </AuthProvider>
                 <ToastContainer position="bottom-center" />
             </body>
         </html>
