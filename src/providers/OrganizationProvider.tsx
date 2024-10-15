@@ -1,27 +1,6 @@
 import { useParams } from 'next/navigation';
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 import { useQuery } from 'react-query';
-
-// export const AuthContext = createContext();
-
-// export const AuthProvider = ({ children }) => {
-
-//     const [value, setValue] = useState({
-//         storagedData: JSON.parse(localStorage.getItem('sessionData')) || {}
-//     });
-
-//     const logout = () => {
-//         localStorage.clear();
-//         setValue({storagedData: null});
-//     }
-
-//     return (
-//         <AuthContext.Provider value={{ value, setValue, logout }}>
-//             {children}
-//         </AuthContext.Provider>
-//     );
-// };
-
 
 export const OrganizationContext = createContext({
     organization: null,

@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Navbar } from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,8 +29,10 @@ export default function RootLayout({
             <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
             <body className={inter.className}>
                 <QueryClientProvider client={queryClient}>
-                    <Navbar />
-                    {children}
+                    <AuthProvider>
+                        <Navbar />
+                        {children}
+                    </AuthProvider>
                 </QueryClientProvider>
                 <ToastContainer position="bottom-center" />
             </body>

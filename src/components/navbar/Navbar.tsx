@@ -36,7 +36,7 @@ export const Navbar = () => {
                 setUser(session.user);
             } else {
                 console.log("no user");
-                socialAuth("google");
+                // socialAuth("google");
             }
         };
 
