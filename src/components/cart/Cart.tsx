@@ -7,6 +7,7 @@ import { Product } from '@/models/Product';
 
 import styles from "./cart.module.scss";
 import { stringToColor } from '@/utils/stringToColor';
+import Loader from '../loader/Loader';
 
 interface Props {
     organizationId?: string,
@@ -18,6 +19,8 @@ export const Cart = (props: Props) => {
 
     const { organizationId, products, status } = props;
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
     const handleRemoveProduct = (index: number) => {
@@ -27,13 +30,15 @@ export const Cart = (props: Props) => {
     }
 
     const handleSubmit = async () => {
+        setIsLoading(true);
         const { data, error } = await fetch('/api/sales', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
-        }).then((res) => res.json());
+        }).then((res) => res.json())
+        .finally(() => setIsLoading(false));
 
         toast.success("Saved sale");
         setSelectedProducts([]);
@@ -50,6 +55,7 @@ export const Cart = (props: Props) => {
                     <div></div>
                 </div>
             }
+
             <div className={styles.productList}>
                 {
                     (status !== "loading") && !products?.length && <div>There are no products. Add some in <b>settings</b></div>
@@ -97,7 +103,7 @@ export const Cart = (props: Props) => {
                         <br />
                         <br />
                         <div>
-                            <Button color="green" size='lg' appearance="primary" block onClick={handleSubmit}>Submit</Button>
+                            <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}>Submit</Button>
                         </div>
                     </div>
                 )

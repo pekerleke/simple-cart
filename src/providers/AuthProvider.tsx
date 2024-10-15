@@ -1,6 +1,7 @@
 import { Provider, User } from '@supabase/supabase-js';
 import { supabaseBrowserClient } from '@/utils/supabeClient';
 import { createContext, useEffect, useState } from 'react';
+import Loader from '@/components/loader/Loader';
 
 export const AuthContext = createContext({
     user: null,
@@ -55,7 +56,7 @@ export const AuthProvider = ({ children }: any) => {
     if (loading) {
         return (
             <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                <b onClick={() => socialAuth("google")}>Loading</b>
+                <Loader />
             </div>
         )
     }

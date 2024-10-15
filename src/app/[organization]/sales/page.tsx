@@ -11,6 +11,7 @@ import { Button } from 'rsuite';
 
 import styles from "./styles.module.scss";
 import { useQuery } from 'react-query';
+import Loader from '@/components/loader/Loader';
 
 export default function Sales() {
     const params = useParams();
@@ -76,9 +77,7 @@ export default function Sales() {
 
     if (status === "loading") {
         return (
-            <div>
-                Loading...
-            </div>
+            <Loader/>
         )
     }
 
