@@ -26,7 +26,10 @@ export default function RootLayout({
     const queryClient = new QueryClient();
     return (
         <html lang="es">
-            <head><meta name="viewport" content="width=device-width, user-scalable=no" /> </head>
+            <head>
+                {/* <meta name="viewport" content="width=device-width, user-scalable=no" /> */}
+                <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
+            </head>
             <body className={inter.className}>
                 <AuthProvider>
                     <QueryClientProvider client={queryClient}>
