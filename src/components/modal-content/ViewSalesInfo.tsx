@@ -1,7 +1,7 @@
 import React from 'react'
+import { Product } from '@/models/Product';
 
 import styles from "./viewSalesInfo.module.scss";
-import { Product } from '@/models/Product';
 
 interface Props {
     salesInfo: {
@@ -47,7 +47,7 @@ export const ViewSalesInfo = (props: Props) => {
 
     return (
         <div>
-            {Object.keys(resume.products).map(resumeKey => (
+            {Object.keys(resume.products).sort((a, b) => resume.products[a].totalAmount > resume.products[b].totalAmount ? -1 : 1 ).map(resumeKey => (
                 <div key={resumeKey} className={styles.saleRow}>
                     <div>{resumeKey} x {resume.products[resumeKey].quantity}</div>
                     <div>${resume.products[resumeKey].totalAmount.toLocaleString('es-AR')}</div>
