@@ -32,11 +32,6 @@ export default function Settings() {
                                     <img src={participant.users.avatar_url} alt={participant.users.full_name} />
                                     {participant.users.full_name}
                                 </div>
-                                {/* <Button
-                                    onClick={() => {}}
-                                >
-                                    Remove
-                                </Button> */}
                             </div>
                         ))
                     }

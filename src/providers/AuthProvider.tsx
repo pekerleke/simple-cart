@@ -2,6 +2,7 @@ import { Provider, User } from '@supabase/supabase-js';
 import { supabaseBrowserClient } from '@/utils/supabeClient';
 import { createContext, useEffect, useState } from 'react';
 import Loader from '@/components/loader/Loader';
+import { Login } from '@/components/login/Login';
 
 export const AuthContext = createContext({
     user: null,
@@ -65,11 +66,7 @@ export const AuthProvider = ({ children }: any) => {
         <AuthContext.Provider value={context as any} >
             <div>
                 {
-                    (!user && !loading) ? (
-                        <div style={{ width: "100vw", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-                            <b onClick={() => socialAuth("google")}>Login</b>
-                        </div>
-                    ) : children
+                    (!user && !loading) ? <Login /> : children
                 }
             </div>
         </AuthContext.Provider >

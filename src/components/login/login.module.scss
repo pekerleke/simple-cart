@@ -1,0 +1,27 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .loginMessage{
+        font-size: 16px;
+        margin-bottom: 5px;
+    }
+
+    .loginButton{
+        background-color: #2563eb;
+        color: #fff;
+        font-weight: 500;
+        font-size: 18px;
+        padding: 10px 30px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+        cursor: pointer;
+    }
+}

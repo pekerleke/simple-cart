@@ -11,6 +11,14 @@
         font-weight: bold;
         text-decoration: none;
         color: #fff;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 16px;
+
+        svg{
+          font-size: 20px;
+        }
     }
 
     .pages {

@@ -8,10 +8,10 @@ import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Button } from 'rsuite';
-
-import styles from "./styles.module.scss";
 import { useQuery } from 'react-query';
 import Loader from '@/components/loader/Loader';
+
+import styles from "./styles.module.scss";
 
 export default function Sales() {
     const params = useParams();
@@ -20,33 +20,6 @@ export default function Sales() {
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
     const { Modal, setModal } = useModal()
-
-    // const calculateSales = async () => {
-    //     const response = await fetch(`/api/sales?organizationId=${organizationId}`);
-    //     const { data, error } = await response.json();
-    //     console.log(data);
-
-    //     // console.log(JSON.parse(localStorage.getItem("sales") || "[]"));
-
-    //     const groupedSales = data
-    //         .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
-    //         .reduce((acc: {[date: string]: Sale[]}, item: any) => {
-    //             const date = item.created_at.split('T')[0];
-
-    //             if (!acc[date]) {
-    //                 acc[date] = [];
-    //             }
-
-    //             acc[date].push(item);
-
-    //             return acc;
-    //         }, {})
-    //     setGroupedSales(groupedSales);
-    // }
-
-    // useEffect(() => {
-    //     calculateSales();
-    // }, [])
 
     const { data, status } = useQuery({
         queryKey: [`${organizationId}-sales`],
