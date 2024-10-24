@@ -7,8 +7,8 @@ export default function manifest(): MetadataRoute.Manifest {
         "description": "A simple way to manage sales",
         "start_url": "/",
         "display": "standalone",
-        "background_color": "#ffffff",
-        "theme_color": "#000000",
+        "background_color": "#23293b",
+        "theme_color": "#23293b",
         "icons": [
             {
                 "src": "/192-logo.png",

@@ -9,6 +9,7 @@ import { Navbar } from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { AuthProvider } from "@/providers/AuthProvider";
+import InstallPWAButton from "@/components/install-pwa-button/InstallPWAButton";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,13 +28,13 @@ export default function RootLayout({
     return (
         <html lang="es">
             <head>
-                {/* <meta name="viewport" content="width=device-width, user-scalable=no" /> */}
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
             </head>
             <body className={inter.className}>
                 <AuthProvider>
                     <QueryClientProvider client={queryClient}>
                         <Navbar />
+                        <InstallPWAButton />
                         {children}
                     </QueryClientProvider>
                 </AuthProvider>
