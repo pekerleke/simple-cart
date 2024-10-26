@@ -12,7 +12,7 @@ export const Login = () => {
         await supabaseBrowserClient.auth.signInWithOAuth({
             provider,
             options: {
-                redirectTo: `${location.origin}/auth/callback?next=${currentPath}`,
+                redirectTo: `${location.origin}/auth/callback?next=${currentPath}${location.search}`,
             },
         });
     }

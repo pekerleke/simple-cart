@@ -2,9 +2,9 @@ import useModal from '@/app/hooks/useModal';
 import React, { useState } from 'react'
 import QRCode from 'react-qr-code';
 import { Button } from 'rsuite';
+import { toast } from 'react-toastify';
 
 import styles from "./inviteButton.module.scss";
-import { toast } from 'react-toastify';
 
 interface Props {
     organizationId: string;
@@ -18,12 +18,7 @@ export const InviteButton = (props: Props) => {
     const { Modal, setModal } = useModal();
 
     const handleCopyLink = (text: string) => {
-        const element = document.createElement('textarea');
-        element.value = text;
-        document.body.appendChild(element);
-        element.select();
-        document.execCommand('copy');
-        document.body.removeChild(element);
+        navigator.clipboard.writeText(text)
         toast.success("Copied!");
     }
 
@@ -38,7 +33,7 @@ export const InviteButton = (props: Props) => {
         })
             .then((res) => res.json())
             .then((resData) => {
-                const invitationUrl = `${window.location.host}/invitation?invitationCode=${resData.data.code}`;
+                const invitationUrl = `${location.origin}/invitation?invitationCode=${resData.data.code}`;
                 setModal((
                     <>
                         <div className={styles.invitationContainer}>

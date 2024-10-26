@@ -1,4 +1,4 @@
-import { Provider, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { supabaseBrowserClient } from '@/utils/supabeClient';
 import { createContext, useEffect, useState } from 'react';
 import Loader from '@/components/loader/Loader';
@@ -14,16 +14,6 @@ export const AuthProvider = ({ children }: any) => {
 
     const [user, setUser] = useState<User>();
     const [loading, setLoading] = useState(true);
-
-    async function socialAuth(provider: Provider) {
-        const currentPath = location.pathname;
-        await supabaseBrowserClient.auth.signInWithOAuth({
-            provider,
-            options: {
-                redirectTo: `${location.origin}/auth/callback?next=${currentPath}`,
-            },
-        });
-    }
 
     const handleSignout = async () => {
         const { error } = await supabaseBrowserClient.auth.signOut();
