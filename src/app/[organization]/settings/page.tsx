@@ -80,7 +80,7 @@ export default function Settings() {
 
                 <br />
 
-                <Button appearance="primary" block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
+                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
                     <b>Add Product</b>
                 </Button>
             </div>

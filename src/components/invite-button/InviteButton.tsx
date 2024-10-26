@@ -4,6 +4,7 @@ import QRCode from 'react-qr-code';
 import { Button } from 'rsuite';
 
 import styles from "./inviteButton.module.scss";
+import { toast } from 'react-toastify';
 
 interface Props {
     organizationId: string;
@@ -15,6 +16,16 @@ export const InviteButton = (props: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { Modal, setModal } = useModal();
+
+    const handleCopyLink = (text: string) => {
+        const element = document.createElement('textarea');
+        element.value = text;
+        document.body.appendChild(element);
+        element.select();
+        document.execCommand('copy');
+        document.body.removeChild(element);
+        toast.success("Copied!");
+    }
 
     const handleInvite = async () => {
         setIsLoading(true);
@@ -40,7 +51,7 @@ export const InviteButton = (props: Props) => {
 
                             <br /><br />
 
-                            <Button block onClick={() => alert(invitationUrl)}>
+                            <Button block onClick={() => handleCopyLink(invitationUrl)}>
                                 <b>Copy link</b>
                             </Button>
                         </div>
@@ -54,7 +65,7 @@ export const InviteButton = (props: Props) => {
 
     return (
         <>
-            <Button appearance="primary" block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
+            <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
                 <b>Invite participant</b>
             </Button>
             <Modal />
