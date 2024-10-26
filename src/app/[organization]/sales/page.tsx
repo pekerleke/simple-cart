@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import { Button } from 'rsuite';
 import { useQuery } from 'react-query';
 import Loader from '@/components/loader/Loader';
+import { Message } from '@/components/message/Message';
 
 import styles from "./styles.module.scss";
 
@@ -56,9 +57,7 @@ export default function Sales() {
 
     if ((status === "success") && !Boolean(data.length)) {
         return (
-            <div>
-                No sales yet
-            </div>
+            <Message type='info'><div>No sales yet</div></Message>
         )
     }
 

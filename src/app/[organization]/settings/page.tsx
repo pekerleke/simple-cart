@@ -7,9 +7,9 @@ import { Product } from '@/models/Product';
 import { useContext } from 'react';
 import { Button } from 'rsuite';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
+import { InviteButton } from '@/components/invite-button/InviteButton';
 
 import styles from "./styles.module.scss";
-import { InviteButton } from '@/components/invite-button/InviteButton';
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
@@ -22,7 +22,6 @@ export default function Settings() {
         <>
             <div>
                 <b>Participants</b>
-
                 <br />
 
                 <div className={styles.participantsList}>
@@ -40,7 +39,7 @@ export default function Settings() {
                 <br />
                 <InviteButton organizationId={(organization as any)?.id}/>
 
-                <br />
+                <br /><br /><br />
                 <b>Products</b>
 
                 <div className={styles.productList}>
@@ -81,7 +80,7 @@ export default function Settings() {
 
                 <br />
 
-                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
+                <Button appearance="primary" block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
                     <b>Add Product</b>
                 </Button>
             </div>

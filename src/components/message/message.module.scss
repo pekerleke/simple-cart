@@ -1,12 +1,15 @@
 .container {
     display: flex;
-    justify-content: center;
     border: 1px solid;
     border-color: #ccc;
     padding: 16px;
     border-radius: 8px;
     background-color: #eee;
     color: #444;
+
+    &.centered {
+        justify-content: center;
+    }
 
     &.warning {
         border-color: #FF9800;
@@ -21,9 +24,9 @@
     }
 
     &.info {
-        border-color: #2196F3;
-        background-color: #e7ebff;
-        color: #3F51B5;
+        border-color: #7091ac;
+        background-color: #e5e9ff;
+        color: #4c6375;
     }
 
     &.success {

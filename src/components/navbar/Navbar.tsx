@@ -17,7 +17,7 @@ export const Navbar = () => {
             <Link href="/" className={styles.logo}> <FaCartShopping /> Simple Cart</Link>
 
             <div className={styles.pages}>
-                <b>{(user as any).user_metadata.name}</b>
+                <b className={styles.username}>{(user as any).user_metadata.name}</b>
                 <b onClick={singOut}>Logout</b>
             </div>
 

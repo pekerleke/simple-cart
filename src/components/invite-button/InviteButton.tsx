@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import QRCode from 'react-qr-code';
 import { Button } from 'rsuite';
 
+import styles from "./inviteButton.module.scss";
+
 interface Props {
     organizationId: string;
 }
@@ -27,34 +29,35 @@ export const InviteButton = (props: Props) => {
             .then((resData) => {
                 const invitationUrl = `${window.location.host}/invitation?invitationCode=${resData.data.code}`;
                 setModal((
-                    <div>
-                        <div style={{ height: "auto", margin: "0 auto", maxWidth: 150, width: "100%" }}>
+                    <>
+                        <div className={styles.invitationContainer}>
                             <QRCode
                                 size={256}
                                 style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                                 value={invitationUrl}
                                 viewBox={`0 0 256 256`}
                             />
-                        </div>
 
-                        <Button block onClick={() => alert(invitationUrl)}>
-                            <b>Copy link</b>
-                        </Button>
+                            <br /><br />
+
+                            <Button block onClick={() => alert(invitationUrl)}>
+                                <b>Copy link</b>
+                            </Button>
+                        </div>
                         <hr />
-                        {/* Expires at: {dayjs(resData.data.expires_at).format("DD-MM-YYYY hh:mm")} */}
-                        <center><small>*Expires in 24hs</small></center>
-                    </div>
+                        <center><small>Initation link expires in 24hs</small></center>
+                    </>
                 ), "Invitation")
             })
             .finally(() => setIsLoading(false));
     }
 
     return (
-        <div>
-            <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
+        <>
+            <Button appearance="primary" block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
                 <b>Invite participant</b>
             </Button>
             <Modal />
-        </div>
+        </>
     )
 }

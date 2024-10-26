@@ -4,10 +4,10 @@ import React, { useState } from 'react'
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
+import { Message } from '../message/Message';
+import Link from 'next/link';
 
 import styles from "./cart.module.scss";
-import { stringToColor } from '@/utils/stringToColor';
-import Loader from '../loader/Loader';
 
 interface Props {
     organizationId?: string,
@@ -38,7 +38,7 @@ export const Cart = (props: Props) => {
             },
             body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
         }).then((res) => res.json())
-        .finally(() => setIsLoading(false));
+            .finally(() => setIsLoading(false));
 
         toast.success("Saved sale");
         setSelectedProducts([]);
@@ -56,16 +56,21 @@ export const Cart = (props: Props) => {
                 </div>
             }
 
+            {
+                (status !== "loading") && !products?.length && (
+                    <Message type='info'>
+                        <div>
+                            There are no products. Add some in <Link className={styles.link} href={`/${organizationId}/settings`}><b>Settings</b></Link>
+                        </div>
+                    </Message>
+                )
+            }
             <div className={styles.productList}>
-                {
-                    (status !== "loading") && !products?.length && <div>There are no products. Add some in <b>settings</b></div>
-                }
 
                 {
                     products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
-                        // const colors = stringToColor(product.name);
                         return (
-                            <div key={index} className={styles.product} /*style={{backgroundColor: colors.pastel, color: colors.contrast}}*/ onClick={() => setSelectedProducts((prev) => [...prev, product])}>
+                            <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                                 <div className={styles.info}>
                                     <div className={styles.name}>{product.name}</div>
                                     <div className={styles.price}>${product.price}</div>

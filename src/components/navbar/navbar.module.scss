@@ -16,8 +16,8 @@
         gap: 5px;
         font-size: 16px;
 
-        svg{
-          font-size: 20px;
+        svg {
+            font-size: 20px;
         }
     }
 
@@ -27,6 +27,13 @@
 
         a {
             color: #fff;
+        }
+
+        .username {
+            max-width: 120px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
     }
 }
@@ -52,18 +59,21 @@
 
 @keyframes slide {
     0% {
-      transform: translateX(-100%);
-      opacity: 0;
+        transform: translateX(-100%);
+        opacity: 0;
     }
+
     10% {
-      opacity: 1;
+        opacity: 1;
     }
+
     70% {
-      transform: translateX(100%);
-      opacity: 1;
+        transform: translateX(100%);
+        opacity: 1;
     }
+
     100% {
-      transform: translateX(100%);
-      opacity: 0;
+        transform: translateX(100%);
+        opacity: 0;
     }
-  }
+}

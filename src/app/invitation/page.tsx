@@ -46,8 +46,6 @@ export default function InvitationPage() {
             .catch(err => console.error(err)),
     })
 
-    console.log(data, status);
-
     const avatarColors = stringToColor(data?.organizations.name || "");
 
     if (!data && status === "loading") {
@@ -70,7 +68,7 @@ export default function InvitationPage() {
             <div className={styles.buttonContainer}>
                 {
                     new Date(data?.expires_at).getTime() < new Date().getTime() ? (
-                        <Message message="Invitation expired" type="error" />
+                        <Message center message="Invitation expired" type="error" />
                     ) : (
                         <Button appearance="primary" size="lg" block disabled={isLoading} loading={isLoading} onClick={handleAccept}>
                             <b>Accept invitation</b>
