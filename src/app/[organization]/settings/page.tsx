@@ -9,6 +9,7 @@ import { Button } from 'rsuite';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 
 import styles from "./styles.module.scss";
+import { InviteButton } from '@/components/invite-button/InviteButton';
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
@@ -36,6 +37,8 @@ export default function Settings() {
                         ))
                     }
                 </div>
+                <br />
+                <InviteButton organizationId={(organization as any)?.id}/>
 
                 <br />
                 <b>Products</b>

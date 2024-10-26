@@ -103,7 +103,7 @@ export const Cart = (props: Props) => {
                         <br />
                         <br />
                         <div>
-                            <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}>Submit</Button>
+                            <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>Submit</b></Button>
                         </div>
                     </div>
                 )

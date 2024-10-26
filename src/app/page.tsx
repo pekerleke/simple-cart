@@ -55,7 +55,7 @@ export default function Home() {
 
                         <br />
 
-                        <Button block onClick={() => setModal(
+                        <Button block size="lg" onClick={() => setModal(
                             <CreateOrEditOrganization
                                 onSubmit={() => { hideModal() }}
                                 organization={null} />, "New Organization"
