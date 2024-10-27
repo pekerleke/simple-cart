@@ -16,7 +16,7 @@ export async function GET(req: any, { params }: any) {
             .select(`
                 name, id,
                 products (id, name, price, priority),
-                organization_participants (user_id, users (full_name, avatar_url))
+                organization_participants (id, user_id, users (full_name, avatar_url))
               `)
             .eq('id', organizationId)
             .single();

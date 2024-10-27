@@ -8,11 +8,14 @@ import { useContext } from 'react';
 import { Button } from 'rsuite';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { InviteButton } from '@/components/invite-button/InviteButton';
+import { AuthContext } from '@/providers/AuthProvider';
+import { RemoveParticipant } from '@/components/modal-content/RemoveParticipant';
 
 import styles from "./styles.module.scss";
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
+    const { user } = useContext(AuthContext);
 
     const { Modal, setModal, hideModal } = useModal();
 
@@ -32,12 +35,29 @@ export default function Settings() {
                                     <img src={participant.users.avatar_url} alt={participant.users.full_name} />
                                     {participant.users.full_name}
                                 </div>
+                                <div className={styles.operations}>
+                                    {
+                                        (participant.user_id !== (user as any)?.id) && (
+                                            <Button
+                                                onClick={() => setModal(
+                                                    <RemoveParticipant
+                                                        onDelete={() => { refetch(); hideModal(); }}
+                                                        onCancel={hideModal}
+                                                        participant={participant} />,
+                                                    "Remove participant"
+                                                )}
+                                            >
+                                                Remove
+                                            </Button>
+                                        )
+                                    }
+                                </div>
                             </div>
                         ))
                     }
                 </div>
                 <br />
-                <InviteButton organizationId={(organization as any)?.id}/>
+                <InviteButton organizationId={(organization as any)?.id} />
 
                 <br /><br /><br />
                 <b>Products</b>
