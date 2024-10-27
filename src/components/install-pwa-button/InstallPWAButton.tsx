@@ -26,9 +26,9 @@ export default function InstallPWAButton() {
 
         const choiceResult = await (deferredPrompt as any).userChoice;
         if (choiceResult.outcome === 'accepted') {
-            console.log('PWA installation accepted');
+            console.info('PWA installation accepted');
         } else {
-            console.log('PWA installation dismissed');
+            console.info('PWA installation dismissed');
         }
 
         setShowButton(false);

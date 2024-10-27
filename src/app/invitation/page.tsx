@@ -77,7 +77,7 @@ export default function InvitationPage() {
                 }
 
                 <Button block onClick={() => router.push("/")}>
-                    Back to home
+                    Back to Home
                 </Button>
             </div>
         </div>

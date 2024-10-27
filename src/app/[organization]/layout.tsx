@@ -5,9 +5,9 @@ import { useParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import classNames from 'classnames';
 import { OrganizationContext, OrganizationProvider } from '@/providers/OrganizationProvider';
+import { stringToColor } from '@/utils/stringToColor';
 
 import styles from "./styles.module.scss";
-import { stringToColor } from '@/utils/stringToColor';
 
 const InnerLayout = ({ children }: { children: ReactNode }) => {
     const { organization: organizationId } = useParams();
@@ -35,13 +35,15 @@ const InnerLayout = ({ children }: { children: ReactNode }) => {
                         )
                     }
                 </Link>
-                <div style={{ display: "flex", gap: 10 }}>
+                <div className={styles.navItems}>
                     <Link className={classNames(styles.link, { [styles.selected]: pathname.split("/")[2] === undefined })} href={`/${organizationId}`}>Cart</Link>
                     <Link className={classNames(styles.link, { [styles.selected]: pathname.split("/")[2] === "sales" })} href={`/${organizationId}/sales`}>Sales</Link>
                     <Link className={classNames(styles.link, { [styles.selected]: pathname.split("/")[2] === "settings" })} href={`/${organizationId}/settings`}>Settings</Link>
                 </div>
             </header>
-            <main style={{ padding: 10, maxWidth: 1024, margin: "auto" }}>{children}</main>
+            <main className={styles.childrenContainer}>
+                {children}
+            </main>
         </div>
     );
 }

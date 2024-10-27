@@ -46,6 +46,11 @@
         border-radius: 5px;
     }
 
+    .navItems{
+        display: flex;
+        gap: 10px;
+    }
+
     .link {
         text-decoration: none;
         color: #000;
@@ -58,4 +63,10 @@
             color: #fff;
         }
     }
+}
+
+.childrenContainer{
+    padding: 10px;
+    max-width: 1024px;
+    margin: auto;
 }

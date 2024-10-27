@@ -30,7 +30,7 @@ export async function POST(req: any) {
 
         if (error) throw error;
 
-        // Agregar el creador como participante inicial
+        // Add creator as initial participant
         await supabaseBrowserClient
             .from('organization_participants')
             .insert([{ organization_id: data[0].id, user_id: user.id }]);

@@ -6,7 +6,7 @@ export async function GET(req: any) {
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organization');
 
-    // const user = await getUserData();
+    // TODO: check that user is in the organization
 
     try {
         const { data, error } = await supabaseBrowserClient
@@ -22,7 +22,9 @@ export async function GET(req: any) {
 }
 
 export async function POST(req: any) {
-    const { name, price, priority, user_id } = await req.json();
+    const { name, price, priority } = await req.json();
+
+    // TODO: check that user is in the organization
 
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organizationId');
@@ -44,6 +46,8 @@ export async function POST(req: any) {
 export async function PATCH(req: any) {
     const { id, name, price, priority } = await req.json();
 
+    // TODO: check that user is in the organization
+
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
@@ -59,6 +63,9 @@ export async function PATCH(req: any) {
 
 export async function DELETE(req: any) {
     const { id } = await req.json();
+
+    // TODO: check that user is in the organization
+    
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
