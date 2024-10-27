@@ -2,7 +2,6 @@ import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
-
 export async function DELETE(req: any) {
     const { id } = await req.json();
 
@@ -32,12 +31,12 @@ export async function DELETE(req: any) {
         }
 
         // remove relation
-        // const { data, error } = await supabaseBrowserClient
-        //     .from('organization_participants')
-        //     .delete()
-        //     .eq('id', id);
+        const { data, error } = await supabaseBrowserClient
+            .from('organization_participants')
+            .delete()
+            .eq('id', id);
 
-        // if (error) throw error;
+        if (error) throw error;
 
         return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {

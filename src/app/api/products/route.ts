@@ -73,7 +73,7 @@ export async function DELETE(req: any) {
             .eq('id', id);
 
         if (error) throw error;
-        return NextResponse.json({ success: true, data }, { status: 200 });
+        return NextResponse.json({ success: true }, { status: 200 });
     } catch (error) {
         return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }

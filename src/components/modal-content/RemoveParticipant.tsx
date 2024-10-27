@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 
-import styles from "./deleteProduct.module.scss";
+import styles from "./removeParticipant.module.scss";
 
 interface Props {
     onDelete: () => void

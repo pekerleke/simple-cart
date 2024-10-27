@@ -10,6 +10,9 @@ import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { InviteButton } from '@/components/invite-button/InviteButton';
 import { AuthContext } from '@/providers/AuthProvider';
 import { RemoveParticipant } from '@/components/modal-content/RemoveParticipant';
+import { LeaveOrganization } from '@/components/modal-content/LeaveOrganization';
+import { DeleteOrganization } from '@/components/modal-content/DeleteOrganization';
+import { useRouter } from 'next/navigation';
 
 import styles from "./styles.module.scss";
 
@@ -18,6 +21,8 @@ export default function Settings() {
     const { user } = useContext(AuthContext);
 
     const { Modal, setModal, hideModal } = useModal();
+
+    const router = useRouter();
 
     if (!organization) return null;
 
@@ -100,9 +105,22 @@ export default function Settings() {
 
                 <br />
 
-                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { /*getProducts();*/ refetch(); hideModal(); }} />, "New product")}>
+                <Button block onClick={() => setModal(<CreateOrEditProduct organizationId={(organization as any)?.id as string} onSubmit={() => { refetch(); hideModal(); }} />, "New product")}>
                     <b>Add Product</b>
                 </Button>
+
+                <br /><br /><br />
+                <b>Organization</b>
+                <br /><br />
+                <Button block color='red' appearance='ghost' onClick={() => setModal(<LeaveOrganization organization={organization} onCancel={hideModal} onSuccess={() => { hideModal(); router.push("/"); }} />, "Leave organization")}>
+                    <b>Leave organization</b>
+                </Button>
+
+                <Button block color='red' appearance='ghost' onClick={() => setModal(<DeleteOrganization organization={organization} onCancel={hideModal} onSuccess={() => { hideModal(); router.push("/"); }} />, "Delete organization")}>
+                    <b>Delete organization</b>
+                </Button>
+
+
             </div>
             <Modal />
         </>
