@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
@@ -8,16 +8,23 @@ import { Message } from '../message/Message';
 import Link from 'next/link';
 
 import styles from "./cart.module.scss";
+import { useParams } from 'next/navigation';
+import { OrganizationContext } from '@/providers/OrganizationProvider';
 
-interface Props {
-    organizationId?: string,
-    products: any[],
-    status: string
-}
+// interface Props {
+//     organizationId?: string,
+//     products: any[],
+//     status: string
+// }
 
-export const Cart = (props: Props) => {
+export const Cart = () => {
 
-    const { organizationId, products, status } = props;
+    const { organization: organizationId } = useParams();
+    const { organization, status } = useContext(OrganizationContext);
+
+
+    // const { products, status } = props;
+
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -37,10 +44,14 @@ export const Cart = (props: Props) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
-        }).then((res) => res.json())
+        }).then((res) => {
+            { if (res.status !== 200) throw new Error("Something went wrong") }
+            toast.success("Saved sale");
+            return res.json()
+        })
+            .catch(() => toast.error("Ups, something went wrong"))
             .finally(() => setIsLoading(false));
 
-        toast.success("Saved sale");
         setSelectedProducts([]);
     }
 
@@ -57,7 +68,7 @@ export const Cart = (props: Props) => {
             }
 
             {
-                (status !== "loading") && !products?.length && (
+                (status !== "loading") && !(organization as any)?.products?.length && (
                     <Message type='info'>
                         <div>
                             There are no products. Add some in <Link className={styles.link} href={`/${organizationId}/settings`}><b>Settings</b></Link>
@@ -65,21 +76,25 @@ export const Cart = (props: Props) => {
                     </Message>
                 )
             }
-            <div className={styles.productList}>
 
-                {
-                    products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
-                        return (
-                            <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
-                                <div className={styles.info}>
-                                    <div className={styles.name}>{product.name}</div>
-                                    <div className={styles.price}>${product.price}</div>
-                                </div>
-                            </div>
-                        )
-                    })
-                }
-            </div>
+            {
+                (status === "success" && organization) && (
+                    <div className={styles.productList}>
+                        {
+                            ((organization as any))?.products.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                                return (
+                                    <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
+                                        <div className={styles.info}>
+                                            <div className={styles.name}>{product.name}</div>
+                                            <div className={styles.price}>${product.price}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
 
             {
                 Boolean(selectedProducts.length) && (

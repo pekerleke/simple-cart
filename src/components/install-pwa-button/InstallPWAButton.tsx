@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useEffect, useState } from 'react';
+import { Button } from 'rsuite';
 
 import styles from "./installPWAButton.module.scss";
-import { Button } from 'rsuite';
 
 export default function InstallPWAButton() {
     const [deferredPrompt, setDeferredPrompt] = useState(null);

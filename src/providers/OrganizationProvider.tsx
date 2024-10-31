@@ -1,3 +1,5 @@
+"use client"
+
 import { useParams } from 'next/navigation';
 import { createContext } from 'react';
 import { useQuery } from 'react-query';

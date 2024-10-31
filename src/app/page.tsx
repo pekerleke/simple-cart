@@ -5,10 +5,10 @@ import useModal from "./hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
-import styles from "./styles.module.scss";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
+
+import styles from "./styles.module.scss";
 
 export default function Home() {
 
