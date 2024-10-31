@@ -1,8 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // basePath: "/simple-cart",
-    // output: "export",
     reactStrictMode: true,
+    experimental: {
+        optimizePackageImports: ['package-name'],
+    },
 };
 
 module.exports = nextConfig;
