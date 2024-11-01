@@ -68,7 +68,7 @@ export default function Sales() {
                     <div key={groupKey}>
                         <div className={styles.dayTitle}>
                             <h3 className={styles.groupTitle}>{dayjs(groupKey).format("ddd DD MMM YYYY")}</h3>
-                            <Button appearance="subtle" size="sm" onClick={() => setModal(<ViewSalesInfo salesInfo={groupedSales[groupKey]} />, dayjs(groupKey).format("ddd DD MMM YYYY"))}>Details</Button>
+                            <div className={styles.detailButton} onClick={() => setModal(<ViewSalesInfo salesInfo={groupedSales[groupKey]} />, dayjs(groupKey).format("ddd DD MMM YYYY"))}>Details</div>
                         </div>
                         <div className={styles.salesContainer}>
                             {(groupedSales[groupKey]).map((sale: Sale, index: number) => (

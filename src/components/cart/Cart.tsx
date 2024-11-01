@@ -98,32 +98,40 @@ export const Cart = () => {
 
             {
                 Boolean(selectedProducts.length) && (
-                    <div className={styles.resume}>
-                        <br /><br />
-                        <h4>Resume</h4>
-                        <hr />
-                        <div className={styles.productsContainer}>
-                            {
-                                selectedProducts.map((product: Product, index: number) => (
-                                    <div className={styles.product} key={index}>
-                                        <div>{product.name}</div>
-                                        <div className={styles.operations}>
-                                            <div>${product.price}</div>
-                                            <div onClick={() => handleRemoveProduct(index)}>✕</div>
-                                        </div>
+
+                    <div>
+                        <br />
+                        <div className={styles.resume}>
+                            <h4>Resume</h4>
+
+                            <div>
+                                <div className={styles.productsContainer}>
+                                    {
+                                        selectedProducts.map((product: Product, index: number) => (
+                                            <div className={styles.product} key={index}>
+                                                <div>{product.name}</div>
+                                                <div className={styles.operations}>
+                                                    <div>${product.price}</div>
+                                                    <div onClick={() => handleRemoveProduct(index)}>✕</div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                                <br />
+                                <div className={styles.totalRow}>
+                                    <div>
+                                        Total ({selectedProducts.length} items)
                                     </div>
-                                ))
-                            }
-                        </div>
+                                    <div className={styles.totalAmount}>
+                                        ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + (product as any).price, 0).toLocaleString('es-AR')}
+                                    </div>
+                                </div>
+                            </div>
 
-                        <br />
-
-                        <b>Total: ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + (product as any).price, 0).toLocaleString('es-AR')} | {selectedProducts.length} items</b>
-
-                        <br />
-                        <br />
-                        <div>
-                            <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>Submit</b></Button>
+                            <div>
+                                <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>Submit</b></Button>
+                            </div>
                         </div>
                     </div>
                 )

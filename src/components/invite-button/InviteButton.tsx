@@ -5,6 +5,7 @@ import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 
 import styles from "./inviteButton.module.scss";
+import { LuUserPlus } from 'react-icons/lu';
 
 interface Props {
     organizationId: string;
@@ -61,7 +62,7 @@ export const InviteButton = (props: Props) => {
     return (
         <>
             <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
-                <b>Invite participant</b>
+                <div className={styles.buttonText}><LuUserPlus /> Invite participant</div>
             </Button>
             <Modal />
         </>

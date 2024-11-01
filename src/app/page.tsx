@@ -42,7 +42,7 @@ export default function Home() {
                                     const avatarColors = stringToColor((organization as any)?.name || "");
 
                                     return (
-                                        <Link className={styles.link} key={organization.id} href={`/${organization.id}`}>
+                                        <Link prefetch className={styles.link} key={organization.id} href={`/${organization.id}`}>
                                             <div className={styles.organizationAvatar} style={{ backgroundColor: avatarColors.pastel, color: avatarColors.contrast }}>
                                                 {(organization as any)?.name[0]}
                                             </div>

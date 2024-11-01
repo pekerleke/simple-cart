@@ -2,10 +2,10 @@
 import React, { useContext } from 'react'
 import Link from 'next/link';
 import { useIsFetching } from 'react-query';
-import { FaCartShopping } from "react-icons/fa6";
 import { AuthContext } from '@/providers/AuthProvider';
 
 import styles from "./navbar.module.scss";
+import { MdOutlineShoppingCart } from 'react-icons/md';
 
 export const Navbar = () => {
     const { user, singOut } = useContext(AuthContext);
@@ -14,10 +14,10 @@ export const Navbar = () => {
 
     return (
         <div className={styles.container}>
-            <Link href="/" className={styles.logo}> <FaCartShopping /> Simple Cart</Link>
+            <Link href="/" className={styles.logo}> <MdOutlineShoppingCart /> Simple Cart</Link>
 
             <div className={styles.pages}>
-                <b className={styles.username}>{(user as any).user_metadata.name}</b>
+                <div className={styles.username}>{(user as any).user_metadata.name}</div>
                 <b onClick={singOut}>Logout</b>
             </div>
 

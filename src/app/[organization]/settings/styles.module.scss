@@ -1,19 +1,28 @@
-.productList {
+.card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e4e4e7;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
 
-    .product {
-        border: 1px solid #eee;
-        padding: 10px;
+    .title {
+        font-size: 24px;
+        font-weight: 600;
+        color: #000;
+    }
+
+    .buttonText {
+        font-weight: 500;
+        color: #000;
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        border-radius: 5px;
+        gap: 10px;
+        justify-content: center;
 
-        .operations {
-            display: flex;
-            gap: 10px;
+        &.red {
+            color: #ef4444;
         }
     }
 }
@@ -24,23 +33,41 @@
     gap: 10px;
 
     .participant {
-        border: 1px solid #eee;
-        padding: 10px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-radius: 5px;
 
-        
-        .participantInfo{
+
+        .participantInfo {
             display: flex;
             gap: 10px;
             align-items: center;
-            
-            img{
+
+            img {
                 width: 30px;
                 border-radius: 4px;
             }
+        }
+    }
+}
+
+.productList {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .product {
+        // border: 1px solid #eee;
+        // padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 5px;
+
+        .operations {
+            display: flex;
+            gap: 10px;
         }
     }
 }

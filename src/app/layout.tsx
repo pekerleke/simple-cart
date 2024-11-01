@@ -25,7 +25,7 @@ export default function RootLayout({
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
             </head>
-            <body className={inter.className}>
+            <body className={inter.className} style={{backgroundColor: "#f9fafb"}}>
                 <Providers>
                     <Navbar />
                     <InstallPWAButton />

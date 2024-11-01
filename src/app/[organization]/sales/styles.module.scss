@@ -1,35 +1,46 @@
-.groupTitle{
-    font-size: 18px;
-}
 
-.dayTitle{
+.dayTitle {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    
+    .groupTitle {
+        font-size: 18px;
+        color: #000;
+    }
+
+    .detailButton{
+        font-weight: 500;
+        color: #000;
+    }
 }
 
-.salesContainer{
+.salesContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;
 
-    .sale{
+    .sale {
         border: 1px solid #eee;
         padding: 10px;
         border-radius: 5px;
+        background-color: #fff;
 
-        .saleTitle{
+        .saleTitle {
             border-bottom: 1px solid #eee;
             margin-bottom: 10px;
             padding-bottom: 5px;
             display: flex;
             justify-content: space-between;
 
-            .productQuantity{
-                font-weight: 600;
+            .productQuantity {
+                font-weight: 500;
+                color: #000;
+                font-size: 16px;
             }
         }
 
-        .products{
+        .products {
             display: flex;
             flex-direction: column;
             gap: 5px;
@@ -38,9 +49,10 @@
             padding-bottom: 5px;
         }
 
-        .total{
-            font-weight: 600;
+        .total {
+            font-weight: 500;
             color: green;
+            font-size: 16px;
         }
     }
 }

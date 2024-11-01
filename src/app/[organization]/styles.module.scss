@@ -1,6 +1,5 @@
 .header {
     padding: 10px;
-    background-color: #fff;
     color: #000;
     display: flex;
     justify-content: space-between;
@@ -48,19 +47,22 @@
 
     .navItems{
         display: flex;
-        gap: 10px;
+        background-color: #f4f4f5;
+        padding: 4px;
+        border-radius: 6px;
     }
 
     .link {
         text-decoration: none;
-        color: #000;
-        background-color: #ececec;
+        color: #333;
         padding: 7px 12px;
         border-radius: 20px;
+        font-weight: 500;
 
         &.selected {
-            background-color: var(--secondary-color);
-            color: #fff;
+            background-color: #fff;
+            color: #000;
+            border-radius: 2px;
         }
     }
 }
