@@ -45,7 +45,6 @@ export async function GET(req: any) {
     try {
         const { searchParams } = new URL(req.url);
         const invitationCode = searchParams.get('invitationCode');
-        console.log(invitationCode);
 
         const { data: invitation, error: getInvitationError } = await supabaseBrowserClient
             .from('organization_invitations')

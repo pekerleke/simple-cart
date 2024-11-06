@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import styles from "./styles.module.scss";
 import classNames from 'classnames';
 import { MdAdd } from 'react-icons/md';
+import { Message } from '@/components/message/Message';
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
@@ -38,8 +39,8 @@ export default function Settings() {
                             (organization as any)?.organization_participants.map((participant: any, index: number) => (
                                 <div key={index} className={styles.participant}>
                                     <div className={styles.participantInfo}>
-                                        <img src={participant.users.avatar_url} alt={participant.users.full_name} />
-                                        {participant.users.full_name}
+                                        <img src={participant.users?.avatar_url} alt={participant.users?.full_name} />
+                                        {participant.users?.full_name}
                                     </div>
                                     <div className={styles.operations}>
                                         {
@@ -106,6 +107,10 @@ export default function Settings() {
                                         </div>
                                     </div>
                                 ))
+                        }
+
+                        {
+                            !(organization as any)?.products.lenght && <Message type='info' message='No products yet' />
                         }
                     </div>
 

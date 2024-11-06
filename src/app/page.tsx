@@ -3,27 +3,36 @@
 import { Button } from "rsuite";
 import useModal from "./hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
 
 import styles from "./styles.module.scss";
+import { AuthContext } from "@/providers/AuthProvider";
 
 export default function Home() {
 
     const { Modal, setModal, hideModal } = useModal();
+
+    const { isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(true);
 
     const [organizations, setOrganizations] = useState([]);
 
     const getOrganizations = async () => {
-        const response = await fetch(`/api/organizations`);
-        const { data, error } = await response.json();
+        if (isDemo) {
+            const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
+            setOrganizations(demoOrganizations);
+            setIsLoading(false);
+        } else {
+            const response = await fetch(`/api/organizations`);
+            const { data, error } = await response.json();
 
-        setOrganizations(data);
-        setIsLoading(false);
+            setOrganizations(data);
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {

@@ -6,7 +6,9 @@ import { Login } from '@/components/login/Login';
 
 export const AuthContext = createContext({
     user: null,
-    singOut: () => {},
+    isDemo: false,
+    singOut: () => { },
+    changeToDemo: () => { },
     loading: false
 });
 
@@ -14,13 +16,13 @@ export const AuthProvider = ({ children }: any) => {
 
     const [user, setUser] = useState<User>();
     const [loading, setLoading] = useState(true);
+    const [isDemo, setIsDemo] = useState(false);
 
     const handleSignout = async () => {
         const { error } = await supabaseBrowserClient.auth.signOut();
         if (!error) setUser(undefined);
         setUser(undefined);
     };
-
 
     useEffect(() => {
         const getCurrUser = async () => {
@@ -31,7 +33,7 @@ export const AuthProvider = ({ children }: any) => {
             if (session) {
                 setUser(session.user);
             }
-            
+
             setLoading(false);
         };
 
@@ -40,7 +42,9 @@ export const AuthProvider = ({ children }: any) => {
 
     const context = {
         user,
+        isDemo,
         singOut: handleSignout,
+        changeToDemo: () => setIsDemo(true),
         loading
     }
 
@@ -56,7 +60,13 @@ export const AuthProvider = ({ children }: any) => {
         <AuthContext.Provider value={context as any} >
             <div>
                 {
-                    (!user && !loading) ? <Login /> : children
+                    (!user && !isDemo && !loading) ? (
+                        <div>
+                            {/* <button onClick={() => setIsDemo(true)}>Demo</button>
+                            <br /> */}
+                            <Login />
+                        </div>
+                    ) : children
                 }
             </div>
         </AuthContext.Provider >

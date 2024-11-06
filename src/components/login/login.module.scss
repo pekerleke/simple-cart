@@ -1,27 +1,92 @@
-.container{
+.container {
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
 
-    .loginMessage{
-        font-size: 16px;
-        margin-bottom: 5px;
-    }
-
-    .loginButton{
-        background-color: #2563eb;
-        color: #fff;
-        font-weight: 500;
-        font-size: 18px;
-        padding: 10px 30px;
+    .card {
+        background-color: #fff;
+        padding: 20px;
         border-radius: 8px;
+        border: 1px solid #e4e4e7;
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        gap: 24px;
         align-items: center;
-        gap: 2px;
-        cursor: pointer;
+
+        .presentation {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+
+            .logoContainer {
+                background-color: #6161751a;
+                width: 60px;
+                height: 60px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 12px;
+                font-size: 30px;
+                color: #000;
+            }
+
+            h3 {
+                color: #000;
+            }
+
+            .loginMessage {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+        }
+
+
+        .loginButton {
+            background-color: #000;
+            color: #fff;
+            font-weight: 500;
+            font-size: 18px;
+            padding: 10px 30px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .demoContainer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+
+            .demoButton {
+                background-color: #fff;
+                color: #000;
+                font-weight: 500;
+                font-size: 14px;
+                padding: 10px 30px;
+                border-radius: 8px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2px;
+                cursor: pointer;
+                width: 100%;
+                box-sizing: border-box;
+                border: 1px solid #e4e4e7;
+            }
+        }
     }
 }

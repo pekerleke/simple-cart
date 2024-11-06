@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./CreateOrEditOrganization.module.scss";
 import { Button, Input } from 'rsuite';
+import { AuthContext } from "@/providers/AuthProvider";
+import { v4 as uuidv4 } from 'uuid';
 
 interface Props {
     organization?: any
@@ -17,16 +19,38 @@ export const CreateOrEditOrganization = (props: Props) => {
         name: organization?.name || ""
     })
 
+    const { isDemo } = useContext(AuthContext);
+
     const handleSubmit = async () => {
-        setIsLoading(true);
-        const { data, error } = await fetch('/api/organizations', {
-            method: organization ? 'PATCH' : 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: values.id, name: values.name, price: values.price, priority: values.priority }),
-        }).then((res) => res.json())
-        .finally(() => setIsLoading(false));
+        if (isDemo) {
+            const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
+            demoOrganizations.push({
+                id: uuidv4(),
+                name: values.name,
+                creator_id: "demo",
+                organization_participants: [
+                    {
+                        user_id: "demo",
+                        users: {
+                            avatar_url: "/192-logo.png",
+                            full_name: "Demo"
+                        }
+                    }
+                ],
+                products: []
+            })
+            localStorage.setItem("demoOrganizations", JSON.stringify(demoOrganizations));
+        } else {
+            setIsLoading(true);
+            const { data, error } = await fetch('/api/organizations', {
+                method: organization ? 'PATCH' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: values.id, name: values.name, price: values.price, priority: values.priority }),
+            }).then((res) => res.json())
+                .finally(() => setIsLoading(false));
+        }
 
         onSubmit();
     }

@@ -6,25 +6,18 @@ import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 import { Message } from '../message/Message';
 import Link from 'next/link';
+import { OrganizationContext } from '@/providers/OrganizationProvider';
+import { useParams } from 'next/navigation';
+import { AuthContext } from '@/providers/AuthProvider';
+import { v4 as uuidv4 } from 'uuid';
 
 import styles from "./cart.module.scss";
-import { useParams } from 'next/navigation';
-import { OrganizationContext } from '@/providers/OrganizationProvider';
-
-// interface Props {
-//     organizationId?: string,
-//     products: any[],
-//     status: string
-// }
 
 export const Cart = () => {
 
     const { organization: organizationId } = useParams();
     const { organization, status } = useContext(OrganizationContext);
-
-
-    // const { products, status } = props;
-
+    const { isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -37,20 +30,37 @@ export const Cart = () => {
     }
 
     const handleSubmit = async () => {
-        setIsLoading(true);
-        const { data, error } = await fetch('/api/sales', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
-        }).then((res) => {
-            { if (res.status !== 200) throw new Error("Something went wrong") }
+
+        if (isDemo) {
+            const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]");
+
+            demoSales.push({
+                "id": uuidv4(),
+                "created_at": new Date(),
+                "products": selectedProducts,
+                "user_id": "demo",
+                "organization_id": organizationId
+            })
+
+            localStorage.setItem("demoSales", JSON.stringify(demoSales));
             toast.success("Saved sale");
-            return res.json()
-        })
-            .catch(() => toast.error("Ups, something went wrong"))
-            .finally(() => setIsLoading(false));
+
+        } else {
+            setIsLoading(true);
+            const { data, error } = await fetch('/api/sales', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
+            }).then((res) => {
+                { if (res.status !== 200) throw new Error("Something went wrong") }
+                toast.success("Saved sale");
+                return res.json()
+            })
+                .catch(() => toast.error("Ups, something went wrong"))
+                .finally(() => setIsLoading(false));
+        }
 
         setSelectedProducts([]);
     }
@@ -81,7 +91,7 @@ export const Cart = () => {
                 (status === "success" && organization) && (
                     <div className={styles.productList}>
                         {
-                            ((organization as any))?.products.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                            ((organization as any))?.products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
                                 return (
                                     <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                                         <div className={styles.info}>

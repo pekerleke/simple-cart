@@ -6,11 +6,11 @@ import { Product } from '@/models/Product';
 import { Sale } from '@/models/Sale';
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { Button } from 'rsuite';
+import { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import Loader from '@/components/loader/Loader';
 import { Message } from '@/components/message/Message';
+import { AuthContext } from '@/providers/AuthProvider';
 
 import styles from "./styles.module.scss";
 
@@ -20,14 +20,23 @@ export default function Sales() {
 
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
-    const { Modal, setModal } = useModal()
+    const { isDemo } = useContext(AuthContext);
+
+    const { Modal, setModal } = useModal();
 
     const { data, status } = useQuery({
         queryKey: [`${organizationId}-sales`],
-        queryFn: () => fetch(`/api/sales?organizationId=${organizationId}`)
-            .then(res => res.json())
-            .then(data => data.data)
-            .catch(err => console.error(err)),
+        queryFn: () => {
+            if (isDemo) {
+                const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]").filter((sale: any) => sale.organization_id === organizationId);
+                return [...demoSales];
+            } else {
+                return fetch(`/api/sales?organizationId=${organizationId}`)
+                    .then(res => res.json())
+                    .then(data => data.data)
+                    .catch(err => console.error(err))
+            }
+        },
     })
 
     useEffect(() => {
@@ -51,7 +60,7 @@ export default function Sales() {
 
     if (status === "loading") {
         return (
-            <Loader/>
+            <Loader />
         )
     }
 

@@ -14,21 +14,27 @@ interface Props {
 export const LeaveOrganization = (props: Props) => {
     const { organization, onSuccess, onCancel } = props;
 
-    const { user } = useContext(AuthContext);
+    const { user, isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
 
     const handleDelete = async () => {
-        setIsLoading(true);
-        const userParticipation = organization.organization_participants.find((participant: any) => participant.user_id === (user as any)?.id);
-        await fetch('/api/participants', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id: userParticipation.id }),
-        }).finally(() => setIsLoading(false));
-        toast.success("Removed!");
+        if (isDemo) {
+            const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
+            const remainingOrganizations = demoOrganizations.filter((demoOrganization: any) => demoOrganization.id !== organization.id);
+            localStorage.setItem("demoOrganizations", JSON.stringify(remainingOrganizations));
+        } else {
+            setIsLoading(true);
+            const userParticipation = organization.organization_participants.find((participant: any) => participant.user_id === (user as any)?.id);
+            await fetch('/api/participants', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: userParticipation.id }),
+            }).finally(() => setIsLoading(false));
+        }
+        toast.success("You just left the organization!");
         onSuccess();
     }
 
