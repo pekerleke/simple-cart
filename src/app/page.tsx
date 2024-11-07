@@ -7,9 +7,11 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
+import { AuthContext } from "@/providers/AuthProvider";
+import { MdAdd } from "react-icons/md";
 
 import styles from "./styles.module.scss";
-import { AuthContext } from "@/providers/AuthProvider";
+import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
 
 export default function Home() {
 
@@ -62,6 +64,17 @@ export default function Home() {
                             }
                         </div>
 
+
+                        {
+                            !organizations?.length && (
+                                <EmptyAdvice title='You don’t have any organizations yet.'>
+                                    <div>Create your first one to get started!</div>
+                                </EmptyAdvice>
+                            )
+                            // You don’t have any organizations yet. Create your first one in the <Link className={styles.link} href="/settings"><b>Settings</b></Link> section to get started!
+                        }
+
+
                         <br />
 
                         <Button block size="lg" onClick={() => setModal(
@@ -69,7 +82,7 @@ export default function Home() {
                                 onSubmit={() => { getOrganizations(); hideModal() }}
                                 organization={null} />, "New Organization"
                         )}>
-                            <b>Create organization</b>
+                            <div className={styles.buttonText}><MdAdd /> Create organization</div>
                         </Button>
                     </>
                 )

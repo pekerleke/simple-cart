@@ -6,13 +6,15 @@ import { toast } from 'react-toastify';
 
 import styles from "./inviteButton.module.scss";
 import { LuUserPlus } from 'react-icons/lu';
+import classNames from 'classnames';
 
 interface Props {
     organizationId: string;
+    disabled: boolean;
 }
 
 export const InviteButton = (props: Props) => {
-    const { organizationId } = props;
+    const { organizationId, disabled } = props;
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -61,8 +63,8 @@ export const InviteButton = (props: Props) => {
 
     return (
         <>
-            <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading}>
-                <div className={styles.buttonText}><LuUserPlus /> Invite participant</div>
+            <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading || disabled}>
+                <div className={classNames(styles.buttonText, {[styles.disabled]: disabled})}><LuUserPlus /> Invite participant</div>
             </Button>
             <Modal />
         </>

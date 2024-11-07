@@ -31,3 +31,16 @@
         }
     }
 }
+
+.buttonText {
+    font-weight: 500;
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+
+    &.red {
+        color: #ef4444;
+    }
+}

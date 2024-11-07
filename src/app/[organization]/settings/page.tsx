@@ -21,11 +21,13 @@ import { Message } from '@/components/message/Message';
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
-    const { user } = useContext(AuthContext);
+    const { user, isDemo } = useContext(AuthContext);
 
     const { Modal, setModal, hideModal } = useModal();
 
     const router = useRouter();
+
+    console.log(user);
 
     if (!organization) return null;
 
@@ -44,7 +46,7 @@ export default function Settings() {
                                     </div>
                                     <div className={styles.operations}>
                                         {
-                                            (participant.user_id !== (user as any)?.id) && (
+                                            (participant.user_id !== (user as any)?.id) && !isDemo && (
                                                 <Button
                                                     appearance="subtle"
                                                     onClick={() => setModal(
@@ -64,7 +66,7 @@ export default function Settings() {
                             ))
                         }
                     </div>
-                    <InviteButton organizationId={(organization as any)?.id} />
+                    <InviteButton disabled={isDemo} organizationId={(organization as any)?.id} />
                 </div>
 
                 <br />
@@ -110,7 +112,7 @@ export default function Settings() {
                         }
 
                         {
-                            !(organization as any)?.products.lenght && <Message type='info' message='No products yet' />
+                            !(organization as any)?.products.length && <Message type='info' message='No products yet' />
                         }
                     </div>
 

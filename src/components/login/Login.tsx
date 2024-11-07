@@ -30,7 +30,7 @@ export const Login = () => {
                         <MdOutlineShoppingCart />
                     </div>
                     <h3>Simple Cart</h3>
-                    <span className={styles.loginMessage}>Choose how you'd like to continue with Simple Cart</span>
+                    <span className={styles.loginMessage}>{"Choose how you'd like to continue with Simple Cart"}</span>
                 </div>
 
                 <div className={styles.loginButton} onClick={() => socialAuth("google")}>

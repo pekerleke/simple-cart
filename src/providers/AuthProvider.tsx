@@ -3,6 +3,7 @@ import { supabaseBrowserClient } from '@/utils/supabeClient';
 import { createContext, useEffect, useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import { Login } from '@/components/login/Login';
+import { intialDemoData } from '@/utils/getInitialDemoData';
 
 export const AuthContext = createContext({
     user: null,
@@ -16,7 +17,7 @@ export const AuthProvider = ({ children }: any) => {
 
     const [user, setUser] = useState<User>();
     const [loading, setLoading] = useState(true);
-    const [isDemo, setIsDemo] = useState(false);
+    const [isDemo, setIsDemo] = useState<boolean>();
 
     const handleSignout = async () => {
         const { error } = await supabaseBrowserClient.auth.signOut();
@@ -24,7 +25,18 @@ export const AuthProvider = ({ children }: any) => {
         setUser(undefined);
     };
 
+    const handleChangeToDemo = () => {
+        const demoOrganizations = localStorage.getItem("demoOrganizations");
+        if (!demoOrganizations) {
+            localStorage.setItem("demoOrganizations", JSON.stringify(intialDemoData))
+        }
+        localStorage.setItem("isDemo", "true");
+        setIsDemo(true);
+    }
+
     useEffect(() => {
+        setIsDemo(JSON.parse(localStorage.getItem("isDemo") || "false"));
+
         const getCurrUser = async () => {
             const {
                 data: { session },
@@ -44,7 +56,7 @@ export const AuthProvider = ({ children }: any) => {
         user,
         isDemo,
         singOut: handleSignout,
-        changeToDemo: () => setIsDemo(true),
+        changeToDemo: handleChangeToDemo,
         loading
     }
 
@@ -60,13 +72,7 @@ export const AuthProvider = ({ children }: any) => {
         <AuthContext.Provider value={context as any} >
             <div>
                 {
-                    (!user && !isDemo && !loading) ? (
-                        <div>
-                            {/* <button onClick={() => setIsDemo(true)}>Demo</button>
-                            <br /> */}
-                            <Login />
-                        </div>
-                    ) : children
+                    (!user && !isDemo && !loading) ? <Login /> : children
                 }
             </div>
         </AuthContext.Provider >

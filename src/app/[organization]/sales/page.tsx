@@ -13,6 +13,7 @@ import { Message } from '@/components/message/Message';
 import { AuthContext } from '@/providers/AuthProvider';
 
 import styles from "./styles.module.scss";
+import { EmptyAdvice } from '@/components/empty-advice/EmptyAdvice';
 
 export default function Sales() {
     const params = useParams();
@@ -66,7 +67,9 @@ export default function Sales() {
 
     if ((status === "success") && !Boolean(data.length)) {
         return (
-            <Message type='info'><div>No sales yet</div></Message>
+            <EmptyAdvice title='No sales recorded yet'>
+                <div>Start selling your products and your sales data will appear here.</div>
+            </EmptyAdvice>
         )
     }
 

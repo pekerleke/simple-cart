@@ -4,12 +4,12 @@ import React, { useContext, useState } from 'react'
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
-import { Message } from '../message/Message';
 import Link from 'next/link';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { useParams } from 'next/navigation';
 import { AuthContext } from '@/providers/AuthProvider';
 import { v4 as uuidv4 } from 'uuid';
+import { EmptyAdvice } from '../empty-advice/EmptyAdvice';
 
 import styles from "./cart.module.scss";
 
@@ -47,7 +47,7 @@ export const Cart = () => {
 
         } else {
             setIsLoading(true);
-            const { data, error } = await fetch('/api/sales', {
+            await fetch('/api/sales', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,11 +79,9 @@ export const Cart = () => {
 
             {
                 (status !== "loading") && !(organization as any)?.products?.length && (
-                    <Message type='info'>
-                        <div>
-                            There are no products. Add some in <Link className={styles.link} href={`/${organizationId}/settings`}><b>Settings</b></Link>
-                        </div>
-                    </Message>
+                    <EmptyAdvice title='There are no products'>
+                        <div> Start building your collection by adding products in the <Link className={styles.link} href={`/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
+                    </EmptyAdvice>
                 )
             }
 
