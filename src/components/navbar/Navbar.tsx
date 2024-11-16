@@ -7,6 +7,7 @@ import { MdOutlineShoppingCart } from 'react-icons/md';
 import { SubHeader } from './SubHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { isDemo } from '@/utils/demo';
+import { usePathname } from 'next/navigation';
 
 import styles from "./navbar.module.scss";
 
@@ -14,6 +15,11 @@ export const Navbar = () => {
     const isFetching = useIsFetching();
 
     const { data: session } = useSession();
+
+    const pathname = usePathname();
+
+    // TODO: split main layout
+    if (pathname === "/login") return null;
 
     return (
         <div>
