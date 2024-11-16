@@ -32,7 +32,7 @@ export default function InvitationPage() {
         })
             .then(res => res.json())
             .then(resData => {
-                router.push(`/${resData.data.organizationId}`)
+                router.push(`/organization/${resData.data.organizationId}`)
             })
             .catch(err => { console.error(err); toast.error("Ups something went wrong!") })
             .finally(() => setIsLoading(false));
@@ -46,7 +46,7 @@ export default function InvitationPage() {
             .catch(err => console.error(err)),
     })
 
-    const avatarColors = stringToColor(data?.organizations.name || "");
+    const avatarColors = stringToColor(data?.organizations_duplicate.name || "");
 
     if (!data && status === "loading") {
         return (
@@ -60,9 +60,9 @@ export default function InvitationPage() {
         <div className={styles.container}>
             <div className={styles.organizationContainer}>
                 <div className={styles.avatar} style={{ backgroundColor: avatarColors.pastel, color: avatarColors.contrast }}>
-                    {data?.organizations.name[0]}
+                    {data?.organizations_duplicate.name[0]}
                 </div>
-                <h3>{data?.organizations.name}</h3>
+                <h3>{data?.organizations_duplicate.name}</h3>
             </div>
 
             <div className={styles.buttonContainer}>

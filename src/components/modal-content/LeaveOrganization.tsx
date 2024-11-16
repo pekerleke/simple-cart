@@ -1,9 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
-import { AuthContext } from '@/providers/AuthProvider';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./leaveOrganization.module.scss";
+import { useSession } from 'next-auth/react';
 
 interface Props {
     onSuccess: () => void
@@ -14,18 +15,18 @@ interface Props {
 export const LeaveOrganization = (props: Props) => {
     const { organization, onSuccess, onCancel } = props;
 
-    const { user, isDemo } = useContext(AuthContext);
+    const { data: session } = useSession();
 
     const [isLoading, setIsLoading] = useState(false);
 
     const handleDelete = async () => {
-        if (isDemo) {
+        if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             const remainingOrganizations = demoOrganizations.filter((demoOrganization: any) => demoOrganization.id !== organization.id);
             localStorage.setItem("demoOrganizations", JSON.stringify(remainingOrganizations));
         } else {
             setIsLoading(true);
-            const userParticipation = organization.organization_participants.find((participant: any) => participant.user_id === (user as any)?.id);
+            const userParticipation = organization.organization_participants_duplicate.find((participant: any) => participant.user_id === (session?.user as any)?.id);
             await fetch('/api/participants', {
                 method: 'DELETE',
                 headers: {

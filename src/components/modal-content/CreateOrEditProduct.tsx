@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Input } from 'rsuite';
 import { Product } from '@/models/Product';
-import { AuthContext } from '@/providers/AuthProvider';
 import { v4 as uuidv4 } from 'uuid';
 
 import styles from "./createOrEditProduct.module.scss";
+import { isDemo } from '@/utils/demo';
 
 interface Props {
     product?: Product
@@ -15,8 +15,6 @@ interface Props {
 export const CreateOrEditProduct = (props: Props) => {
 
     const { product, organizationId, onSubmit } = props;
-
-    const { isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +27,7 @@ export const CreateOrEditProduct = (props: Props) => {
 
     const handleSubmit = async () => {
 
-        if (isDemo) {
+        if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             const organization = demoOrganizations.find((organization: any) => organization.id === organizationId);
 

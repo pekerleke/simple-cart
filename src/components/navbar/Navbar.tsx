@@ -1,17 +1,19 @@
 "use client"
-import React, { useContext } from 'react'
+
+import React from 'react'
 import Link from 'next/link';
 import { useIsFetching } from 'react-query';
-import { AuthContext } from '@/providers/AuthProvider';
-
-import styles from "./navbar.module.scss";
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { SubHeader } from './SubHeader';
+import { signOut, useSession } from 'next-auth/react';
+import { isDemo } from '@/utils/demo';
+
+import styles from "./navbar.module.scss";
 
 export const Navbar = () => {
-    const { user, isDemo, singOut } = useContext(AuthContext);
-
     const isFetching = useIsFetching();
+
+    const { data: session } = useSession();
 
     return (
         <div>
@@ -20,12 +22,18 @@ export const Navbar = () => {
 
                 <div className={styles.pages}>
                     {
-                        !isDemo ? (
+                        !isDemo() ? (
                             <>
-                                <div className={styles.username}>{(user as any)?.user_metadata.name}</div>
-                                <b onClick={singOut}>Logout</b>
+                                <div className={styles.username}>
+                                    {session?.user?.name}
+                                </div>
+                                <b onClick={() => signOut()}>Logout</b>
                             </>
-                        ) : <div className={styles.username} onClick={() => { localStorage.removeItem("isDemo"); window.location.href = "/" }}> <b>Quit Demo</b> </div>
+                        ) : <div className={styles.username} onClick={() => {
+                            localStorage.removeItem("isDemo");
+                            document.cookie = "demoUser=; path=/; max-age=0";
+                            window.location.href = "/";
+                        }}> <b>Quit Demo</b> </div>
                     }
                 </div>
 
@@ -36,7 +44,7 @@ export const Navbar = () => {
                 )}
             </div>
             {
-                isDemo && <SubHeader text="Demo version - explore and test features freely!" />
+                isDemo() && <SubHeader text="Demo version - explore and test features freely!" />
             }
         </div>
     )

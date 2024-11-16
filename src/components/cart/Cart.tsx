@@ -7,9 +7,9 @@ import { Product } from '@/models/Product';
 import Link from 'next/link';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { useParams } from 'next/navigation';
-import { AuthContext } from '@/providers/AuthProvider';
 import { v4 as uuidv4 } from 'uuid';
 import { EmptyAdvice } from '../empty-advice/EmptyAdvice';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./cart.module.scss";
 
@@ -17,7 +17,6 @@ export const Cart = () => {
 
     const { organization: organizationId } = useParams();
     const { organization, status } = useContext(OrganizationContext);
-    const { isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +30,7 @@ export const Cart = () => {
 
     const handleSubmit = async () => {
 
-        if (isDemo) {
+        if (isDemo()) {
             const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]");
 
             demoSales.push({
@@ -78,9 +77,9 @@ export const Cart = () => {
             }
 
             {
-                (status !== "loading") && !(organization as any)?.products?.length && (
+                (status !== "loading") && !(organization as any)?.products_duplicate?.length && (
                     <EmptyAdvice title='There are no products'>
-                        <div> Start building your collection by adding products in the <Link className={styles.link} href={`/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
+                        <div> Start building your collection by adding products in the <Link className={styles.link} href={`/organization/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
                     </EmptyAdvice>
                 )
             }
@@ -89,7 +88,7 @@ export const Cart = () => {
                 (status === "success" && organization) && (
                     <div className={styles.productList}>
                         {
-                            ((organization as any))?.products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                            ((organization as any))?.products_duplicate?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
                                 return (
                                     <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                                         <div className={styles.info}>

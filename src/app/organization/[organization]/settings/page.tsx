@@ -8,26 +8,26 @@ import { useContext } from 'react';
 import { Button } from 'rsuite';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { InviteButton } from '@/components/invite-button/InviteButton';
-import { AuthContext } from '@/providers/AuthProvider';
 import { RemoveParticipant } from '@/components/modal-content/RemoveParticipant';
 import { LeaveOrganization } from '@/components/modal-content/LeaveOrganization';
 import { DeleteOrganization } from '@/components/modal-content/DeleteOrganization';
 import { useRouter } from 'next/navigation';
-
-import styles from "./styles.module.scss";
 import classNames from 'classnames';
 import { MdAdd } from 'react-icons/md';
 import { Message } from '@/components/message/Message';
+import { useSession } from 'next-auth/react';
+import { isDemo } from '@/utils/demo';
+
+import styles from "./styles.module.scss";
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
-    const { user, isDemo } = useContext(AuthContext);
-
+    
     const { Modal, setModal, hideModal } = useModal();
 
     const router = useRouter();
 
-    console.log(user);
+    const { data: session } = useSession();
 
     if (!organization) return null;
 
@@ -38,15 +38,15 @@ export default function Settings() {
                     <div className={styles.title}>Participants</div>
                     <div className={styles.participantsList}>
                         {
-                            (organization as any)?.organization_participants.map((participant: any, index: number) => (
+                            (organization as any)?.organization_participants_duplicate.map((participant: any, index: number) => (
                                 <div key={index} className={styles.participant}>
                                     <div className={styles.participantInfo}>
-                                        <img src={participant.users?.avatar_url} alt={participant.users?.full_name} />
-                                        {participant.users?.full_name}
+                                        <img src={participant.users_duplicate?.avatar_url} alt={participant.users_duplicate?.full_name} />
+                                        {participant.users_duplicate?.full_name}
                                     </div>
                                     <div className={styles.operations}>
                                         {
-                                            (participant.user_id !== (user as any)?.id) && !isDemo && (
+                                            (participant.user_id !== (session?.user as any)?.id) && !isDemo() && (
                                                 <Button
                                                     appearance="subtle"
                                                     onClick={() => setModal(
@@ -66,7 +66,7 @@ export default function Settings() {
                             ))
                         }
                     </div>
-                    <InviteButton disabled={isDemo} organizationId={(organization as any)?.id} />
+                    <InviteButton disabled={isDemo()} organizationId={(organization as any)?.id} />
                 </div>
 
                 <br />
@@ -76,7 +76,7 @@ export default function Settings() {
 
                     <div className={styles.productList}>
                         {
-                            (organization as any)?.products?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
+                            (organization as any)?.products_duplicate?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
                                 .map((product: Product) => (
                                     <div className={styles.product} key={product.id}>
                                         <div className={styles.info}><b>{product.name}</b> - ${product.price}</div>
@@ -112,7 +112,7 @@ export default function Settings() {
                         }
 
                         {
-                            !(organization as any)?.products.length && <Message type='info' message='No products yet' />
+                            !(organization as any)?.products_duplicate.length && <Message type='info' message='No products yet' />
                         }
                     </div>
 

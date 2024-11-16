@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./deleteOrganization.module.scss";
-import { AuthContext } from '@/providers/AuthProvider';
 
 interface Props {
     onSuccess: () => void
@@ -16,11 +16,9 @@ export const DeleteOrganization = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const { isDemo } = useContext(AuthContext);
-
     const handleDelete = async () => {
 
-        if (isDemo) {
+        if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             const remainingOrganizations = demoOrganizations.filter((demoOrganization: any) => demoOrganization.id !== organization.id);
             localStorage.setItem("demoOrganizations", JSON.stringify(remainingOrganizations));

@@ -1,8 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./CreateOrEditOrganization.module.scss";
 import { Button, Input } from 'rsuite';
-import { AuthContext } from "@/providers/AuthProvider";
 import { v4 as uuidv4 } from 'uuid';
+import { isDemo } from "@/utils/demo";
 
 interface Props {
     organization?: any
@@ -19,10 +19,10 @@ export const CreateOrEditOrganization = (props: Props) => {
         name: organization?.name || ""
     })
 
-    const { isDemo } = useContext(AuthContext);
+    // const { isDemo } = useContext(AuthContext);
 
     const handleSubmit = async () => {
-        if (isDemo) {
+        if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             demoOrganizations.push({
                 id: uuidv4(),
@@ -31,7 +31,7 @@ export const CreateOrEditOrganization = (props: Props) => {
                 organization_participants: [
                     {
                         user_id: "demo",
-                        users: {
+                        users_duplicate: {
                             avatar_url: "/192-logo.png",
                             full_name: "Demo"
                         }

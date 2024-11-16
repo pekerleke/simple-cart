@@ -7,24 +7,22 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
-import { AuthContext } from "@/providers/AuthProvider";
 import { MdAdd } from "react-icons/md";
+import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
+import { isDemo } from "@/utils/demo";
 
 import styles from "./styles.module.scss";
-import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
 
 export default function Home() {
 
     const { Modal, setModal, hideModal } = useModal();
-
-    const { isDemo } = useContext(AuthContext);
 
     const [isLoading, setIsLoading] = useState(true);
 
     const [organizations, setOrganizations] = useState([]);
 
     const getOrganizations = async () => {
-        if (isDemo) {
+        if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             setOrganizations(demoOrganizations);
             setIsLoading(false);
@@ -53,7 +51,7 @@ export default function Home() {
                                     const avatarColors = stringToColor((organization as any)?.name || "");
 
                                     return (
-                                        <Link prefetch className={styles.link} key={organization.id} href={`/${organization.id}`}>
+                                        <Link prefetch className={styles.link} key={organization.id} href={`/organization/${organization.id}`}>
                                             <div className={styles.organizationAvatar} style={{ backgroundColor: avatarColors.pastel, color: avatarColors.contrast }}>
                                                 {(organization as any)?.name[0]}
                                             </div>

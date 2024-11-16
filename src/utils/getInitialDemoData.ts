@@ -3,16 +3,16 @@ export const intialDemoData = [
         "id": "625e6f90-71a4-4c38-9497-16925b57ddd7",
         "name": "Loodle Labs",
         "creator_id": "demo",
-        "organization_participants": [
+        "organization_participants_duplicate": [
             {
                 "user_id": "demo",
-                "users": {
+                "users_duplicate": {
                     "avatar_url": "/192-logo.png",
                     "full_name": "Demo"
                 }
             }
         ],
-        "products": [
+        "products_duplicate": [
             {
                 "id": "0975b571-1a48-443b-975e-d6d5c7e7a76c",
                 "name": "ClipPro",
@@ -43,16 +43,16 @@ export const intialDemoData = [
         "id": "4881b5f5-0281-4c1e-8fe6-a244bd009d3f",
         "name": "DemoCorp",
         "creator_id": "demo",
-        "organization_participants": [
+        "organization_participants_duplicate": [
             {
                 "user_id": "demo",
-                "users": {
+                "users_duplicate": {
                     "avatar_url": "/192-logo.png",
                     "full_name": "Demo"
                 }
             }
         ],
-        "products": [
+        "products_duplicate": [
             {
                 "id": "035859eb-3437-4f66-9a6a-1d7e337a4c0c",
                 "name": "ComfyTee",
@@ -83,16 +83,16 @@ export const intialDemoData = [
         "id": "57baf27d-e8f2-4afe-b539-c3c5606b7ec0",
         "name": "SillyTech Inc.",
         "creator_id": "demo",
-        "organization_participants": [
+        "organization_participants_duplicate": [
             {
                 "user_id": "demo",
-                "users": {
+                "users_duplicate_duplicate": {
                     "avatar_url": "/192-logo.png",
                     "full_name": "Demo"
                 }
             }
         ],
-        "products": [
+        "products_duplicate": [
             {
                 "id": "09f09de2-051b-480a-9791-f90e1f6602eb",
                 "name": "PulseTracker",

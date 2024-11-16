@@ -33,7 +33,7 @@ export const RemoveParticipant = (props: Props) => {
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove <strong>{participant.users.full_name}</strong> from the organization?
+                Are you sure to remove <strong>{participant.users_duplicate.full_name}</strong> from the organization?
             </Message>
             <br />
             <div className={styles.buttonContainer}>

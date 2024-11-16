@@ -1,0 +1,1 @@
+export const isDemo = () => JSON.parse(localStorage.getItem("isDemo") || "false");

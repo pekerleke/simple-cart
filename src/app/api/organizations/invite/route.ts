@@ -1,7 +1,8 @@
-import getUserData from "@/actions/getUserData";
+// import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
+import { getAuthSession } from "../../auth/[...nextauth]/route";
 
 
 export async function POST(req: any) {
@@ -9,13 +10,14 @@ export async function POST(req: any) {
     const code = uuidv4();
 
     try {
-        const user = await getUserData();
+        // const user = await getUserData();
+        const session = await getAuthSession();
 
         // check permissions
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
-            .from('organizations')
+            .from('organizations_duplicate')
             .select(`
-                organization_participants (user_id)
+                organization_participants_duplicate (user_id)
               `)
             .eq('id', organizationId)
             .single();
@@ -23,12 +25,12 @@ export async function POST(req: any) {
         if (getOrganizationError) throw getOrganizationError;
 
         // create invite
-        if (!organization.organization_participants.find(participant => participant.user_id === user.id)) {
+        if (!organization.organization_participants_duplicate.find(participant => participant.user_id === session.user.id)) {
             return NextResponse.json(null, { status: 401 });
         }
 
         const { data, error } = await supabaseBrowserClient
-            .from('organization_invitations')
+            .from('organization_invitations_duplicate')
             .insert([{ organization_id: organizationId, code: code, expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000) }])
             .select('code, expires_at')
             .single();
@@ -47,10 +49,10 @@ export async function GET(req: any) {
         const invitationCode = searchParams.get('invitationCode');
 
         const { data: invitation, error: getInvitationError } = await supabaseBrowserClient
-            .from('organization_invitations')
+            .from('organization_invitations_duplicate')
             .select(`
                 created_at, expires_at,
-                organizations (name)
+                organizations_duplicate (name)
             `)
             .eq('code', invitationCode)
             .single();

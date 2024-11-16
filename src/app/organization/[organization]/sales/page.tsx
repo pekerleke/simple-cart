@@ -6,14 +6,13 @@ import { Product } from '@/models/Product';
 import { Sale } from '@/models/Sale';
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import Loader from '@/components/loader/Loader';
-import { Message } from '@/components/message/Message';
-import { AuthContext } from '@/providers/AuthProvider';
+import { EmptyAdvice } from '@/components/empty-advice/EmptyAdvice';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./styles.module.scss";
-import { EmptyAdvice } from '@/components/empty-advice/EmptyAdvice';
 
 export default function Sales() {
     const params = useParams();
@@ -21,14 +20,12 @@ export default function Sales() {
 
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
-    const { isDemo } = useContext(AuthContext);
-
     const { Modal, setModal } = useModal();
 
     const { data, status } = useQuery({
         queryKey: [`${organizationId}-sales`],
         queryFn: () => {
-            if (isDemo) {
+            if (isDemo()) {
                 const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]").filter((sale: any) => sale.organization_id === organizationId);
                 return [...demoSales];
             } else {

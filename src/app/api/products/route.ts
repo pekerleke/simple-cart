@@ -1,6 +1,7 @@
-import getUserData from "@/actions/getUserData";
+// import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
+import { getAuthSession } from "../auth/[...nextauth]/route";
 
 export async function GET(req: any) {
     const { searchParams } = new URL(req.url);
@@ -10,7 +11,7 @@ export async function GET(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products')
+            .from('products_duplicate')
             .select('*')
             .eq('organization_id', organizationId);
 
@@ -29,12 +30,13 @@ export async function POST(req: any) {
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organizationId');
 
-    const user = await getUserData();
+    // const user = await getUserData();
+    const session = await getAuthSession();
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products')
-            .insert([{ name, price, priority, user_id: user.id, organization_id: organizationId }]);
+            .from('products_duplicate')
+            .insert([{ name, price, priority, user_id: session.user.id, organization_id: organizationId }]);
 
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
@@ -50,7 +52,7 @@ export async function PATCH(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products')
+            .from('products_duplicate')
             .update({ name, price, priority })
             .eq('id', id);
 
@@ -68,7 +70,7 @@ export async function DELETE(req: any) {
     
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products')
+            .from('products_duplicate')
             .delete()
             .eq('id', id);
 

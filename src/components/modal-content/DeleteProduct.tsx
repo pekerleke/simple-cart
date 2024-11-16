@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./deleteProduct.module.scss";
-import { AuthContext } from '@/providers/AuthProvider';
 
 interface Props {
     onDelete: () => void
@@ -17,10 +17,8 @@ export const DeleteProduct = (props: Props) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const { isDemo } = useContext(AuthContext);
-
     const handleDelete = async () => {
-        if (isDemo) {
+        if (isDemo()) {
             // TODO: refactor this
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
             const organization = demoOrganizations.find((organization: any) => organization.products?.find((organizationProduct: any) => organizationProduct.id === product.id));
