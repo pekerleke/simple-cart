@@ -49,12 +49,16 @@ export const SalesGroup = (props: Props) => {
                                     </div>
                                     <div className={styles.products}>
                                         {sale.products.map((product: Product, index: number) => (
-                                            <div key={index}>
-                                                {product.name}
+                                            <div key={index} className={styles.product}>
+                                                <div>{product.name}</div>
+                                                <div>${product.price?.toLocaleString('es-AR')}</div>
                                             </div>
                                         ))}
                                     </div>
-                                    <div className={styles.total}>Total: ${sale.products.reduce((accumulator: number, saleProduct: Product) => accumulator + ((saleProduct as any).price || 0), 0).toLocaleString('es-AR')}</div>
+                                    <div className={styles.total}>
+                                        <div>Total</div>
+                                        <div>${sale.products.reduce((accumulator: number, saleProduct: Product) => accumulator + ((saleProduct as any).price || 0), 0).toLocaleString('es-AR')}</div>
+                                    </div>
                                 </div>
                             ))}
                         </div>
