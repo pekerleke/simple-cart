@@ -47,6 +47,40 @@ export async function POST(req: any) {
     }
 }
 
+export async function PATCH(req: any) {
+    const body = await req.json();
+
+    try {
+        const session = await getAuthSession();
+
+        const { data: organization, error } = await supabaseBrowserClient
+            .from('organizations_duplicate')
+            .select(`
+                id,
+                organization_participants_duplicate (id, user_id)
+              `)
+            .eq('id', body.id)
+            .single();
+        
+        if (error) throw error;
+
+        if (!organization.organization_participants_duplicate.find(participant => participant.user_id === session.user.id)) {
+            return NextResponse.json(null, { status: 401 });
+        }
+
+        const { error: updateError } = await supabaseBrowserClient
+            .from('organizations_duplicate')
+            .update({ name: body.name })
+            .eq('id', organization.id);
+
+        if (updateError) throw error;
+
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
+    }
+}
+
 export async function DELETE(req: any) {
     const { id } = await req.json();
 

@@ -69,7 +69,6 @@ export default function Home() {
                                     <div>Create your first one to get started!</div>
                                 </EmptyAdvice>
                             )
-                            // You don’t have any organizations yet. Create your first one in the <Link className={styles.link} href="/settings"><b>Settings</b></Link> section to get started!
                         }
 
 

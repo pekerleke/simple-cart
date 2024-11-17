@@ -17,9 +17,7 @@ export const CreateOrEditOrganization = (props: Props) => {
     const [values, setValues] = useState<any>({
         id: organization?.id || "",
         name: organization?.name || ""
-    })
-
-    // const { isDemo } = useContext(AuthContext);
+    });
 
     const handleSubmit = async () => {
         if (isDemo()) {

@@ -10,7 +10,8 @@ export const OrganizationContext = createContext({
     status: "",
     sales: [],
     salesStatus: "",
-    refetch: () => { }
+    refetch: () => { },
+    salesRefetch: () => {}
 });
 
 export const OrganizationProvider = ({ children }: any) => {
@@ -32,7 +33,7 @@ export const OrganizationProvider = ({ children }: any) => {
         },
     })
 
-    const { data: salesData, status: salesStatus } = useQuery({
+    const { data: salesData, status: salesStatus, refetch: salesRefetch } = useQuery({
         queryKey: [`${organizationId}-sales`],
         queryFn: () => {
             if (isDemo()) {
@@ -50,9 +51,10 @@ export const OrganizationProvider = ({ children }: any) => {
     const context = {
         organization: data,
         status,
+        refetch,
         sales: salesData,
-        salesStatus: salesStatus,
-        refetch
+        salesStatus,
+        salesRefetch,
     }
 
     return (

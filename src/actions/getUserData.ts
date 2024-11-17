@@ -11,7 +11,6 @@ const getUserData = async (): Promise<any | null> => {
     } = await supabase.auth.getUser();
 
     if (!user) {
-        console.error('NO USER', user);
         return null;
     }
 

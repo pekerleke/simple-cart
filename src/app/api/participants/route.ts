@@ -1,12 +1,14 @@
 import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
+import { getAuthSession } from "../auth/[...nextauth]/getAuthSession";
 
 export async function DELETE(req: any) {
     const { id } = await req.json();
 
     try {
-        const user = await getUserData();
+        // const user = await getUserData();
+        const session = await getAuthSession();
 
         // get participation
         const { data: participation, error: getParticipationError } = await supabaseBrowserClient
@@ -26,7 +28,7 @@ export async function DELETE(req: any) {
 
         if (getOrganizationError) throw getOrganizationError;
 
-        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === user.id)){
+        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === session.user.id)){
             return NextResponse.json({ success: false }, { status: 401 });
         }
 

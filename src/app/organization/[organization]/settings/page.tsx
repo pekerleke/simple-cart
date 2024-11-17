@@ -17,12 +17,13 @@ import { MdAdd } from 'react-icons/md';
 import { Message } from '@/components/message/Message';
 import { useSession } from 'next-auth/react';
 import { isDemo } from '@/utils/demo';
+import { CreateOrEditOrganization } from '@/components/modal-content/CreateOrEditOrganization';
 
 import styles from "./styles.module.scss";
 
 export default function Settings() {
     const { organization, refetch } = useContext(OrganizationContext);
-    
+
     const { Modal, setModal, hideModal } = useModal();
 
     const router = useRouter();
@@ -127,7 +128,11 @@ export default function Settings() {
 
                 <div className={styles.card}>
                     <div className={styles.title}>Organization</div>
-                    <div style={{display: "flex", flexDirection: "column", gap: 5}}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+                        <Button block appearance='ghost' onClick={() => setModal(<CreateOrEditOrganization organization={organization} onSubmit={() => { refetch(); hideModal(); }} />, "Leave organization")}>
+                            <div className={classNames(styles.buttonText)}>Change organization name</div>
+                        </Button>
+
                         <Button block color='red' appearance='ghost' onClick={() => setModal(<LeaveOrganization organization={organization} onCancel={hideModal} onSuccess={() => { hideModal(); router.push("/"); }} />, "Leave organization")}>
                             <div className={classNames(styles.buttonText, styles.red)}>Leave organization</div>
                         </Button>

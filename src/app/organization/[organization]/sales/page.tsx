@@ -8,12 +8,12 @@ import { SalesGroup } from './SalesGroup';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 
 export default function Sales() {
-    const { sales, salesStatus } = useContext(OrganizationContext);
+    const { sales, salesStatus, salesRefetch } = useContext(OrganizationContext);
 
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
     useEffect(() => {
-        if (sales.length) {
+        if (sales?.length) {
             const groupedSales = sales
                 .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
                 .reduce((acc: { [date: string]: Sale[] }, item: any) => {
@@ -26,8 +26,7 @@ export default function Sales() {
                     acc[date].push(item);
 
                     return acc;
-                }, {})
-            console.log("GROUOPED SALESSS")
+                }, {});
             setGroupedSales(groupedSales);
         }
     }, [sales])
@@ -46,12 +45,17 @@ export default function Sales() {
         )
     }
 
+    useEffect(() => {
+        salesRefetch();
+    }, [])
+
+
     return (
         <div>
             {
                 Object.keys(groupedSales)?.map((groupKey, index: number) => (
-                    <div key={groupKey} style={{marginBottom: 8}}>
-                        <SalesGroup key={groupKey} groupKey={groupKey} salesGroup={groupedSales[groupKey]} open={index === 0}/>
+                    <div key={groupKey} style={{ marginBottom: 8 }}>
+                        <SalesGroup key={groupKey} groupKey={groupKey} salesGroup={groupedSales[groupKey]} open={index === 0} />
                     </div>
                 ))
             }
