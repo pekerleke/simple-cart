@@ -8,6 +8,8 @@ import { isDemo } from '@/utils/demo';
 export const OrganizationContext = createContext({
     organization: null,
     status: "",
+    sales: [],
+    salesStatus: "",
     refetch: () => { }
 });
 
@@ -30,9 +32,26 @@ export const OrganizationProvider = ({ children }: any) => {
         },
     })
 
+    const { data: salesData, status: salesStatus } = useQuery({
+        queryKey: [`${organizationId}-sales`],
+        queryFn: () => {
+            if (isDemo()) {
+                const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]").filter((sale: any) => sale.organization_id === organizationId);
+                return [...demoSales];
+            } else {
+                return fetch(`/api/sales?organizationId=${organizationId}`)
+                    .then(res => res.json())
+                    .then(data => data.data)
+                    .catch(err => console.error(err))
+            }
+        },
+    })
+
     const context = {
         organization: data,
         status,
+        sales: salesData,
+        salesStatus: salesStatus,
         refetch
     }
 
