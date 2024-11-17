@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
 import "./globals.css";
 import 'rsuite/dist/rsuite.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,13 +26,14 @@ export default function RootLayout({
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
             </head>
-            <body className={inter.className} style={{backgroundColor: "#f9fafb"}}>
+            <body className={inter.className} style={{ backgroundColor: "#f9fafb" }}>
                 <Providers>
                     <Navbar />
                     <InstallPWAButton />
                     {children}
                 </Providers>
                 <ToastContainer position="bottom-center" />
+                <Analytics />
             </body>
         </html>
     );
