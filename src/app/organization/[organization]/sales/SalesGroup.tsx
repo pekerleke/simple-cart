@@ -24,8 +24,6 @@ export const SalesGroup = (props: Props) => {
 
     const [show, setShow] = useState(open);
 
-    console.log(salesGroup);
-
     return (
         <>
             <div className={styles.container}>

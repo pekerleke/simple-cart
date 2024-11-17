@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { useClickOutside } from '@/app/hooks/useClickOutside';
 
 import styles from "./genericModal.module.scss";
 
@@ -11,9 +12,11 @@ interface Props {
 export const GenericModal = (props: Props) => {
     const { title, children, onClose } = props;
 
+    const { ref } = useClickOutside(onClose);
+
     return (
         <div className={styles.container}>
-            <div className={styles.modal}>
+            <div ref={ref} className={styles.modal}>
                 <div className={styles.modalTitle}>
                     {title || "title"}
                     <div className={styles.closeButton} onClick={onClose}>✕</div>
