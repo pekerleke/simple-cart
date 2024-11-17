@@ -2,7 +2,8 @@
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 
-import { getAuthSession } from "../auth/[...nextauth]/route";
+// import { getAuthSession } from "../auth/[...nextauth]/route";
+import { getAuthSession } from "../auth/[...nextauth]/getAuthSession";
 
 export async function GET(req: any) {
     // const user = await getUserData();
@@ -27,7 +28,6 @@ export async function POST(req: any) {
     try {
         // const user = await getUserData();
         const session = await getAuthSession();
-        console.log(session);
 
         const { data, error } = await supabaseBrowserClient
             .from('organizations_duplicate')

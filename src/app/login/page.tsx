@@ -8,6 +8,8 @@ import { useSearchParams } from "next/navigation";
 
 import styles from "./styles.module.scss";
 
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
 
     const searchParams = useSearchParams()

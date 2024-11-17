@@ -67,7 +67,7 @@ export default function Sales() {
         <div>
             {
                 Object.keys(groupedSales)?.map((groupKey, index: number) => (
-                    <div style={{marginBottom: 8}}>
+                    <div key={groupKey} style={{marginBottom: 8}}>
                         <SalesGroup key={groupKey} groupKey={groupKey} salesGroup={groupedSales[groupKey]} open={index === 0}/>
                     </div>
                 ))

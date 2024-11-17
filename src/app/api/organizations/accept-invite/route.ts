@@ -1,7 +1,8 @@
 // import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
-import { getAuthSession } from "../../auth/[...nextauth]/route";
+// import { getAuthSession } from "../../auth/[...nextauth]/route";
+import { getAuthSession } from "../../auth/[...nextauth]/getAuthSession";
 
 export async function POST(req: any) {
     const { invitationCode } = await req.json();

@@ -1,1 +1,1 @@
-export const isDemo = () => JSON.parse(localStorage.getItem("isDemo") || "false");
+export const isDemo = () => typeof window !== "undefined" && JSON.parse(localStorage.getItem("isDemo") || "false");

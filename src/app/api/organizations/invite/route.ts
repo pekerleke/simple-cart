@@ -2,7 +2,8 @@
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
-import { getAuthSession } from "../../auth/[...nextauth]/route";
+// import { getAuthSession } from "../../auth/[...nextauth]/route";
+import { getAuthSession } from "../../auth/[...nextauth]/getAuthSession";
 
 
 export async function POST(req: any) {

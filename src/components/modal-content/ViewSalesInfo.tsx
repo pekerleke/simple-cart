@@ -73,8 +73,6 @@ export const ViewSalesInfo = (props: Props) => {
     //         });
     //     });
 
-    //     console.log(productTotals);
-
     //     const labels = Object.keys(productTotals).map(productKey => `${productKey}`);
     //     const series = Object.values(productTotals);
 
