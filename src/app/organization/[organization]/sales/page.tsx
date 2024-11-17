@@ -5,10 +5,10 @@ import { useContext, useEffect, useState } from 'react';
 import Loader from '@/components/loader/Loader';
 import { EmptyAdvice } from '@/components/empty-advice/EmptyAdvice';
 import { SalesGroup } from './SalesGroup';
-import { OrganizationContext } from '@/providers/OrganizationProvider';
+import { SalesContext, SalesProvider } from '@/providers/SalesProvider';
 
-export default function Sales() {
-    const { sales, salesStatus, salesRefetch } = useContext(OrganizationContext);
+const InnerSales = () => {
+    const { sales, salesStatus } = useContext(SalesContext);
 
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
 
@@ -45,11 +45,6 @@ export default function Sales() {
         )
     }
 
-    useEffect(() => {
-        salesRefetch();
-    }, [])
-
-
     return (
         <div>
             {
@@ -60,5 +55,13 @@ export default function Sales() {
                 ))
             }
         </div>
+    )
+}
+
+export default function Sales() {
+    return (
+        <SalesProvider>
+            <InnerSales />
+        </SalesProvider>
     )
 }

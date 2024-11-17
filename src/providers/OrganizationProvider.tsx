@@ -8,10 +8,7 @@ import { isDemo } from '@/utils/demo';
 export const OrganizationContext = createContext({
     organization: null,
     status: "",
-    sales: [],
-    salesStatus: "",
-    refetch: () => { },
-    salesRefetch: () => {}
+    refetch: () => { }
 });
 
 export const OrganizationProvider = ({ children }: any) => {
@@ -22,8 +19,12 @@ export const OrganizationProvider = ({ children }: any) => {
         queryKey: [organizationId],
         queryFn: () => {
             if (isDemo()) {
-                const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
-                return demoOrganizations.find((organization: any) => organization.id === organizationId);
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
+                        resolve(demoOrganizations.find((organization: any) => organization.id === organizationId));
+                    }, 500);
+                });
             } else {
                 return fetch(`/api/organizations/${organizationId}`)
                     .then(res => res.json())
@@ -33,28 +34,10 @@ export const OrganizationProvider = ({ children }: any) => {
         },
     })
 
-    const { data: salesData, status: salesStatus, refetch: salesRefetch } = useQuery({
-        queryKey: [`${organizationId}-sales`],
-        queryFn: () => {
-            if (isDemo()) {
-                const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]").filter((sale: any) => sale.organization_id === organizationId);
-                return [...demoSales];
-            } else {
-                return fetch(`/api/sales?organizationId=${organizationId}`)
-                    .then(res => res.json())
-                    .then(data => data.data)
-                    .catch(err => console.error(err))
-            }
-        },
-    })
-
     const context = {
         organization: data,
         status,
-        refetch,
-        sales: salesData,
-        salesStatus,
-        salesRefetch,
+        refetch
     }
 
     return (

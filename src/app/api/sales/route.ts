@@ -42,3 +42,42 @@ export async function POST(req: any) {
         return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
     }
 }
+
+export async function DELETE(req: any) {
+    const { id } = await req.json();
+
+    const session = await getAuthSession();
+
+    try {
+        const { data: sale, error: saleError } = await supabaseBrowserClient
+            .from('sales_duplicate')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (saleError) throw saleError;
+
+        const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
+            .from('organizations_duplicate')
+            .select(`organization_participants_duplicate (user_id)`)
+            .eq('id', sale.organization_id)
+            .single();
+
+        if (getOrganizationError) throw getOrganizationError;
+
+        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === session.user.id)){
+            return NextResponse.json({ success: false }, { status: 401 });
+        }
+
+        const { error } = await supabaseBrowserClient
+            .from('sales_duplicate')
+            .delete()
+            .eq('id', sale.id);
+
+        if (error) throw error;
+
+        return NextResponse.json({ success: true }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ success: false, error: (error as any).message }, { status: 400 });
+    }
+}
