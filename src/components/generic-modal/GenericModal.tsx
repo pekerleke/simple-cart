@@ -1,5 +1,5 @@
 import React from 'react';
-import { useClickOutside } from '@/app/hooks/useClickOutside';
+import { useClickOutside } from '@/hooks/useClickOutside';
 
 import styles from "./genericModal.module.scss";
 

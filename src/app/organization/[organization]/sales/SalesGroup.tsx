@@ -2,7 +2,7 @@
 
 import { Sale } from '@/models/Sale';
 import React, { useState } from 'react'
-import useModal from '@/app/hooks/useModal';
+import useModal from '@/hooks/useModal';
 import { Product } from '@/models/Product';
 import { ViewSalesInfo } from '@/components/modal-content/ViewSalesInfo';
 import { FaChevronRight, FaChevronUp } from 'react-icons/fa';

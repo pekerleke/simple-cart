@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "rsuite";
-import useModal from "./hooks/useModal";
+import useModal from "../hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";

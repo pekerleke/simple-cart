@@ -1,6 +1,8 @@
 // import { User } from '@/types/app';
 import { supabaseServerClient } from '@/utils/supabaseServer';
 
+
+// TODO: borrar
 const getUserData = async (): Promise<any | null> => {
     const supabase = await supabaseServerClient();
 

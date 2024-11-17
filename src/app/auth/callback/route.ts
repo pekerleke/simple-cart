@@ -2,6 +2,8 @@ import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
 import { type CookieOptions, createServerClient } from '@supabase/ssr';
 
+
+// TODO: borrar
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const origin = "https://simple-cart-ruddy.vercel.app/";

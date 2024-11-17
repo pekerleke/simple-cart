@@ -1,6 +1,6 @@
 "use client"
 
-import useModal from '@/app/hooks/useModal';
+import useModal from '@/hooks/useModal';
 import { CreateOrEditProduct } from '@/components/modal-content/CreateOrEditProduct';
 import { DeleteProduct } from '@/components/modal-content/DeleteProduct';
 import { Product } from '@/models/Product';

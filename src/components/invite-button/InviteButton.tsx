@@ -1,4 +1,4 @@
-import useModal from '@/app/hooks/useModal';
+import useModal from '@/hooks/useModal';
 import React, { useState } from 'react'
 import QRCode from 'react-qr-code';
 import { Button } from 'rsuite';
