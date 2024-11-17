@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from 'rsuite';
 
 import styles from "./installPWAButton.module.scss";
+import { usePathname } from 'next/navigation';
 
 export default function InstallPWAButton() {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
@@ -41,6 +42,10 @@ export default function InstallPWAButton() {
         setShowButton(false);
         sessionStorage.setItem("hideBanner", "true");
     }
+
+    const pathname = usePathname();
+    // TODO: split main layout
+    if (pathname === "/login") return null;
 
     if (!showButton || sessionStorage.getItem("hideBanner") === "true") return null;
 

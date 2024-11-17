@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 import { stringToColor } from "@/utils/stringToColor";
 import { Button } from "rsuite";
 import { Message } from "@/components/message/Message";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 
 import styles from "./styles.module.scss";
 
-export default function InvitationPage() {
+const InnerInvitationPage = () => {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -81,5 +81,13 @@ export default function InvitationPage() {
                 </Button>
             </div>
         </div>
+    )
+}
+
+export default function InvitationPage() {
+    return (
+        <Suspense>
+            <InnerInvitationPage />
+        </Suspense>
     )
 }

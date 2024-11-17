@@ -5,12 +5,13 @@ import { FcGoogle } from "react-icons/fc";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { intialDemoData } from "@/utils/getInitialDemoData";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from 'react'
 
 import styles from "./styles.module.scss";
 
 export const dynamic = 'force-dynamic';
 
-export default function LoginPage() {
+const InnerLoginPage = () => {
 
     const searchParams = useSearchParams()
     const callbackUrl = searchParams.get('callbackUrl')
@@ -26,28 +27,38 @@ export default function LoginPage() {
     }
 
     return (
-        <div className={styles.container}>
-            <div className={styles.card}>
-                <div className={styles.presentation}>
-                    <div className={styles.logoContainer}>
-                        <MdOutlineShoppingCart />
+        <Suspense>
+            <div className={styles.container}>
+                <div className={styles.card}>
+                    <div className={styles.presentation}>
+                        <div className={styles.logoContainer}>
+                            <MdOutlineShoppingCart />
+                        </div>
+                        <h3>Simple Cart</h3>
+                        <span className={styles.loginMessage}>{"Choose how you'd like to continue with Simple Cart"}</span>
                     </div>
-                    <h3>Simple Cart</h3>
-                    <span className={styles.loginMessage}>{"Choose how you'd like to continue with Simple Cart"}</span>
-                </div>
 
-                <div className={styles.loginButton} onClick={() => signIn("google", { callbackUrl: callbackUrl as string || '/' })}>
-                    <FcGoogle /> Continue with Google
-                </div>
+                    <div className={styles.loginButton} onClick={() => signIn("google", { callbackUrl: callbackUrl as string || '/' })}>
+                        <FcGoogle /> Continue with Google
+                    </div>
 
-                <div className={styles.demoContainer}>
-                    Or try the app first
+                    <div className={styles.demoContainer}>
+                        Or try the app first
 
-                    <div className={styles.demoButton} onClick={handleChangeToDemo}>
-                        Try demo
+                        <div className={styles.demoButton} onClick={handleChangeToDemo}>
+                            Try demo
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </Suspense>
+    )
+}
+
+export default function LoginPage() {
+    return (
+        <Suspense>
+            <InnerLoginPage/>
+        </Suspense>
     )
 }
