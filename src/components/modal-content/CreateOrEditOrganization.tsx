@@ -22,21 +22,28 @@ export const CreateOrEditOrganization = (props: Props) => {
     const handleSubmit = async () => {
         if (isDemo()) {
             const demoOrganizations = JSON.parse(localStorage.getItem("demoOrganizations") || "[]");
-            demoOrganizations.push({
-                id: uuidv4(),
-                name: values.name,
-                creator_id: "demo",
-                organization_participants: [
-                    {
-                        user_id: "demo",
-                        users_duplicate: {
-                            avatar_url: "/192-logo.png",
-                            full_name: "Demo"
+
+            if (organization) {
+                const foundOrganization = demoOrganizations.find((demoOrganization: any) => demoOrganization.id === organization.id);
+                foundOrganization.name = values.name;
+            } else {
+                demoOrganizations.push({
+                    id: uuidv4(),
+                    name: values.name,
+                    creator_id: "demo",
+                    organization_participants: [
+                        {
+                            user_id: "demo",
+                            users_duplicate: {
+                                avatar_url: "/192-logo.png",
+                                full_name: "Demo"
+                            }
                         }
-                    }
-                ],
-                products: []
-            })
+                    ],
+                    products: []
+                })
+            }
+
             localStorage.setItem("demoOrganizations", JSON.stringify(demoOrganizations));
         } else {
             setIsLoading(true);
