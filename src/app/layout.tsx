@@ -15,6 +15,22 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "SimpleCart",
     description: "Manage sales in the simplest way",
+    openGraph: {
+        title: "SimpleCart",
+        description: "Manage sales in the simplest way",
+        url: "https://simple-cart-ruddy.vercel.app",
+        siteName: "SimpleCart",
+        images: [
+            {
+                url: "https://simple-cart-ruddy.vercel.app/cover.jpg",
+                width: 1200,
+                height: 630,
+                alt: "SimpleCart - Manage sales in the simplest way",
+            },
+        ],
+        locale: "en_US",
+        type: "website",
+    },
 };
 
 export default function RootLayout({
