@@ -12,7 +12,7 @@ export async function GET(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products_duplicate')
+            .from('products')
             .select('*')
             .eq('organization_id', organizationId);
 
@@ -36,7 +36,7 @@ export async function POST(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products_duplicate')
+            .from('products')
             .insert([{ name, price, priority, user_id: session.user.id, organization_id: organizationId }]);
 
         if (error) throw error;
@@ -53,7 +53,7 @@ export async function PATCH(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products_duplicate')
+            .from('products')
             .update({ name, price, priority })
             .eq('id', id);
 
@@ -71,7 +71,7 @@ export async function DELETE(req: any) {
     
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('products_duplicate')
+            .from('products')
             .delete()
             .eq('id', id);
 

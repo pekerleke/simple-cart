@@ -77,7 +77,7 @@ export const Cart = () => {
             }
 
             {
-                (status !== "loading") && !(organization as any)?.products_duplicate?.length && (
+                (status !== "loading") && !(organization as any)?.products?.length && (
                     <EmptyAdvice title='There are no products'>
                         <div> Start building your collection by adding products in the <Link className={styles.link} href={`/organization/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
                     </EmptyAdvice>
@@ -88,7 +88,7 @@ export const Cart = () => {
                 (status === "success" && organization) && (
                     <div className={styles.productList}>
                         {
-                            ((organization as any))?.products_duplicate?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                            ((organization as any))?.products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
                                 return (
                                     <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
                                         <div className={styles.info}>

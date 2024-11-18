@@ -13,7 +13,7 @@ export async function GET(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('sales_duplicate')
+            .from('sales')
             .select('*')
             .eq('organization_id', organizationId);
 
@@ -33,7 +33,7 @@ export async function POST(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('sales_duplicate')
+            .from('sales')
             .insert([{ products, organization_id: organization, user_id: session.user.id }]);
 
         if (error) throw error;
@@ -50,7 +50,7 @@ export async function DELETE(req: any) {
 
     try {
         const { data: sale, error: saleError } = await supabaseBrowserClient
-            .from('sales_duplicate')
+            .from('sales')
             .select('*')
             .eq('id', id)
             .single();
@@ -58,19 +58,19 @@ export async function DELETE(req: any) {
         if (saleError) throw saleError;
 
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
-            .from('organizations_duplicate')
-            .select(`organization_participants_duplicate (user_id)`)
+            .from('organizations')
+            .select(`organization_participants (user_id)`)
             .eq('id', sale.organization_id)
             .single();
 
         if (getOrganizationError) throw getOrganizationError;
 
-        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === session.user.id)){
+        if (!organization.organization_participants.find(participants => participants.user_id === session.user.id)){
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
         const { error } = await supabaseBrowserClient
-            .from('sales_duplicate')
+            .from('sales')
             .delete()
             .eq('id', sale.id);
 

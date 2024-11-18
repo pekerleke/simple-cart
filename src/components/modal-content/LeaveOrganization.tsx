@@ -26,7 +26,7 @@ export const LeaveOrganization = (props: Props) => {
             localStorage.setItem("demoOrganizations", JSON.stringify(remainingOrganizations));
         } else {
             setIsLoading(true);
-            const userParticipation = organization.organization_participants_duplicate.find((participant: any) => participant.user_id === (session?.user as any)?.id);
+            const userParticipation = organization.organization_participants.find((participant: any) => participant.user_id === (session?.user as any)?.id);
             await fetch('/api/participants', {
                 method: 'DELETE',
                 headers: {

@@ -15,7 +15,7 @@ const getUserData = async (): Promise<any | null> => {
     }
 
     const { data, error } = await supabase
-        .from('users_duplicate')
+        .from('users')
         .select('*')
         .eq('id', user.id);
 

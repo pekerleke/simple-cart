@@ -34,7 +34,7 @@ export const CreateOrEditOrganization = (props: Props) => {
                     organization_participants: [
                         {
                             user_id: "demo",
-                            users_duplicate: {
+                            users: {
                                 avatar_url: "/192-logo.png",
                                 full_name: "Demo"
                             }

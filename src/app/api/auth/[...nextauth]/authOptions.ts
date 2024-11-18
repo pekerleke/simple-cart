@@ -17,14 +17,14 @@ export const authOptions = {
 
             // Verifica si el usuario ya existe en Supabase
             const { data: existingUser, error } = await supabaseBrowserClient
-                .from("users_duplicate")
+                .from("users")
                 .select("*")
                 .eq("user_id", user.id)  // Usa el ID de usuario de NextAuth o un identificador único como email
                 .single();
 
             if (!existingUser) {
                 const { error: insertError } = await supabaseBrowserClient
-                    .from("users_duplicate")
+                    .from("users")
                     .insert([
                         {
                             id: uuidv4(), // Genera un ID único para el usuario
@@ -42,7 +42,7 @@ export const authOptions = {
                     // TODO: quitar despues de la migracion total
                     if (insertError.code === "23505") {
                         const { data, error } = await supabaseBrowserClient
-                            .from('users_duplicate')
+                            .from('users')
                             .update({ user_id: user.id })
                             .eq('email', user.email);
 

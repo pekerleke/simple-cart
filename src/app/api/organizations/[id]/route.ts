@@ -16,22 +16,22 @@ export async function GET(req: any, { params }: any) {
 
     try {
         const { data: organization, error } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .select(`
                 name, id,
-                products_duplicate (id, name, price, priority),
-                organization_participants_duplicate (id, user_id, users_duplicate (full_name, avatar_url))
+                products (id, name, price, priority),
+                organization_participants (id, user_id, users (full_name, avatar_url))
               `)
             .eq('id', organizationId)
             .single();
 
         if (error) throw error;
 
-        if (!organization.organization_participants_duplicate || organization.organization_participants_duplicate.length === 0) {
+        if (!organization.organization_participants || organization.organization_participants.length === 0) {
             return NextResponse.json(null, { status: 200 });
         }
 
-        if (!organization.organization_participants_duplicate.find(participant => participant.user_id === session.user.id)) {
+        if (!organization.organization_participants.find(participant => participant.user_id === session.user.id)) {
             return NextResponse.json(null, { status: 401 });
         }
 

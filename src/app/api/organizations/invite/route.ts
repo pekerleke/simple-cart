@@ -16,9 +16,9 @@ export async function POST(req: any) {
 
         // check permissions
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .select(`
-                organization_participants_duplicate (user_id)
+                organization_participants (user_id)
               `)
             .eq('id', organizationId)
             .single();
@@ -26,12 +26,12 @@ export async function POST(req: any) {
         if (getOrganizationError) throw getOrganizationError;
 
         // create invite
-        if (!organization.organization_participants_duplicate.find(participant => participant.user_id === session.user.id)) {
+        if (!organization.organization_participants.find(participant => participant.user_id === session.user.id)) {
             return NextResponse.json(null, { status: 401 });
         }
 
         const { data, error } = await supabaseBrowserClient
-            .from('organization_invitations_duplicate')
+            .from('organization_invitations')
             .insert([{ organization_id: organizationId, code: code, expires_at: new Date(Date.now() + 24 * 60 * 60 * 1000) }])
             .select('code, expires_at')
             .single();
@@ -50,10 +50,10 @@ export async function GET(req: any) {
         const invitationCode = searchParams.get('invitationCode');
 
         const { data: invitation, error: getInvitationError } = await supabaseBrowserClient
-            .from('organization_invitations_duplicate')
+            .from('organization_invitations')
             .select(`
                 created_at, expires_at,
-                organizations_duplicate (name)
+                organizations (name)
             `)
             .eq('code', invitationCode)
             .single();

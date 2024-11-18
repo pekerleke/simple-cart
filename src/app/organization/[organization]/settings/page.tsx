@@ -40,11 +40,11 @@ export default function Settings() {
                     <div className={styles.title}>Participants</div>
                     <div className={styles.participantsList}>
                         {
-                            (organization as any)?.organization_participants_duplicate.map((participant: any, index: number) => (
+                            (organization as any)?.organization_participants.map((participant: any, index: number) => (
                                 <div key={index} className={styles.participant}>
                                     <div className={styles.participantInfo}>
-                                        <img src={participant.users_duplicate?.avatar_url} alt={participant.users_duplicate?.full_name} />
-                                        {participant.users_duplicate?.full_name}
+                                        <img src={participant.users?.avatar_url} alt={participant.users?.full_name} />
+                                        {participant.users?.full_name}
                                     </div>
 
                                     {
@@ -79,7 +79,7 @@ export default function Settings() {
 
                     <div className={styles.productList}>
                         {
-                            (organization as any)?.products_duplicate?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
+                            (organization as any)?.products?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
                                 .map((product: Product) => (
                                     <div className={styles.product} key={product.id}>
                                         <div className={styles.info}><b>{product.name}</b></div>
@@ -114,7 +114,7 @@ export default function Settings() {
                         }
 
                         {
-                            !(organization as any)?.products_duplicate.length && <Message type='info' message='No products yet' />
+                            !(organization as any)?.products.length && <Message type='info' message='No products yet' />
                         }
                     </div>
 

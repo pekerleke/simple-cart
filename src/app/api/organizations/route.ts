@@ -11,9 +11,9 @@ export async function GET(req: any) {
 
     try {
         const { data, error } = await supabaseBrowserClient
-            .from('organizations_duplicate')
-            .select('*, organization_participants_duplicate!inner(user_id)')
-            .eq('organization_participants_duplicate.user_id', session.user.id /*user.id*/);
+            .from('organizations')
+            .select('*, organization_participants!inner(user_id)')
+            .eq('organization_participants.user_id', session.user.id /*user.id*/);
 
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
@@ -30,7 +30,7 @@ export async function POST(req: any) {
         const session = await getAuthSession();
 
         const { data, error } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .insert([{ name, creator_id: session.user.id }])
             .select();
 
@@ -38,7 +38,7 @@ export async function POST(req: any) {
 
         // Add creator as initial participant
         await supabaseBrowserClient
-            .from('organization_participants_duplicate')
+            .from('organization_participants')
             .insert([{ organization_id: data[0].id, user_id: session.user.id }]);
 
         return NextResponse.json({ success: true }, { status: 200 });
@@ -54,22 +54,22 @@ export async function PATCH(req: any) {
         const session = await getAuthSession();
 
         const { data: organization, error } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .select(`
                 id,
-                organization_participants_duplicate (id, user_id)
+                organization_participants (id, user_id)
               `)
             .eq('id', body.id)
             .single();
         
         if (error) throw error;
 
-        if (!organization.organization_participants_duplicate.find(participant => participant.user_id === session.user.id)) {
+        if (!organization.organization_participants.find(participant => participant.user_id === session.user.id)) {
             return NextResponse.json(null, { status: 401 });
         }
 
         const { error: updateError } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .update({ name: body.name })
             .eq('id', organization.id);
 
@@ -91,19 +91,19 @@ export async function DELETE(req: any) {
 
         // check if user is in organization
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
-            .from('organizations_duplicate')
-            .select(`organization_participants_duplicate (user_id)`)
+            .from('organizations')
+            .select(`organization_participants (user_id)`)
             .eq('id', id)
             .single();
 
         if (getOrganizationError) throw getOrganizationError;
 
-        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === session.user.id)) {
+        if (!organization.organization_participants.find(participants => participants.user_id === session.user.id)) {
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
         const { data, error } = await supabaseBrowserClient
-            .from('organizations_duplicate')
+            .from('organizations')
             .delete()
             .eq('id', id);
 

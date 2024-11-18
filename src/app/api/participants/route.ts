@@ -12,7 +12,7 @@ export async function DELETE(req: any) {
 
         // get participation
         const { data: participation, error: getParticipationError } = await supabaseBrowserClient
-            .from('organization_participants_duplicate')
+            .from('organization_participants')
             .select(`*`)
             .eq('id', id)
             .single();
@@ -21,20 +21,20 @@ export async function DELETE(req: any) {
 
         // check if user is in organization
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient
-            .from('organizations_duplicate')
-            .select(`organization_participants_duplicate (user_id)`)
+            .from('organizations')
+            .select(`organization_participants (user_id)`)
             .eq('id', participation.organization_id)
             .single();
 
         if (getOrganizationError) throw getOrganizationError;
 
-        if (!organization.organization_participants_duplicate.find(participants => participants.user_id === session.user.id)){
+        if (!organization.organization_participants.find(participants => participants.user_id === session.user.id)){
             return NextResponse.json({ success: false }, { status: 401 });
         }
 
         // remove relation
         const { data, error } = await supabaseBrowserClient
-            .from('organization_participants_duplicate')
+            .from('organization_participants')
             .delete()
             .eq('id', id);
 

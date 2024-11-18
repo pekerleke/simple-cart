@@ -46,7 +46,7 @@ const InnerInvitationPage = () => {
             .catch(err => console.error(err)),
     })
 
-    const avatarColors = stringToColor(data?.organizations_duplicate.name || "");
+    const avatarColors = stringToColor(data?.organizations.name || "");
 
     if (!data && status === "loading") {
         return (
@@ -60,9 +60,9 @@ const InnerInvitationPage = () => {
         <div className={styles.container}>
             <div className={styles.organizationContainer}>
                 <div className={styles.avatar} style={{ backgroundColor: avatarColors.pastel, color: avatarColors.contrast }}>
-                    {data?.organizations_duplicate.name[0]}
+                    {data?.organizations.name[0]}
                 </div>
-                <h3>{data?.organizations_duplicate.name}</h3>
+                <h3>{data?.organizations.name}</h3>
             </div>
 
             <div className={styles.buttonContainer}>
