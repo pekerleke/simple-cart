@@ -13,11 +13,12 @@ import { LeaveOrganization } from '@/components/modal-content/LeaveOrganization'
 import { DeleteOrganization } from '@/components/modal-content/DeleteOrganization';
 import { useRouter } from 'next/navigation';
 import classNames from 'classnames';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdMoreVert } from 'react-icons/md';
 import { Message } from '@/components/message/Message';
 import { useSession } from 'next-auth/react';
 import { isDemo } from '@/utils/demo';
 import { CreateOrEditOrganization } from '@/components/modal-content/CreateOrEditOrganization';
+import { TooltipMenu } from '@/components/tooltip-menu/TooltipMenu';
 
 import styles from "./styles.module.scss";
 
@@ -45,24 +46,25 @@ export default function Settings() {
                                         <img src={participant.users_duplicate?.avatar_url} alt={participant.users_duplicate?.full_name} />
                                         {participant.users_duplicate?.full_name}
                                     </div>
-                                    <div className={styles.operations}>
-                                        {
-                                            (participant.user_id !== (session?.user as any)?.id) && !isDemo() && (
-                                                <Button
-                                                    appearance="subtle"
-                                                    onClick={() => setModal(
-                                                        <RemoveParticipant
+
+                                    {
+                                        (participant.user_id !== (session?.user as any)?.id) && !isDemo() && (
+                                            <TooltipMenu
+                                                menuItems={[
+                                                    {
+                                                        label: "Delete",
+                                                        color: "red",
+                                                        action: () => setModal(<RemoveParticipant
                                                             onDelete={() => { refetch(); hideModal(); }}
                                                             onCancel={hideModal}
-                                                            participant={participant} />,
-                                                        "Remove participant"
-                                                    )}
-                                                >
-                                                    <div className={classNames(styles.buttonText, styles.red)}>Remove</div>
-                                                </Button>
-                                            )
-                                        }
-                                    </div>
+                                                            participant={participant} />, "Remove participant")
+                                                    }
+                                                ]}
+                                            >
+                                                <MdMoreVert size={18} />
+                                            </TooltipMenu>
+                                        )
+                                    }
                                 </div>
                             ))
                         }
@@ -80,33 +82,32 @@ export default function Settings() {
                             (organization as any)?.products_duplicate?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
                                 .map((product: Product) => (
                                     <div className={styles.product} key={product.id}>
-                                        <div className={styles.info}><b>{product.name}</b> - ${product.price}</div>
-                                        <div className={styles.operations}>
-                                            <Button
-                                                appearance="subtle"
-                                                onClick={() => setModal(
-                                                    <CreateOrEditProduct
-                                                        onSubmit={() => { refetch(); hideModal(); }}
-                                                        product={product}
-                                                        organizationId={(organization as any)?.id as string}
-                                                    />, product.name
-                                                )}
-                                            >
-                                                <div className={styles.buttonText}>Edit</div>
-                                            </Button>
+                                        <div className={styles.info}><b>{product.name}</b></div>
 
-                                            <Button
-                                                appearance="subtle"
-                                                onClick={() => setModal(
-                                                    <DeleteProduct
-                                                        onDelete={() => { refetch(); hideModal(); }}
-                                                        onCancel={hideModal}
-                                                        product={product} />,
-                                                    "Delete product"
-                                                )}
+                                        <div style={{ display: "flex", gap: 10 }}>
+                                            ${product.price}
+                                            <TooltipMenu
+                                                menuItems={[
+                                                    {
+                                                        label: "Edit",
+                                                        action: () => setModal(<CreateOrEditProduct
+                                                            onSubmit={() => { refetch(); hideModal(); }}
+                                                            product={product}
+                                                            organizationId={(organization as any)?.id as string}
+                                                        />, product.name)
+                                                    },
+                                                    {
+                                                        label: "Delete",
+                                                        color: "red",
+                                                        action: () => setModal(<DeleteProduct
+                                                            onDelete={() => { refetch(); hideModal(); }}
+                                                            onCancel={hideModal}
+                                                            product={product} />, "Delete product")
+                                                    }
+                                                ]}
                                             >
-                                                <div className={classNames(styles.buttonText, styles.red)}>Remove</div>
-                                            </Button>
+                                                <MdMoreVert size={18} />
+                                            </TooltipMenu>
                                         </div>
                                     </div>
                                 ))

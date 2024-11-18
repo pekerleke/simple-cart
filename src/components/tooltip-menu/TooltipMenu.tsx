@@ -1,14 +1,18 @@
-import { useClickOutside } from '@/hooks/useClickOutside';
 import React, { useState } from 'react'
+import { useClickOutside } from '@/hooks/useClickOutside';
+import classNames from 'classnames';
 
 import styles from "./tooltipMenu.module.scss";
 
 interface Props {
     children: JSX.Element,
-    menuItems: {
-        label: string,
-        action: () => void
-    }[]
+    menuItems: MenuItem[]
+}
+
+interface MenuItem {
+    label: string | JSX.Element,
+    action: () => void,
+    color?: "red" 
 }
 
 export const TooltipMenu = (props: Props) => {
@@ -29,10 +33,7 @@ export const TooltipMenu = (props: Props) => {
 
 interface MenuProps {
     onClose: () => void,
-    menuItems: {
-        label: string,
-        action: () => void
-    }[]
+    menuItems: MenuItem[]
 }
 
 const Menu = (props: MenuProps) => {
@@ -42,8 +43,8 @@ const Menu = (props: MenuProps) => {
 
     return (
         <div ref={ref} className={styles.tooltipMenu}>
-            {menuItems.map(item => (
-                <div key={item.label} className={styles.item} onClick={item.action}>
+            {menuItems.map((item, index) => (
+                <div key={index} className={classNames(styles.item, {[styles[item.color || ""]]: Boolean(item.color)})} onClick={item.action}>
                     {item.label}
                 </div>
             ))}

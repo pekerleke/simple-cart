@@ -9,6 +9,7 @@ import { ToastContainer } from "react-toastify";
 import InstallPWAButton from "@/components/install-pwa-button/InstallPWAButton";
 import { Providers } from "./providers";
 
+// TODO: load font locally
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

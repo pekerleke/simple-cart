@@ -30,12 +30,9 @@ export const Sale = (props: Props) => {
                         <div>{dayjs(sale.created_at).format('DD/MM/YYYY - HH:mm')}</div>
                         <TooltipMenu
                             menuItems={[
-                                // {
-                                //     label: "Edit",
-                                //     action: () => alert("editanding")
-                                // },
                                 {
                                     label: "Delete",
+                                    color: "red",
                                     action: () => setModal(<DeleteSale sale={sale} onCancel={hideModal} onSuccess={() => {salesRefetch(); hideModal();}} />, "Delete sale")
                                 }
                             ]}

@@ -3,6 +3,7 @@ import { isDemo } from '@/utils/demo';
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { Button, Message } from 'rsuite';
+import dayjs from 'dayjs';
 
 import styles from "./deleteSale.module.scss";
 
@@ -39,7 +40,7 @@ export const DeleteSale = (props: Props) => {
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove this sale?
+                Are you sure to remove this sale from <b>{dayjs(sale.created_at).format('DD/MM/YYYY - HH:mm')}</b> with <b>{sale.products.length} {sale.products.length === 1 ? "product" : "products"}</b>? 
             </Message>
             <br />
             <div className={styles.buttonContainer}>
