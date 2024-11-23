@@ -8,6 +8,8 @@ import { Navbar } from "@/components/navbar/Navbar";
 import { ToastContainer } from "react-toastify";
 import InstallPWAButton from "@/components/install-pwa-button/InstallPWAButton";
 import { Providers } from "./providers";
+import TranslationsProvider from "@/providers/TranslationsProvider";
+import initTranslations from '../i18n';
 
 // TODO: load font locally
 const inter = Inter({ subsets: ["latin"] });
@@ -33,22 +35,30 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
-}: Readonly<{
-    children: React.ReactNode;
-}>) {
+    params: { locale }
+}: any) {
+    const i18nNamespaces = ['common'];
+
+    const { t, resources } = await initTranslations(locale, i18nNamespaces);
+
     return (
         <html lang="es">
             <head>
                 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
             </head>
             <body className={inter.className} style={{ backgroundColor: "#f9fafb" }}>
-                <Providers>
-                    <Navbar />
-                    <InstallPWAButton />
-                    {children}
-                </Providers>
+                <TranslationsProvider
+                    namespaces={i18nNamespaces}
+                    locale={locale}
+                    resources={resources}>
+                    <Providers>
+                        <Navbar />
+                        <InstallPWAButton />
+                        {children}
+                    </Providers>
+                </TranslationsProvider>
                 <ToastContainer position="bottom-center" />
                 <Analytics />
             </body>

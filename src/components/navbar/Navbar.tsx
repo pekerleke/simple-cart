@@ -10,6 +10,7 @@ import { isDemo } from '@/utils/demo';
 import { usePathname } from 'next/navigation';
 
 import styles from "./navbar.module.scss";
+import { useTranslation } from 'react-i18next';
 
 export const Navbar = () => {
     const isFetching = useIsFetching();
@@ -17,6 +18,8 @@ export const Navbar = () => {
     const { data: session } = useSession();
 
     const pathname = usePathname();
+
+    const { t: translate } = useTranslation();
 
     // TODO: split main layout
     if (pathname === "/login") return null;
@@ -33,13 +36,13 @@ export const Navbar = () => {
                                 <div className={styles.username}>
                                     {session?.user?.name}
                                 </div>
-                                <b onClick={() => signOut()}>Logout</b>
+                                <b onClick={() => signOut()}>{translate("logout")}</b>
                             </>
                         ) : <div className={styles.username} onClick={() => {
                             localStorage.removeItem("isDemo");
                             document.cookie = "demoUser=; path=/; max-age=0";
                             window.location.href = "/";
-                        }}> <b>Quit Demo</b> </div>
+                        }}> <b>{translate("quitDemo")}</b> </div>
                     }
                 </div>
 
@@ -50,7 +53,7 @@ export const Navbar = () => {
                 )}
             </div>
             {
-                isDemo() && <SubHeader text="Demo version - explore and test features freely!" />
+                isDemo() && <SubHeader text={translate("demoAdvice")} />
             }
         </div>
     )

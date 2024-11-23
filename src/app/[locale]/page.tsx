@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "rsuite";
-import useModal from "../hooks/useModal";
+import useModal from "../../hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
 import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
@@ -12,6 +12,7 @@ import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
 import { isDemo } from "@/utils/demo";
 
 import styles from "./styles.module.scss";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
 
@@ -20,6 +21,8 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
 
     const [organizations, setOrganizations] = useState([]);
+
+    const {t: translate} = useTranslation();
 
     const getOrganizations = async () => {
         if (isDemo()) {
@@ -79,7 +82,7 @@ export default function Home() {
                                 onSubmit={() => { getOrganizations(); hideModal() }}
                                 organization={null} />, "New Organization"
                         )}>
-                            <div className={styles.buttonText}><MdAdd /> Create organization</div>
+                            <div className={styles.buttonText}><MdAdd /> {translate("createOrganization")}</div>
                         </Button>
                     </>
                 )
