@@ -1,12 +1,9 @@
-// import getUserData from "@/actions/getUserData";
+
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
-
-// import { getAuthSession } from "../auth/[...nextauth]/route";
 import { getAuthSession } from "../auth/[...nextauth]/getAuthSession";
 
 export async function GET(req: any) {
-    // const user = await getUserData();
     const session = await getAuthSession();
 
     try {
@@ -26,7 +23,6 @@ export async function POST(req: any) {
     const { name } = await req.json();
 
     try {
-        // const user = await getUserData();
         const session = await getAuthSession();
 
         const { data, error } = await supabaseBrowserClient
@@ -85,9 +81,7 @@ export async function DELETE(req: any) {
     const { id } = await req.json();
 
     try {
-        // const user = await getUserData();
         const session = await getAuthSession();
-
 
         // check if user is in organization
         const { data: organization, error: getOrganizationError } = await supabaseBrowserClient

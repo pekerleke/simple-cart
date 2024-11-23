@@ -1,8 +1,6 @@
-// import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 import { v4 as uuidv4 } from 'uuid';
-// import { getAuthSession } from "../../auth/[...nextauth]/route";
 import { getAuthSession } from "../../auth/[...nextauth]/getAuthSession";
 
 
@@ -11,7 +9,6 @@ export async function POST(req: any) {
     const code = uuidv4();
 
     try {
-        // const user = await getUserData();
         const session = await getAuthSession();
 
         // check permissions

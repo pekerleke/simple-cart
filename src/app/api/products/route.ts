@@ -1,7 +1,5 @@
-// import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
-// import { getAuthSession } from "../auth/[...nextauth]/route";
 import { getAuthSession } from "../auth/[...nextauth]/getAuthSession";
 
 export async function GET(req: any) {
@@ -31,7 +29,6 @@ export async function POST(req: any) {
     const { searchParams } = new URL(req.url);
     const organizationId = searchParams.get('organizationId');
 
-    // const user = await getUserData();
     const session = await getAuthSession();
 
     try {

@@ -1,11 +1,8 @@
-// import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "../../auth/[...nextauth]/getAuthSession";
-// import { getAuthSession } from "../../auth/[...nextauth]/route";
 
 export async function GET(req: any, { params }: any) {
-    // const user = await getUserData();
     const session = await getAuthSession();
 
     const { id: organizationId } = params;

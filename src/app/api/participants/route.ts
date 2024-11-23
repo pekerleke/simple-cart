@@ -1,4 +1,3 @@
-import getUserData from "@/actions/getUserData";
 import { supabaseBrowserClient } from "@/utils/supabeClient";
 import { NextResponse } from "next/server";
 import { getAuthSession } from "../auth/[...nextauth]/getAuthSession";
@@ -7,7 +6,6 @@ export async function DELETE(req: any) {
     const { id } = await req.json();
 
     try {
-        // const user = await getUserData();
         const session = await getAuthSession();
 
         // get participation
