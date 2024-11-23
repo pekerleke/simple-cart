@@ -1,0 +1,48 @@
+.container {
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+
+    .titleRow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .icon{
+            margin-top: 4px;
+        }
+
+        .titleContainer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #000;
+
+            .title {
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+                gap: 5px;
+            }
+
+            .salesQuantity {
+                background-color: #e8e8e8;
+                padding: 3px 10px;
+            }
+        }
+
+        .detailButton {
+            font-weight: 500;
+            color: #000;
+        }
+    }
+
+    .salesContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+}

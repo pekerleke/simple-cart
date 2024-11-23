@@ -1,16 +1,24 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
+import Link from 'next/link';
+import { OrganizationContext } from '@/providers/OrganizationProvider';
+import { useParams } from 'next/navigation';
+import { v4 as uuidv4 } from 'uuid';
+import { EmptyAdvice } from '../empty-advice/EmptyAdvice';
+import { isDemo } from '@/utils/demo';
 
 import styles from "./cart.module.scss";
 
 export const Cart = () => {
 
-    const [products, setProducts] = useState<any>()
-    const [loading, setLoading] = useState(true);
+    const { organization: organizationId } = useParams();
+    const { organization, status } = useContext(OrganizationContext);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
 
@@ -20,33 +28,46 @@ export const Cart = () => {
         setSelectedProducts(tempProducts);
     }
 
-    const handleSubmit = () => {
-        const sales = JSON.parse(localStorage.getItem("sales") || "[]");
-        localStorage.setItem("sales", JSON.stringify([...sales, {
-            date: new Date(),
-            products: selectedProducts
-        }]))
-        toast.success("Saved sale");
-        setSelectedProducts([]);
-    }
+    const handleSubmit = async () => {
 
-    const getProducts = () => {
-        setProducts(JSON.parse(localStorage.getItem("products") || "[]"));
-        setLoading(false);
-    }
+        if (isDemo()) {
+            const demoSales = JSON.parse(localStorage.getItem("demoSales") || "[]");
 
-    useEffect(() => {
-        if (!localStorage.getItem("products")) {
-            localStorage.setItem("products", JSON.stringify([{ name: "Demo product", price: "99" }]))
+            demoSales.push({
+                "id": uuidv4(),
+                "created_at": new Date(),
+                "products": selectedProducts,
+                "user_id": "demo",
+                "organization_id": organizationId
+            })
+
+            localStorage.setItem("demoSales", JSON.stringify(demoSales));
+            toast.success("Saved sale");
+
+        } else {
+            setIsLoading(true);
+            await fetch('/api/sales', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
+            }).then((res) => {
+                { if (res.status !== 200) throw new Error("Something went wrong") }
+                toast.success("Saved sale");
+                return res.json()
+            })
+                .catch(() => toast.error("Ups, something went wrong"))
+                .finally(() => setIsLoading(false));
         }
 
-        getProducts();
-    }, [])
+        setSelectedProducts([]);
+    }
 
     return (
         <div>
             {
-                loading && <div className={styles.skeleton}>
+                status === "loading" && <div className={styles.skeleton}>
                     <div></div>
                     <div></div>
                     <div></div>
@@ -54,51 +75,70 @@ export const Cart = () => {
                     <div></div>
                 </div>
             }
-            <div className={styles.productList}>
-                {
-                    !loading && !products.length && <div>There are no products.</div>
-                }
 
-                {
-                    products?.sort((a: Product, b: Product) => a.priority > b.priority ? 1 : -1).map((product: Product) => (
-                        <div key={product.id} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
-                            <div className={styles.info}>
-                                <div className={styles.name}>{product.name}</div>
-                                <div className={styles.price}>${product.price}</div>
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
+            {
+                (status !== "loading") && !(organization as any)?.products?.length && (
+                    <EmptyAdvice title='There are no products'>
+                        <div> Start building your collection by adding products in the <Link className={styles.link} href={`/organization/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
+                    </EmptyAdvice>
+                )
+            }
+
+            {
+                (status === "success" && organization) && (
+                    <div className={styles.productList}>
+                        {
+                            ((organization as any))?.products?.sort((a: Product, b: Product) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : ((a as any).priority > (b as any).priority ? 1 : -1)).map((product: Product, index: number) => {
+                                return (
+                                    <div key={index} className={styles.product} onClick={() => setSelectedProducts((prev) => [...prev, product])}>
+                                        <div className={styles.info}>
+                                            <div className={styles.name}>{product.name}</div>
+                                            <div className={styles.price}>${product.price}</div>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
 
             {
                 Boolean(selectedProducts.length) && (
-                    <div className={styles.resume}>
-                        <br /><br />
-                        <h4>Resume</h4>
-                        <hr />
-                        <div className={styles.productsContainer}>
-                            {
-                                selectedProducts.map((product: Product, index: number) => (
-                                    <div className={styles.product} key={index}>
-                                        <div>{product.name}</div>
-                                        <div className={styles.operations}>
-                                            <div>${product.price}</div>
-                                            <div onClick={() => handleRemoveProduct(index)}>✕</div>
-                                        </div>
+
+                    <div>
+                        <br />
+                        <div className={styles.resume}>
+                            <h4>Resume</h4>
+
+                            <div>
+                                <div className={styles.productsContainer}>
+                                    {
+                                        selectedProducts.map((product: Product, index: number) => (
+                                            <div className={styles.product} key={index}>
+                                                <div>{product.name}</div>
+                                                <div className={styles.operations}>
+                                                    <div>${product.price}</div>
+                                                    <div onClick={() => handleRemoveProduct(index)}>✕</div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                                <br />
+                                <div className={styles.totalRow}>
+                                    <div>
+                                        Total ({selectedProducts.length} items)
                                     </div>
-                                ))
-                            }
-                        </div>
+                                    <div className={styles.totalAmount}>
+                                        ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + (product as any).price, 0).toLocaleString('es-AR')}
+                                    </div>
+                                </div>
+                            </div>
 
-                        <br />
-
-                        <b>Total: ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + product.price, 0).toLocaleString('es-AR')} | {selectedProducts.length} items</b>
-
-                        <br />
-                        <br />
-                        <div>
-                            <Button color="green" size='lg' appearance="primary" block onClick={handleSubmit}>Submit</Button>
+                            <div>
+                                <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>Submit</b></Button>
+                            </div>
                         </div>
                     </div>
                 )

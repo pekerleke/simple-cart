@@ -1,0 +1,37 @@
+.container {
+    display: flex;
+    border: 1px solid;
+    border-color: #ccc;
+    padding: 16px;
+    border-radius: 8px;
+    background-color: #eee;
+    color: #444;
+
+    &.centered {
+        justify-content: center;
+    }
+
+    &.warning {
+        border-color: #FF9800;
+        background-color: #fff2ca;
+        color: #FF5722;
+    }
+
+    &.error {
+        border-color: #F44336;
+        background-color: #ffdfdd;
+        color: #E91E63;
+    }
+
+    &.info {
+        border-color: #7091ac;
+        background-color: #e5e9ff;
+        color: #4c6375;
+    }
+
+    &.success {
+        border-color: #4CAF50;
+        background-color: #e2ffe3;
+        color: #39963c;
+    }
+}

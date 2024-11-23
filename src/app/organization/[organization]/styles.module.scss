@@ -1,0 +1,74 @@
+.header {
+    padding: 10px;
+    color: #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 40px;
+    max-width: 1024px;
+    margin: auto;
+
+    .name {
+        text-decoration: none;
+        color: #000;
+
+        .organization {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+
+            .organizationAvatar {
+                width: 25px;
+                height: 25px;
+                background-color: antiquewhite;
+                border-radius: 8px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-weight: bold;
+                color: #000;
+                flex-shrink: 0;
+            }
+
+            h3 {
+                font-size: 18px;
+                line-height: 16px;
+            }
+        }
+
+    }
+
+    .nameSkeleton {
+        background-color: #ddd;
+        height: 35px;
+        width: 120px;
+        border-radius: 5px;
+    }
+
+    .navItems{
+        display: flex;
+        background-color: #f4f4f5;
+        padding: 4px;
+        border-radius: 6px;
+    }
+
+    .link {
+        text-decoration: none;
+        color: #333;
+        padding: 7px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+
+        &.selected {
+            background-color: #fff;
+            color: #000;
+            border-radius: 2px;
+        }
+    }
+}
+
+.childrenContainer{
+    padding: 10px;
+    max-width: 1024px;
+    margin: auto;
+}

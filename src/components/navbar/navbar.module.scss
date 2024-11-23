@@ -1,24 +1,80 @@
-.container{
-    background-color: var(--secondary-color);
-    color: #fff;
+.container {
+    background-color: #fff;
+    color: #444;
     height: 50px;
     display: flex;
     align-items: center;
-    padding-inline: 20px;
+    padding-inline: 10px;
     justify-content: space-between;
+    border-bottom: 1px solid #eaeaea;
 
-    .logo{
+    .logo {
         font-weight: bold;
         text-decoration: none;
-        color: #fff;
+        color: #000;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 16px;
+
+        svg {
+            font-size: 20px;
+        }
     }
 
-    .pages{
+    .pages {
         display: flex;
         gap: 10px;
-        
-        a{
+
+        a {
             color: #fff;
         }
+
+        .username {
+            max-width: 120px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+    }
+}
+
+.progressBar {
+    position: absolute;
+    top: 46px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 1000;
+
+    .progressBarInner {
+        width: 100%;
+        height: 100%;
+        background-color: #819de9;
+        animation: slide 1.0s ease-in-out infinite;
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateX(100%);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
     }
 }

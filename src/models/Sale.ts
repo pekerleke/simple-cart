@@ -1,6 +1,7 @@
 import { Product } from "./Product"
 
 export interface Sale {
-    date: string
+    id: string;
+    created_at: string;
     products: Product[]
 }

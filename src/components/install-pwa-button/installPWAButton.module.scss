@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    margin: auto;
+
+    :global(.rs-btn-ghost) {
+        border-color: #23293b !important;
+        box-shadow: 0 0 0 3px #23293b26 !important;
+        color: #23293b !important;
+    }
+
+    .closeButton {
+        font-size: 18px;
+    }
+}

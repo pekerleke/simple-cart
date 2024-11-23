@@ -1,0 +1,31 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    padding: 10px;
+
+    .icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 64px;
+        font-size: 32px;
+        background-color: #18181b1a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        line-height: 1.75rem;
+        color: #000;
+    }
+
+    .subText {
+        color: #71717a;
+        text-align: center;
+    }
+}
