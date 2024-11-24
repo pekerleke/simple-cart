@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
+import { Trans, useTranslation } from 'react-i18next';
 
 import styles from "./removeParticipant.module.scss";
 
@@ -14,6 +15,8 @@ export const RemoveParticipant = (props: Props) => {
     const { participant, onDelete, onCancel } = props;
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t: translate } = useTranslation();
 
     const handleDelete = async () => {
         setIsLoading(true);
@@ -33,12 +36,18 @@ export const RemoveParticipant = (props: Props) => {
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove <strong>{participant.users.full_name}</strong> from the organization?
+                <Trans
+                    i18nKey="removeParticipant.advice"
+                    components={{
+                        strong: <strong />
+                    }}
+                    values={{ name: participant.users.full_name }}
+                />
             </Message>
             <br />
             <div className={styles.buttonContainer}>
-                <Button onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>Yes, Remove</Button>
+                <Button onClick={onCancel} disabled={isLoading}>{translate("cancel")}</Button>
+                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>{translate("removeConfirmation")}</Button>
             </div>
         </div>
     )

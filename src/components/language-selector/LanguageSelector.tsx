@@ -1,22 +1,36 @@
+import { getCookie } from "@/utils/getCookie";
 import { useRouter } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import { FaUser } from "react-icons/fa";
+import { InputPicker } from "rsuite";
+import { GrLanguage } from "react-icons/gr";
 
 const LanguageSelector = () => {
     const router = useRouter();
-
+    const { t: translate } = useTranslation();
     const setLocaleCookie = (locale: string) => {
-        // Configurar la cookie `locale`
-        document.cookie = `locale=${locale}; path=/; max-age=${30 * 24 * 60 * 60};`; // Expira en 30 días
-
-        // Refrescar la página para aplicar el cambio
-        router.refresh(); // Forzar que el servidor lea la cookie actualizada
+        document.cookie = `locale=${locale}; path=/; max-age=${30 * 24 * 60 * 60 * 365};`;
+        router.refresh();
     };
 
     return (
-        <div>
-            <button onClick={() => setLocaleCookie("en")}>English</button>
-            <button onClick={() => setLocaleCookie("es")}>Español</button>
-            <button onClick={() => setLocaleCookie("pt")}>Portuges</button>
-        </div>
+        <InputPicker
+            value={getCookie("locale")}
+            data={[
+                { label: translate("spanish"), value: "es" },
+                { label: translate("portuguese"), value: "pt" },
+                { label: translate("english"), value: "en" },
+            ]}
+            renderValue={(value, item: any) => (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <GrLanguage style={{ marginRight: 8 }} />
+                   {item.label}
+                </div>
+            )}
+            cleanable={false}
+            onChange={value => setLocaleCookie(value)}
+            block
+        />
     );
 };
 

@@ -8,11 +8,13 @@ import { stringToColor } from '@/utils/stringToColor';
 import classNames from 'classnames';
 
 import styles from "./styles.module.scss";
+import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
     const { organization: organizationId } = useParams();
 
     const pathname = usePathname();
+    const { t: translate } = useTranslation();
 
     const { organization, status } = useContext(OrganizationContext);
 
@@ -36,9 +38,9 @@ export const Header = () => {
             </Link>
             <div>
                 <div className={styles.navItems}>
-                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === undefined })} href={`/organization/${organizationId}`}>Cart</Link>
-                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === "sales" })} href={`/organization/${organizationId}/sales`}>Sales</Link>
-                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === "settings" })} href={`/organization/${organizationId}/settings`}>Settings</Link>
+                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === undefined })} href={`/organization/${organizationId}`}>{translate("cart")}</Link>
+                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === "sales" })} href={`/organization/${organizationId}/sales`}>{translate("sales")}</Link>
+                    <Link prefetch className={classNames(styles.link, { [styles.selected]: pathname.split("/")[3] === "settings" })} href={`/organization/${organizationId}/settings`}>{translate("settings")}</Link>
                 </div>
             </div>
         </header>

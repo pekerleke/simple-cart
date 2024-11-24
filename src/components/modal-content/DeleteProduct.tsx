@@ -3,6 +3,7 @@ import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 import { isDemo } from '@/utils/demo';
+import { useTranslation } from 'react-i18next';
 
 import styles from "./deleteProduct.module.scss";
 
@@ -16,6 +17,8 @@ export const DeleteProduct = (props: Props) => {
     const { product, onDelete, onCancel } = props;
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t: translate } = useTranslation();
 
     const handleDelete = async () => {
         if (isDemo()) {
@@ -46,8 +49,8 @@ export const DeleteProduct = (props: Props) => {
             </Message>
             <br />
             <div className={styles.buttonContainer}>
-                <Button onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>Yes, Remove</Button>
+                <Button onClick={onCancel} disabled={isLoading}>{translate("cancel")}</Button>
+                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>{translate("removeConfirmation")}</Button>
             </div>
         </div>
     )
