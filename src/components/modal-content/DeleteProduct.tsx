@@ -3,6 +3,7 @@ import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 import { isDemo } from '@/utils/demo';
+import { Trans, useTranslation } from 'react-i18next';
 
 import styles from "./deleteProduct.module.scss";
 
@@ -16,6 +17,8 @@ export const DeleteProduct = (props: Props) => {
     const { product, onDelete, onCancel } = props;
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t: translate } = useTranslation();
 
     const handleDelete = async () => {
         if (isDemo()) {
@@ -35,19 +38,25 @@ export const DeleteProduct = (props: Props) => {
                 body: JSON.stringify({ id: product.id }),
             }).finally(() => setIsLoading(true));
         }
-        toast.success("Removed!");
+        toast.success(translate("removed"));
         onDelete();
     }
 
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove the product <strong>{product.name}</strong>?
+                <Trans
+                    i18nKey="removeProduct.advice"
+                    components={{
+                        strong: <strong />
+                    }}
+                    values={{ name: product.name }}
+                />
             </Message>
             <br />
             <div className={styles.buttonContainer}>
-                <Button onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>Yes, Remove</Button>
+                <Button onClick={onCancel} disabled={isLoading}>{translate("cancel")}</Button>
+                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>{translate("removeConfirmation")}</Button>
             </div>
         </div>
     )

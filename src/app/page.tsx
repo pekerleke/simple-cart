@@ -1,15 +1,16 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { Button } from "rsuite";
 import useModal from "../hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
-import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
 import { MdAdd } from "react-icons/md";
 import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
 import { isDemo } from "@/utils/demo";
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
 
@@ -20,6 +21,8 @@ export default function Home() {
     const [isLoading, setIsLoading] = useState(true);
 
     const [organizations, setOrganizations] = useState([]);
+
+    const {t: translate} = useTranslation();
 
     const getOrganizations = async () => {
         if (isDemo()) {
@@ -65,8 +68,8 @@ export default function Home() {
 
                         {
                             !organizations?.length && (
-                                <EmptyAdvice title='You don’t have any organizations yet.'>
-                                    <div>Create your first one to get started!</div>
+                                <EmptyAdvice title={translate("noOrganizations.advice")}>
+                                    <div>{translate("noOrganizations.advice.content")}</div>
                                 </EmptyAdvice>
                             )
                         }
@@ -77,9 +80,9 @@ export default function Home() {
                         <Button block size="lg" onClick={() => setModal(
                             <CreateOrEditOrganization
                                 onSubmit={() => { getOrganizations(); hideModal() }}
-                                organization={null} />, "New Organization"
+                                organization={null} />, translate("newOrganization")
                         )}>
-                            <div className={styles.buttonText}><MdAdd /> Create organization</div>
+                            <div className={styles.buttonText}><MdAdd /> {translate("createOrganization")}</div>
                         </Button>
                     </>
                 )

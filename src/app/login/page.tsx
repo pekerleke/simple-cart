@@ -6,6 +6,7 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { intialDemoData } from "@/utils/getInitialDemoData";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from 'react'
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
 
@@ -15,6 +16,7 @@ const InnerLoginPage = () => {
 
     const searchParams = useSearchParams()
     const callbackUrl = searchParams.get('callbackUrl')
+    const { t } = useTranslation();
 
     const handleChangeToDemo = () => {
         const demoOrganizations = localStorage.getItem("demoOrganizations");
@@ -35,18 +37,18 @@ const InnerLoginPage = () => {
                             <MdOutlineShoppingCart />
                         </div>
                         <h3>Simple Cart</h3>
-                        <span className={styles.loginMessage}>{"Choose how you'd like to continue with Simple Cart"}</span>
+                        <span className={styles.loginMessage}>{t("login.message")}</span>
                     </div>
 
                     <div className={styles.loginButton} onClick={() => signIn("google", { callbackUrl: callbackUrl as string || '/' })}>
-                        <FcGoogle /> Continue with Google
+                        <FcGoogle /> {t("login.continueWithGoogle")}
                     </div>
 
                     <div className={styles.demoContainer}>
-                        Or try the app first
+                        {t("login.demoMessage")}
 
                         <div className={styles.demoButton} onClick={handleChangeToDemo}>
-                            Try demo
+                            {t("login.continueWithDemo")}
                         </div>
                     </div>
                 </div>
@@ -58,7 +60,7 @@ const InnerLoginPage = () => {
 export default function LoginPage() {
     return (
         <Suspense>
-            <InnerLoginPage/>
+            <InnerLoginPage />
         </Suspense>
     )
 }

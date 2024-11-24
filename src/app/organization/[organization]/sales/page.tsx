@@ -6,11 +6,14 @@ import Loader from '@/components/loader/Loader';
 import { EmptyAdvice } from '@/components/empty-advice/EmptyAdvice';
 import { SalesGroup } from './SalesGroup';
 import { SalesContext, SalesProvider } from '@/providers/SalesProvider';
+import { useTranslation } from 'react-i18next';
 
 const InnerSales = () => {
     const { sales, salesStatus } = useContext(SalesContext);
 
     const [groupedSales, setGroupedSales] = useState<{ [date: string]: Sale[] }>({});
+
+    const { t: translate } = useTranslation();
 
     useEffect(() => {
         if (sales?.length) {
@@ -39,8 +42,8 @@ const InnerSales = () => {
 
     if ((salesStatus === "success") && !Boolean(sales?.length)) {
         return (
-            <EmptyAdvice title='No sales recorded yet'>
-                <div>Start selling your products and your sales data will appear here.</div>
+            <EmptyAdvice title={translate("noSales.advice")}>
+                <div>{translate("noSales.advice.content")}</div>
             </EmptyAdvice>
         )
     }

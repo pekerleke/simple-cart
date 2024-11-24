@@ -6,10 +6,12 @@ body{
   --primary-color: #c5f200;
   --secondary-color: #23293b;
 
-
+  --rs-primary-50: #f5f5f5!important;
   --rs-primary-500: var(--secondary-color)!important;
   --rs-primary-700: #455279!important;
   --rs-primary-600: #303a58!important;
+
+  --rs-picker-value: #444!important;
 }
 
 .rs-input{

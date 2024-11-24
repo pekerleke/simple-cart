@@ -10,6 +10,7 @@ import { useParams } from 'next/navigation';
 import { v4 as uuidv4 } from 'uuid';
 import { EmptyAdvice } from '../empty-advice/EmptyAdvice';
 import { isDemo } from '@/utils/demo';
+import { Trans, useTranslation } from 'react-i18next';
 
 import styles from "./cart.module.scss";
 
@@ -21,6 +22,8 @@ export const Cart = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+
+    const { t: translate } = useTranslation();
 
     const handleRemoveProduct = (index: number) => {
         const tempProducts = [...selectedProducts];
@@ -42,7 +45,7 @@ export const Cart = () => {
             })
 
             localStorage.setItem("demoSales", JSON.stringify(demoSales));
-            toast.success("Saved sale");
+            toast.success(translate("savedSale"));
 
         } else {
             setIsLoading(true);
@@ -54,10 +57,10 @@ export const Cart = () => {
                 body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
             }).then((res) => {
                 { if (res.status !== 200) throw new Error("Something went wrong") }
-                toast.success("Saved sale");
+                toast.success(translate("savedSale"));
                 return res.json()
             })
-                .catch(() => toast.error("Ups, something went wrong"))
+                .catch(() => toast.error(translate("error.generic")))
                 .finally(() => setIsLoading(false));
         }
 
@@ -78,8 +81,14 @@ export const Cart = () => {
 
             {
                 (status !== "loading") && !(organization as any)?.products?.length && (
-                    <EmptyAdvice title='There are no products'>
-                        <div> Start building your collection by adding products in the <Link className={styles.link} href={`/organization/${organizationId}/settings`}><b>Settings</b></Link> section!</div>
+                    <EmptyAdvice title={translate("noProducts.advice")}>
+                        <Trans
+                            i18nKey="noProducts.advice.content"
+                            components={{
+                                strong: <strong />,
+                                Link: <Link href={`/organization/${organizationId}/settings`}/>
+                            }}
+                        />
                     </EmptyAdvice>
                 )
             }
@@ -109,7 +118,7 @@ export const Cart = () => {
                     <div>
                         <br />
                         <div className={styles.resume}>
-                            <h4>Resume</h4>
+                            <h4>{translate("resume")}</h4>
 
                             <div>
                                 <div className={styles.productsContainer}>
@@ -128,7 +137,7 @@ export const Cart = () => {
                                 <br />
                                 <div className={styles.totalRow}>
                                     <div>
-                                        Total ({selectedProducts.length} items)
+                                        {translate("total")} ({selectedProducts.length} {selectedProducts.length === 1 ? translate("item") : translate("items")})
                                     </div>
                                     <div className={styles.totalAmount}>
                                         ${selectedProducts.reduce((accumulator: number, product: Product) => accumulator + (product as any).price, 0).toLocaleString('es-AR')}
@@ -137,7 +146,7 @@ export const Cart = () => {
                             </div>
 
                             <div>
-                                <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>Submit</b></Button>
+                                <Button loading={isLoading} disabled={isLoading} color="green" size='lg' appearance="primary" block onClick={handleSubmit}><b>{translate("save")}</b></Button>
                             </div>
                         </div>
                     </div>

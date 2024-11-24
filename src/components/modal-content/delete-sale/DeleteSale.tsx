@@ -4,6 +4,11 @@ import React, { useState } from 'react'
 import { toast } from 'react-toastify';
 import { Button, Message } from 'rsuite';
 import dayjs from 'dayjs';
+import { Trans, useTranslation } from 'react-i18next';
+import 'dayjs/locale/en';
+import 'dayjs/locale/pt';
+import 'dayjs/locale/es';
+import { getCookie } from '@/utils/getCookie';
 
 import styles from "./deleteSale.module.scss";
 
@@ -17,6 +22,10 @@ export const DeleteSale = (props: Props) => {
     const { sale, onSuccess, onCancel } = props;
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t: translate } = useTranslation();
+
+    dayjs.locale(getCookie("locale"));
 
     const handleDelete = async () => {
         if (isDemo()) {
@@ -33,19 +42,30 @@ export const DeleteSale = (props: Props) => {
                 body: JSON.stringify({ id: sale.id }),
             }).finally(() => setIsLoading(true));
         }
-        toast.success("Removed!");
+        toast.success(translate("removed"));
         onSuccess();
     }
 
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove this sale from <b>{dayjs(sale.created_at).format('DD/MM/YYYY - HH:mm')}</b> with <b>{sale.products.length} {sale.products.length === 1 ? "product" : "products"}</b>? 
+                <Trans
+                    i18nKey="removeSale.advice"
+                    components={{
+                        strong: <strong />
+                    }}
+                    values={{
+                        date: dayjs(sale.created_at).format('ddd DD MMM YYYY - HH:mm'),
+                        productsQuantity: sale.products.length,
+                        productsWord: sale.products.length === 1 ? translate("product") : translate("products")
+                    }}
+                />
+
             </Message>
             <br />
             <div className={styles.buttonContainer}>
-                <Button onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>Yes, Remove</Button>
+                <Button onClick={onCancel} disabled={isLoading}>{translate("cancel")}</Button>
+                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>{translate("removeConfirmation")}</Button>
             </div>
         </div>
     )

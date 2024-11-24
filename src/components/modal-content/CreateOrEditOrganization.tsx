@@ -3,6 +3,7 @@ import styles from "./CreateOrEditOrganization.module.scss";
 import { Button, Input } from 'rsuite';
 import { v4 as uuidv4 } from 'uuid';
 import { isDemo } from "@/utils/demo";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     organization?: any
@@ -18,6 +19,8 @@ export const CreateOrEditOrganization = (props: Props) => {
         id: organization?.id || "",
         name: organization?.name || ""
     });
+
+    const { t: translate } = useTranslation();
 
     const handleSubmit = async () => {
         if (isDemo()) {
@@ -64,10 +67,10 @@ export const CreateOrEditOrganization = (props: Props) => {
     return (
         <div className={styles.container}>
             <div>
-                Name
-                <Input placeholder="Organization name" value={values.name} onChange={(value) => setValues((prev: any) => ({ ...prev, name: value }))} />
+                {translate("name")}
+                <Input placeholder={translate("organizationName.placeholder")} value={values.name} onChange={(value) => setValues((prev: any) => ({ ...prev, name: value }))} />
             </div>
-            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}>Save</Button>
+            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}>{translate("save")}</Button>
         </div>
     )
 }

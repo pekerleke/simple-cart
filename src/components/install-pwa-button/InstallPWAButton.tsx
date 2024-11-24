@@ -5,10 +5,13 @@ import { Button } from 'rsuite';
 
 import styles from "./installPWAButton.module.scss";
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 export default function InstallPWAButton() {
     const [deferredPrompt, setDeferredPrompt] = useState(null);
     const [showButton, setShowButton] = useState(false);
+
+    const { t: translate } = useTranslation();
 
     useEffect(() => {
         const handler = (e: any) => {
@@ -52,7 +55,7 @@ export default function InstallPWAButton() {
     return (
         <div className={styles.container}>
             <Button block appearance="ghost" onClick={handleInstallClick}>
-                <b>Install app</b>
+                <b>{translate("installApp")}</b>
             </Button>
 
             <div className={styles.closeButton} onClick={hideBanner}>✕</div>
