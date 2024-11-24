@@ -60,5 +60,19 @@
     "noSales.advice.content": "Comenzá a vender tus productos y los datos de tus ventas aparecerán aquí.",
     "noOrganizations.advice": "Aún no tenés ninguna organización.",
     "noOrganizations.advice.content": "¡Creá tu primera para comenzar!",
-    "newOrganization": "Nueva Organización"
+    "newOrganization": "Nueva Organización",
+    "error.generic": "¡Ups, algo salió mal!",
+    "inviteParticipant": "Invitar participante",
+    "copyLink": "Copiar enlace",
+    "invitationExpireTime": "El enlace de invitación expira en 24 horas",
+    "invitation": "Invitación",
+    "copied": "¡Copiado!",
+    "acceptInvitation": "Aceptar invitación",
+    "backToHome": "Volver al inicio",
+    "expiredInvitation": "Invitación expirada",
+    "acceptInvitationMessage": "Aceptá tu invitación para unirte a {{name}} en SimpleCart.",
+    "joinOrganizationMessage": "Unite a {{name}} | Simple Cart",
+    "savedSale": "Venta guardada",
+    "removed": "¡Eliminado!",
+    "leaveSuccess": "¡Acabás de salir de la organización!"
 }

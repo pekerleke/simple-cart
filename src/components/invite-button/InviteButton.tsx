@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import QRCode from 'react-qr-code';
 import { Button } from 'rsuite';
 import { toast } from 'react-toastify';
-
-import styles from "./inviteButton.module.scss";
 import { LuUserPlus } from 'react-icons/lu';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
+
+import styles from "./inviteButton.module.scss";
 
 interface Props {
     organizationId: string;
@@ -20,9 +21,11 @@ export const InviteButton = (props: Props) => {
 
     const { Modal, setModal } = useModal();
 
+    const {t: translate} = useTranslation();
+
     const handleCopyLink = (text: string) => {
         navigator.clipboard.writeText(text)
-        toast.success("Copied!");
+        toast.success(translate("copied"));
     }
 
     const handleInvite = async () => {
@@ -50,13 +53,13 @@ export const InviteButton = (props: Props) => {
                             <br /><br />
 
                             <Button block onClick={() => handleCopyLink(invitationUrl)}>
-                                <b>Copy link</b>
+                                <b>{translate("copyLink")}</b>
                             </Button>
                         </div>
                         <hr />
-                        <center><small>Initation link expires in 24hs</small></center>
+                        <center><small>{translate("invitationExpireTime")}</small></center>
                     </>
-                ), "Invitation")
+                ), translate("invitation"))
             })
             .finally(() => setIsLoading(false));
     }
@@ -64,7 +67,7 @@ export const InviteButton = (props: Props) => {
     return (
         <>
             <Button block onClick={handleInvite} loading={isLoading} disabled={isLoading || disabled}>
-                <div className={classNames(styles.buttonText, {[styles.disabled]: disabled})}><LuUserPlus /> Invite participant</div>
+                <div className={classNames(styles.buttonText, {[styles.disabled]: disabled})}><LuUserPlus /> {translate("inviteParticipant")}</div>
             </Button>
             <Modal />
         </>

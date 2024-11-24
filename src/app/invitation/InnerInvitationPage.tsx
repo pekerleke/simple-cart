@@ -8,7 +8,8 @@ import { toast } from "react-toastify";
 import { stringToColor } from "@/utils/stringToColor";
 import { Button } from "rsuite";
 import { Message } from "@/components/message/Message";
-import { Suspense, useState } from "react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
 
@@ -18,6 +19,8 @@ export const InnerInvitationPage = () => {
 
     const searchParams = useSearchParams();
     const invitationCode = searchParams.get('invitationCode');
+
+    const {t: translate} = useTranslation();
 
     const router = useRouter();
 
@@ -34,7 +37,7 @@ export const InnerInvitationPage = () => {
             .then(resData => {
                 router.push(`/organization/${resData.data.organizationId}`)
             })
-            .catch(err => { console.error(err); toast.error("Ups something went wrong!") })
+            .catch(err => { console.error(err); toast.error(translate("error.generic")) })
             .finally(() => setIsLoading(false));
     }
 
@@ -68,16 +71,16 @@ export const InnerInvitationPage = () => {
             <div className={styles.buttonContainer}>
                 {
                     new Date(data?.expires_at).getTime() < new Date().getTime() ? (
-                        <Message center message="Invitation expired" type="error" />
+                        <Message center message={translate("expiredInvitation")} type="error" />
                     ) : (
                         <Button appearance="primary" size="lg" block disabled={isLoading} loading={isLoading} onClick={handleAccept}>
-                            <b>Accept invitation</b>
+                            <b>{translate("acceptInvitation")}</b>
                         </Button>
                     )
                 }
 
                 <Button block onClick={() => router.push("/")}>
-                    Back to Home
+                    {translate("backToHome")}
                 </Button>
             </div>
         </div>

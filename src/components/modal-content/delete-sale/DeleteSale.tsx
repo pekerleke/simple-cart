@@ -36,7 +36,7 @@ export const DeleteSale = (props: Props) => {
                 body: JSON.stringify({ id: sale.id }),
             }).finally(() => setIsLoading(true));
         }
-        toast.success("Removed!");
+        toast.success(translate("removed"));
         onSuccess();
     }
 

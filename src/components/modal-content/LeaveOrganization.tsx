@@ -38,7 +38,7 @@ export const LeaveOrganization = (props: Props) => {
                 body: JSON.stringify({ id: userParticipation.id }),
             }).finally(() => setIsLoading(false));
         }
-        toast.success("You just left the organization!");
+        toast.success(translate("leaveSuccess"));
         onSuccess();
     }
 

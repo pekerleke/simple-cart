@@ -56,10 +56,23 @@
     "items": "Items",
     "noProducts.advice": "There are no products",
     "noProducts.advice.content": "Start building your collection by adding products in the <Link className={styles.link} href={`/organization/${organizationId}/settings`}><strong>Settings</strong></Link> section!",
-
     "noSales.advice": "No sales recorded yet",
     "noSales.advice.content": "Start selling your products and your sales data will appear here.",
     "noOrganizations.advice": "You don’t have any organizations yet.",
     "noOrganizations.advice.content": "Create your first one to get started!",
-    "newOrganization": "New Organization"
+    "newOrganization": "New Organization",
+    "error.generic": "Ups something went wrong!",
+    "inviteParticipant": "Invite participant",
+    "copyLink": "Copy link",
+    "invitationExpireTime": "Initation link expires in 24hs",
+    "invitation": "Invitation",
+    "copied": "Copied!",
+    "acceptInvitation": "Accept invitation",
+    "backToHome": "Back to Home",
+    "expiredInvitation": "Invitation expired",
+    "acceptInvitationMessage": "Accept your invitation to join {{name}} on SimpleCart.",
+    "joinOrganizationMessage": "Join {{name}} | Simple Cart",
+    "savedSale": "Saved sale",
+    "removed": "Removed!",
+    "leaveSuccess": "You just left the organization!"
 }

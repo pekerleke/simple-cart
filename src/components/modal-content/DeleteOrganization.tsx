@@ -35,7 +35,7 @@ export const DeleteOrganization = (props: Props) => {
                 body: JSON.stringify({ id: organization.id }),
             }).finally(() => setIsLoading(false));
         }
-        toast.success("Removed!");
+        toast.success(translate("removed"));
         onSuccess();
     }
 

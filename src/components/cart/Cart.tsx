@@ -45,7 +45,7 @@ export const Cart = () => {
             })
 
             localStorage.setItem("demoSales", JSON.stringify(demoSales));
-            toast.success("Saved sale");
+            toast.success(translate("savedSale"));
 
         } else {
             setIsLoading(true);
@@ -57,10 +57,10 @@ export const Cart = () => {
                 body: JSON.stringify({ products: selectedProducts, organization: organizationId }),
             }).then((res) => {
                 { if (res.status !== 200) throw new Error("Something went wrong") }
-                toast.success("Saved sale");
+                toast.success(translate("savedSale"));
                 return res.json()
             })
-                .catch(() => toast.error("Ups, something went wrong"))
+                .catch(() => toast.error(translate("error.generic")))
                 .finally(() => setIsLoading(false));
         }
 
