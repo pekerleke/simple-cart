@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 import { isDemo } from '@/utils/demo';
+import { useSession } from 'next-auth/react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import styles from "./leaveOrganization.module.scss";
-import { useSession } from 'next-auth/react';
 
 interface Props {
     onSuccess: () => void
@@ -18,6 +19,8 @@ export const LeaveOrganization = (props: Props) => {
     const { data: session } = useSession();
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t: translate } = useTranslation();
 
     const handleDelete = async () => {
         if (isDemo()) {
@@ -42,12 +45,18 @@ export const LeaveOrganization = (props: Props) => {
     return (
         <div>
             <Message type="warning">
-                Are you sure to leave <strong>{organization.name}</strong>?
+                <Trans
+                    i18nKey="leaveOrganization.advice"
+                    components={{
+                        strong: <strong />
+                    }}
+                    values={{ name: organization.name }}
+                />
             </Message>
             <br />
             <div className={styles.buttonContainer}>
-                <Button onClick={onCancel} disabled={isLoading}>Cancel</Button>
-                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>Yes, leave</Button>
+                <Button onClick={onCancel} disabled={isLoading}>{translate("cancel")}</Button>
+                <Button color='red' appearance='primary' onClick={handleDelete} disabled={isLoading} loading={isLoading}>{translate("leaveConfirmation")}</Button>
             </div>
         </div>
     )

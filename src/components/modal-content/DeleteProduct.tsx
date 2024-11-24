@@ -3,7 +3,7 @@ import { Button, Message } from 'rsuite';
 import { toast } from 'react-toastify';
 import { Product } from '@/models/Product';
 import { isDemo } from '@/utils/demo';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 
 import styles from "./deleteProduct.module.scss";
 
@@ -45,7 +45,13 @@ export const DeleteProduct = (props: Props) => {
     return (
         <div>
             <Message type="warning">
-                Are you sure to remove the product <strong>{product.name}</strong>?
+                <Trans
+                    i18nKey="removeProduct.advice"
+                    components={{
+                        strong: <strong />
+                    }}
+                    values={{ name: product.name }}
+                />
             </Message>
             <br />
             <div className={styles.buttonContainer}>

@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import { Button, Input } from 'rsuite';
 import { Product } from '@/models/Product';
 import { v4 as uuidv4 } from 'uuid';
+import { isDemo } from '@/utils/demo';
+import { useTranslation } from 'react-i18next';
 
 import styles from "./createOrEditProduct.module.scss";
-import { isDemo } from '@/utils/demo';
 
 interface Props {
     product?: Product
@@ -23,7 +24,9 @@ export const CreateOrEditProduct = (props: Props) => {
         name: product?.name || "",
         price: product?.price,
         priority: product?.priority
-    })
+    });
+
+    const { t: translate } = useTranslation();
 
     const handleSubmit = async () => {
 
@@ -62,21 +65,21 @@ export const CreateOrEditProduct = (props: Props) => {
     return (
         <div className={styles.container}>
             <div>
-                <b>Name</b>
-                <Input placeholder='Product name' value={values.name} onChange={(value) => setValues(prev => ({ ...prev, name: value }))} />
+                <b>{translate("name")}</b>
+                <Input placeholder={translate("productName.placeholder")} value={values.name} onChange={(value) => setValues(prev => ({ ...prev, name: value }))} />
             </div>
 
             <div>
-                <b>Price</b>
-                <Input placeholder='Product price' type='number' value={values.price} onChange={(value) => setValues(prev => ({ ...prev, price: parseInt(value) }))} />
+                <b>{translate("price")}</b>
+                <Input placeholder={translate("productPrice.placeholder")} type='number' value={values.price} onChange={(value) => setValues(prev => ({ ...prev, price: parseInt(value) }))} />
             </div>
 
             <div>
-                <b>Priority</b>
-                <Input placeholder='Product priority' type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
+                <b>{translate("priority")}</b>
+                <Input placeholder={translate("productPriority.placeholder")} type='number' value={values.priority} onChange={(value) => setValues(prev => ({ ...prev, priority: parseInt(value) }))} />
             </div>
 
-            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}><b>Save</b></Button>
+            <Button loading={isLoading} disabled={isLoading} onClick={() => handleSubmit()}><b>{translate("save")}</b></Button>
         </div>
     )
 }

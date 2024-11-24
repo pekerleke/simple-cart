@@ -7,6 +7,7 @@ import { TooltipMenu } from '@/components/tooltip-menu/TooltipMenu';
 import useModal from '@/hooks/useModal';
 import { DeleteSale } from '@/components/modal-content/delete-sale/DeleteSale';
 import { SalesContext } from '@/providers/SalesProvider';
+import { useTranslation } from 'react-i18next';
 
 import styles from "./sale.module.scss";
 
@@ -21,19 +22,21 @@ export const Sale = (props: Props) => {
 
     const { salesRefetch } = useContext(SalesContext);
 
+    const { t: translate } = useTranslation();
+
     return (
         <>
             <div className={styles.sale}>
                 <div className={styles.saleTitle}>
-                    <div className={styles.productQuantity}>{sale.products.length} products</div>
+                    <div className={styles.productQuantity}>{sale.products.length} {sale.products.length === 1 ? translate("product").toLowerCase() : translate("products").toLowerCase()}</div>
                     <div className={styles.leftTitle}>
                         <div>{dayjs(sale.created_at).format('DD/MM/YYYY - HH:mm')}</div>
                         <TooltipMenu
                             menuItems={[
                                 {
-                                    label: "Delete",
+                                    label: translate("deleteSale"),
                                     color: "red",
-                                    action: () => setModal(<DeleteSale sale={sale} onCancel={hideModal} onSuccess={() => {salesRefetch(); hideModal();}} />, "Delete sale")
+                                    action: () => setModal(<DeleteSale sale={sale} onCancel={hideModal} onSuccess={() => {salesRefetch(); hideModal();}} />, translate("deleteSale"))
                                 }
                             ]}
                         >
@@ -50,7 +53,7 @@ export const Sale = (props: Props) => {
                     ))}
                 </div>
                 <div className={styles.total}>
-                    <div>Total</div>
+                    <div>{translate("total")}</div>
                     <div>${sale.products.reduce((accumulator: number, saleProduct: Product) => accumulator + ((saleProduct as any).price || 0), 0).toLocaleString('es-AR')}</div>
                 </div>
             </div>

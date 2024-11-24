@@ -8,6 +8,7 @@ import { Sale as SaleModel } from '@/models/Sale';
 import useModal from '@/hooks/useModal';
 import { ViewSalesInfo } from '@/components/modal-content/ViewSalesInfo';
 import { Sale } from './Sale';
+import { useTranslation } from 'react-i18next';
 
 import styles from "./sales.module.scss";
 
@@ -24,6 +25,8 @@ export const SalesGroup = (props: Props) => {
 
     const [show, setShow] = useState(open);
 
+    const { t: translate } = useTranslation();
+
     return (
         <>
             <div className={styles.container}>
@@ -31,9 +34,9 @@ export const SalesGroup = (props: Props) => {
                     <div className={styles.titleContainer} onClick={() => setShow(prev => !prev)}>
                         <div className={styles.icon}>{show ? <FaChevronUp /> : <FaChevronRight />}</div>
                         <div className={styles.title}><MdOutlineCalendarMonth /> {dayjs(groupKey).format("ddd DD MMM YYYY")}</div>
-                        <div className={styles.salesQuantity}>{salesGroup.length} {salesGroup.length > 1 ? "sales" : "sale"}</div>
+                        <div className={styles.salesQuantity}>{salesGroup.length} {salesGroup.length > 1 ? translate("sales") : translate("sale")}</div>
                     </div>
-                    <div className={styles.detailButton} onClick={() => setModal(<ViewSalesInfo salesInfo={salesGroup} />, dayjs(groupKey).format("ddd DD MMM YYYY"))}>Details</div>
+                    <div className={styles.detailButton} onClick={() => setModal(<ViewSalesInfo salesInfo={salesGroup} />, dayjs(groupKey).format("ddd DD MMM YYYY"))}>{translate("details")}</div>
                 </div>
 
                 {

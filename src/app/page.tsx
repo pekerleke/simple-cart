@@ -68,8 +68,8 @@ export default function Home() {
 
                         {
                             !organizations?.length && (
-                                <EmptyAdvice title='You don’t have any organizations yet.'>
-                                    <div>Create your first one to get started!</div>
+                                <EmptyAdvice title={translate("noOrganizations.advice")}>
+                                    <div>{translate("noOrganizations.advice.content")}</div>
                                 </EmptyAdvice>
                             )
                         }
@@ -80,7 +80,7 @@ export default function Home() {
                         <Button block size="lg" onClick={() => setModal(
                             <CreateOrEditOrganization
                                 onSubmit={() => { getOrganizations(); hideModal() }}
-                                organization={null} />, "New Organization"
+                                organization={null} />, translate("newOrganization")
                         )}>
                             <div className={styles.buttonText}><MdAdd /> {translate("createOrganization")}</div>
                         </Button>

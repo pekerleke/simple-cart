@@ -6,6 +6,7 @@ import { Product } from '@/models/Product';
 // const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import styles from "./viewSalesInfo.module.scss";
+import { useTranslation } from 'react-i18next';
 
 interface Props {
     salesInfo: {
@@ -37,6 +38,8 @@ export const ViewSalesInfo = (props: Props) => {
 
     const products = salesInfo.reduce((acc: Product[], item) => { acc.push(...item.products); return acc; }, [])
 
+    const { t: translate } = useTranslation();
+
     const resume: Resume = products.reduce((acc, item) => {
         acc["totalAmount"] += (item as any).price || 0;
         acc["products"][item.name] = {
@@ -48,6 +51,7 @@ export const ViewSalesInfo = (props: Props) => {
         totalAmount: 0,
         products: {} as ProductResume
     })
+
 
     // const processQuantitiesForPieChart = (data: Sale[]) => {
     //     const productCounts: Record<string, number> = {};
@@ -93,9 +97,9 @@ export const ViewSalesInfo = (props: Props) => {
 
             <hr />
 
-            <b>Sales:</b> {salesInfo.length} <br />
-            <b>Sold products:</b> {products.length} <br />
-            <b>Total amount:</b> ${resume.totalAmount.toLocaleString('es-AR')}
+            <b>{translate("sales")}:</b> {salesInfo.length} <br />
+            <b>{translate("soldProducts")}:</b> {products.length} <br />
+            <b>{translate("totalAmount")}:</b> ${resume.totalAmount.toLocaleString('es-AR')}
 
             {/* TODO: reimplementar */}
             {/* <hr />
