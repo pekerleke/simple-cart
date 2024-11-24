@@ -5,6 +5,10 @@ import { toast } from 'react-toastify';
 import { Button, Message } from 'rsuite';
 import dayjs from 'dayjs';
 import { Trans, useTranslation } from 'react-i18next';
+import 'dayjs/locale/en';
+import 'dayjs/locale/pt';
+import 'dayjs/locale/es';
+import { getCookie } from '@/utils/getCookie';
 
 import styles from "./deleteSale.module.scss";
 
@@ -20,6 +24,8 @@ export const DeleteSale = (props: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { t: translate } = useTranslation();
+
+    dayjs.locale(getCookie("locale"));
 
     const handleDelete = async () => {
         if (isDemo()) {

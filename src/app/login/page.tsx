@@ -6,9 +6,9 @@ import { MdOutlineShoppingCart } from "react-icons/md";
 import { intialDemoData } from "@/utils/getInitialDemoData";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from 'react'
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
-import { useTranslation } from "react-i18next";
 
 export const dynamic = 'force-dynamic';
 

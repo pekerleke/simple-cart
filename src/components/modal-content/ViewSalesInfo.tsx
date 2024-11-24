@@ -1,12 +1,12 @@
 import React from 'react'
 import { Product } from '@/models/Product';
+import { useTranslation } from 'react-i18next';
 // import dynamic from 'next/dynamic';
 // import { Sale } from '@/models/Sale';
 
 // const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 import styles from "./viewSalesInfo.module.scss";
-import { useTranslation } from 'react-i18next';
 
 interface Props {
     salesInfo: {

@@ -41,7 +41,7 @@ export default async function RootLayout({
 }: any) {
     const locale = cookies().get("locale")?.value || "en";
 
-    const { t, resources } = await initTranslations(locale);
+    const { resources } = await initTranslations(locale);
 
     return (
         <html lang="es">

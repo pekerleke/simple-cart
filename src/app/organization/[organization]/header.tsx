@@ -6,9 +6,9 @@ import { useParams, usePathname } from 'next/navigation';
 import { OrganizationContext } from '@/providers/OrganizationProvider';
 import { stringToColor } from '@/utils/stringToColor';
 import classNames from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 import styles from "./styles.module.scss";
-import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
     const { organization: organizationId } = useParams();

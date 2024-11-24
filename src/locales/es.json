@@ -1,5 +1,4 @@
 {
-    "test": "testeando",
     "logout": "Cerrar sesión",
     "login.message": "Elige cómo te gustaría continuar con Simple Cart",
     "login.continueWithGoogle": "Continuar con Google",
@@ -15,7 +14,7 @@
     "cart": "Carrito",
     "sale": "Venta",
     "sales": "Ventas",
-    "settings": "Configuración",
+    "settings": "Ajustes",
     "participants": "Participantes",
     "product": "Producto",
     "products": "Productos",

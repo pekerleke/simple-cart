@@ -1,5 +1,4 @@
 {
-    "test": "test portuges",
     "logout": "Sair",
     "login.message": "Escolha como você gostaria de continuar com o Simple Cart",
     "login.continueWithGoogle": "Continuar com o Google",
@@ -15,7 +14,7 @@
     "cart": "Carrinho",
     "sale": "Venda",
     "sales": "Vendas",
-    "settings": "Configurações",
+    "settings": "Ajustes",
     "participants": "Participantes",
     "product": "Produto",
     "products": "Produtos",
