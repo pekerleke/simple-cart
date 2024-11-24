@@ -5,7 +5,6 @@ import { i18n } from '../../i18n';
 
 export default async function initTranslations(
     locale: any,
-    namespaces: any,
     i18nInstance?: any,
     resources?: any
 ) {
@@ -16,8 +15,8 @@ export default async function initTranslations(
     if (!resources) {
         i18nInstance.use(
             resourcesToBackend(
-                (language: any, namespace: any) =>
-                    import(`@/locales/${language}/${namespace}.json`)
+                (language: string) =>
+                    import(`@/locales/${language}.json`)
             )
         );
     }
@@ -27,9 +26,6 @@ export default async function initTranslations(
         resources,
         fallbackLng: i18n.defaultLocale,
         supportedLngs: i18n.locales,
-        defaultNS: namespaces[0],
-        fallbackNS: namespaces[0],
-        ns: namespaces,
         preload: resources ? [] : i18n.locales
     });
 

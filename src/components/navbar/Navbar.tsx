@@ -8,9 +8,10 @@ import { SubHeader } from './SubHeader';
 import { signOut, useSession } from 'next-auth/react';
 import { isDemo } from '@/utils/demo';
 import { usePathname } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
+import LanguageSelector from '../language-selector/LanguageSelector';
 
 import styles from "./navbar.module.scss";
-import { useTranslation } from 'react-i18next';
 
 export const Navbar = () => {
     const isFetching = useIsFetching();
@@ -28,6 +29,8 @@ export const Navbar = () => {
         <div>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}> <MdOutlineShoppingCart /> Simple Cart</Link>
+
+                <LanguageSelector/>
 
                 <div className={styles.pages}>
                     {

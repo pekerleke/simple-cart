@@ -1,0 +1,12 @@
+{
+    "test": "test portuges",
+    "logout": "Sair",
+    "login.message": "Escolha como você gostaria de continuar com o Simple Cart",
+    "login.continueWithGoogle": "Continuar com o Google",
+    "login.demoMessage": "Ou experimente o app primeiro",
+    "login.continueWithDemo": "Experimentar demonstração",
+    "installApp": "Instalar aplicativo",
+    "quitDemo": "Sair da Demonstração",
+    "demoAdvice": "Versão de demonstração - explore e teste os recursos à vontade!",
+    "createOrganization": "Criar organização"
+}

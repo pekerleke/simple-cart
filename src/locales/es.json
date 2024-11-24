@@ -1,0 +1,12 @@
+{
+    "test": "testeando",
+    "logout": "Cerrar sesión",
+    "login.message": "Elige cómo te gustaría continuar con Simple Cart",
+    "login.continueWithGoogle": "Continuar con Google",
+    "login.demoMessage": "O probá la app primero",
+    "login.continueWithDemo": "Probar demo",
+    "installApp": "Instalar aplicación",
+    "quitDemo": "Salir de la Demo",
+    "demoAdvice": "Versión demo - ¡explorá y probá las funciones libremente!",
+    "createOrganization": "Crear organización"
+}

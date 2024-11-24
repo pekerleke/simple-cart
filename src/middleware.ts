@@ -8,12 +8,17 @@ export { default } from "next-auth/middleware"
 export async function middleware(req: any) {
     const token = await getToken({ req });
     const demoUser = req.cookies.get("demoUser");
+    const localeCookie = req.cookies.get("locale");
     const url = req.nextUrl;
 
-    // Manejo de internacionalización con i18nRouter
-    const i18nResponse = i18nRouter(req, i18n);
-    if (i18nResponse) {
-        return i18nResponse; // Si i18nRouter retorna una respuesta, se maneja primero
+    if (!localeCookie) {
+        const acceptLanguage = req.headers.get("accept-language");
+        const detectedLocale = acceptLanguage?.split(",")[0].split("-")[0] || "en";
+
+        const response = NextResponse.redirect(url);
+        response.cookies.set("locale", detectedLocale, { path: "/", httpOnly: false });
+
+        return response;
     }
 
     if (url.pathname.startsWith("/login")) {

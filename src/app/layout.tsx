@@ -9,7 +9,8 @@ import { ToastContainer } from "react-toastify";
 import InstallPWAButton from "@/components/install-pwa-button/InstallPWAButton";
 import { Providers } from "./providers";
 import TranslationsProvider from "@/providers/TranslationsProvider";
-import initTranslations from '../i18n';
+import initTranslations from './i18n';
+import { cookies } from "next/headers";
 
 // TODO: load font locally
 const inter = Inter({ subsets: ["latin"] });
@@ -36,12 +37,11 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({
-    children,
-    params: { locale }
+    children
 }: any) {
-    const i18nNamespaces = ['common'];
+    const locale = cookies().get("locale")?.value || "en";
 
-    const { t, resources } = await initTranslations(locale, i18nNamespaces);
+    const { t, resources } = await initTranslations(locale);
 
     return (
         <html lang="es">
@@ -50,7 +50,6 @@ export default async function RootLayout({
             </head>
             <body className={inter.className} style={{ backgroundColor: "#f9fafb" }}>
                 <TranslationsProvider
-                    namespaces={i18nNamespaces}
                     locale={locale}
                     resources={resources}>
                     <Providers>

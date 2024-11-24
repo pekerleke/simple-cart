@@ -1,18 +1,18 @@
 "use client"
 
+import { useEffect, useState } from "react";
 import { Button } from "rsuite";
-import useModal from "../../hooks/useModal";
+import useModal from "../hooks/useModal";
 import { CreateOrEditOrganization } from "@/components/modal-content/CreateOrEditOrganization";
-import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import { stringToColor } from "@/utils/stringToColor";
 import Loader from "@/components/loader/Loader";
 import { MdAdd } from "react-icons/md";
 import { EmptyAdvice } from "@/components/empty-advice/EmptyAdvice";
 import { isDemo } from "@/utils/demo";
+import { useTranslation } from "react-i18next";
 
 import styles from "./styles.module.scss";
-import { useTranslation } from "react-i18next";
 
 export default function Home() {
 
