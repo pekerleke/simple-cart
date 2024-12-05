@@ -22,7 +22,7 @@ export async function GET(req: any) {
 }
 
 export async function POST(req: any) {
-    const { name, price, priority } = await req.json();
+    const { name, price, priority, colors_id } = await req.json();
 
     // TODO: check that user is in the organization
 
@@ -34,7 +34,7 @@ export async function POST(req: any) {
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
-            .insert([{ name, price, priority, user_id: session.user.id, organization_id: organizationId }]);
+            .insert([{ name, price, priority, colors_id, user_id: session.user.id, organization_id: organizationId }]);
 
         if (error) throw error;
         return NextResponse.json({ success: true, data }, { status: 200 });
@@ -44,14 +44,14 @@ export async function POST(req: any) {
 }
 
 export async function PATCH(req: any) {
-    const { id, name, price, priority } = await req.json();
+    const { id, name, price, priority, colors_id } = await req.json();
 
     // TODO: check that user is in the organization
 
     try {
         const { data, error } = await supabaseBrowserClient
             .from('products')
-            .update({ name, price, priority })
+            .update({ name, price, priority, colors_id })
             .eq('id', id);
 
         if (error) throw error;

@@ -27,7 +27,7 @@ export const RemoveParticipant = (props: Props) => {
             },
             body: JSON.stringify({ id: participant.id }),
         })
-            .then((res) => { if (res.status === 200) { toast.success("Removed!") } else throw new Error("Something went wrong") })
+            .then((res) => { if (res.status === 200) { toast.success(translate("removed")) } else throw new Error("Something went wrong") })
             .catch(() => toast.error(translate("error.generic")))
             .finally(() => setIsLoading(false));
         onDelete();

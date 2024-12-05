@@ -16,7 +16,9 @@ export async function GET(req: any, { params }: any) {
             .from('organizations')
             .select(`
                 name, id,
-                products (id, name, price, priority),
+                products (id, name, price, priority, colors_id,
+                  colors (id, primary, secondary, tertiary)
+                ),
                 organization_participants (id, user_id, users (full_name, avatar_url))
               `)
             .eq('id', organizationId)

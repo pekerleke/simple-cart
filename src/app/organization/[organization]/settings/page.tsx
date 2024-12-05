@@ -84,8 +84,11 @@ export default function Settings() {
                         {
                             (organization as any)?.products?.sort((a: any, b: any) => a.priority === b.priority ? (a.name > b.name ? 1 : -1) : (a.priority > b.priority ? 1 : -1))
                                 .map((product: Product) => (
-                                    <div className={styles.product} key={product.id}>
-                                        <div className={styles.info}><b>{product.name}</b></div>
+                                    <div className={styles.product} key={product.id} style={{backgroundColor: product.colors?.primary, color: product.colors?.secondary}}>
+                                        <div style={{display: "flex", gap: 10, alignItems: "center"}}>
+                                            {/* <div style={{height: 12, width: 12, borderRadius: "100%", backgroundColor: product.colors?.primary, border: `1px solid ${product.colors?.secondary}`}} /> */}
+                                            <div className={styles.info}><b>{product.name}</b></div>
+                                        </div>
 
                                         <div style={{ display: "flex", gap: 10 }}>
                                             ${product.price}
