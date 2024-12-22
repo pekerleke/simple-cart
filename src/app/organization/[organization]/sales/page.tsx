@@ -20,7 +20,7 @@ const InnerSales = () => {
             const groupedSales = sales
                 .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
                 .reduce((acc: { [date: string]: Sale[] }, item: any) => {
-                    const date = item.created_at.split('T')[0];
+                    const date = new Date(item.created_at).toLocaleDateString();
 
                     if (!acc[date]) {
                         acc[date] = [];
