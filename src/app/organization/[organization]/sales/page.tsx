@@ -20,19 +20,20 @@ const InnerSales = () => {
             const groupedSales = sales
                 .sort((a: any, b: any) => new Date(a.created_at).getTime() < new Date(b.created_at).getTime() ? 1 : -1)
                 .reduce((acc: { [date: string]: Sale[] }, item: any) => {
-                    const date = item.created_at.split('T')[0];
+                    const date = new Date(item.created_at);
+                    const dateKey = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
 
-                    if (!acc[date]) {
-                        acc[date] = [];
+                    if (!acc[dateKey]) {
+                        acc[dateKey] = [];
                     }
 
-                    acc[date].push(item);
+                    acc[dateKey].push(item);
 
                     return acc;
                 }, {});
             setGroupedSales(groupedSales);
         }
-    }, [sales])
+    }, [sales]);
 
     if (salesStatus === "loading") {
         return (
